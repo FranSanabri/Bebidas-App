@@ -3,10 +3,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { NavLink } from 'react-router-dom';
 
 const Login = () => {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithPopup } = useAuth0();
 
-  const handleClick = () => {
-    loginWithRedirect();
+  const handleLogin = () => {
+    loginWithPopup();
   };
 
   return (
@@ -16,7 +16,7 @@ const Login = () => {
         to="/LoginButton"
         activeClassName="active"
         className="nav-links"
-        onClick={handleClick}
+        onClick={handleLogin}
       >
         Ingresar
       </NavLink>

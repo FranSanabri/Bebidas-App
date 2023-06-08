@@ -1,33 +1,28 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./NavBar.css";
-import SearchBar from "../SearchBar/SearchBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton";
 import Logout from "../logout/logout";
 import Register from "../Register/Register";
 
-function NavBar({ setSearchResults }) {
+
+function NavBar() {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
   const [click, setClick] = useState(false);
 
   const handleClick = () => {
     setClick(!click);
-    if (window.location.pathname === "/") {
-      window.location.reload();
-    }
   };
 
   return (
     <>
       <nav className="navbar">
         <div className="nav-container">
-          <NavLink exact to="/" className="nav-logo">
+          <Link exact to="/" className="nav-logo">
             <img className="img-hidden" src="/images/logo.PNG" alt="Logo" />
             <i className="fas fa-code"></i>
-          </NavLink>
-
-          <SearchBar setSearchResults={setSearchResults} />
+          </Link>
 
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             <li className="nav-item">
@@ -44,9 +39,10 @@ function NavBar({ setSearchResults }) {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Tienda"
+                to="/tienda"
                 activeClassName="active"
                 className="nav-links"
+                onClick={handleClick}
               >
                 Tienda
               </NavLink>
@@ -56,7 +52,7 @@ function NavBar({ setSearchResults }) {
                 <li className="nav-item">
                   <NavLink
                     exact
-                    to="/Perfiles"
+                    to="/perfiles"
                     activeClassName="active"
                     className="nav-links"
                     onClick={handleClick}
@@ -65,7 +61,7 @@ function NavBar({ setSearchResults }) {
                   </NavLink>
                 </li>
                 <li>
-                <Logout onClick={handleClick} />
+                  <Logout onClick={handleClick} />
                 </li>
               </>
             ) : (
@@ -73,7 +69,7 @@ function NavBar({ setSearchResults }) {
                 <li>
                   <LoginButton />
                 </li>
-                <li >
+                <li>
                   <Register />
                 </li>
               </>

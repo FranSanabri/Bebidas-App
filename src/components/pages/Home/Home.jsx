@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <div>
       <NavBar setSearchResults={setSearchResults} />
-      {searchResults.length === 0 && <Carousel />}
+      <Carousel />
       <SearchResults searchResults={searchResults} handleProductClick={handleProductClick} />
       <Footer />
     </div>
