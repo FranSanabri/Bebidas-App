@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './SearchResults.css';
 
-const SearchResults = ({
-  searchResults,
-  handleProductClick,
-  currentPage,
-  totalPages,
-  handlePreviousPage,
-  handleNextPage
-}) => {
+const SearchResults = ({ searchResults, handleProductClick }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const openModal = (product) => {
@@ -27,27 +20,26 @@ const SearchResults = ({
           <div className="product-container">
             {searchResults.map((product) => (
               <div className="product-card" key={product.id}>
-                <h4>{product.name}</h4>
-                <p>Marca: {product.brand}</p>
-                <p>Precio: ${product.price}</p>
-                <p>Puede aplicar descuento: {product.ableDiscount ? 'Sí' : 'No'}</p>
-                <p>Porcentaje de descuento: {product.percentageDiscount}%</p>
-                <p>Disponibilidad: {product.availability ? 'Disponible' : 'No disponible'}</p>
+                <h4 className="product-name">{product.name}</h4>
+                <p className="product-info">Marca: {product.brand}</p>
+                <p className="product-info">Precio: ${product.price}</p>
+                <p className="product-info">
+                  Puede aplicar descuento: {product.ableDiscount ? 'Sí' : 'No'}
+                </p>
+                <p className="product-info">
+                  Porcentaje de descuento: {product.percentageDiscount}%
+                </p>
+                <p className="product-info">
+                  Disponibilidad: {product.availability ? 'Disponible' : 'No disponible'}
+                </p>
                 {product.images.length > 0 && (
-                  <img src={product.images[0]} alt={product.name} />
+                  <img className="product-image" src={product.images[0]} alt={product.name} />
                 )}
-                <button onClick={() => openModal(product)}>Ver detalles</button>
+                <button className="product-button" onClick={() => openModal(product)}>
+                  Ver detalles
+                </button>
               </div>
             ))}
-          </div>
-          <div className="pagination">
-            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-              Anterior
-            </button>
-            <span>Página {currentPage} de {totalPages}</span>
-            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-              Siguiente
-            </button>
           </div>
         </div>
       )}
@@ -73,7 +65,7 @@ const SearchResults = ({
             <p>Disponibilidad: {selectedProduct.availability ? 'Disponible' : 'No disponible'}</p>
             <p>Veces vendido: {selectedProduct.sells}</p>
             {selectedProduct.images.length > 0 && (
-              <img src={selectedProduct.images[0]} alt={selectedProduct.name} />
+              <img className="selected-product-image" src={selectedProduct.images[0]} alt={selectedProduct.name} />
             )}
             <button onClick={closeModal}>Cerrar</button>
           </div>

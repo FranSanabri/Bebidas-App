@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
-import axios from 'axios';
 import './SearchBar.css';
 import SearchResults from '../SearchResults/SearchResults';
 
@@ -12,23 +11,12 @@ const SearchContainer = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`https://servidor-vinos.onrender.com/product/all`, {
-        params: {
-          paginas: 1
-        }
-      });
-
-      // Verificar si la respuesta fue exitosa y actualizar los resultados de búsqueda
-      if (response.status === 200) {
-        setSearchResults(response.data);
-      } else {
-        console.error('Error al buscar productos:', response.data.error);
-      }
-    } catch (error) {
-      console.error('Error al buscar productos:', error);
-    }
+  const handleSearch = () => {
+    // Filtrar los resultados localmente por nombre
+    const filteredResults = searchResults.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setSearchResults(filteredResults);
   };
 
   return (

@@ -9,13 +9,14 @@ import Footer from '../../Footer/Footer'
 
 function Tienda() {
   const [searchResults, setSearchResults] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('https://servidor-vinos.onrender.com/product/all', {
           params: {
-            paginas: 1
+            paginas: currentPage
           }
         });
 
@@ -31,17 +32,28 @@ function Tienda() {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentPage]);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
 
   return (
     <div>
       <NavBar />
       <Toolbar />
-      <div className="Tienda-Search">
-        <SearchBar setSearchResults={setSearchResults} />
-      </div>
       <div className="product-list">
         <SearchResults searchResults={searchResults} />
+      </div>
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>Anterior</button>
+        <button onClick={handleNextPage}>Siguiente</button>
       </div>
       <div>
         <Footer />

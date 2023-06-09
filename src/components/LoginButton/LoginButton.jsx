@@ -12,9 +12,6 @@ const Login = () => {
   return (
     <li className="nav-item">
       <NavLink
-        exact
-        to="/LoginButton"
-        activeClassName="active"
         className="nav-links"
         onClick={handleClick}
       >

@@ -2,9 +2,10 @@
     position: absolute;
     border: 1px solid;
     width: 20%;
+    top: 4px;
     left: 500px;
     max-width: auto;
-    padding-top: 0.5rem;
+    padding-top: 0.2rem;
     padding-bottom: 0.5rem;
     border-radius: 20px;
     box-shadow: 0px 1px 2px rgb(0, 0, 0);
