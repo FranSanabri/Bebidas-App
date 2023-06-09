@@ -56,7 +56,7 @@ const Toolbar = () => {
         <select value={activeFilter} onChange={handleFilterChange}>
           <option value="">Todos</option>
           <option value="Came">Vinos</option>
-          <option value="Liquer">Licores</option>
+          <option value="Liqueur">Licores</option>
           <option value="Tequila">Tequilas</option>
           <option value="Beer">Cervezas</option>
           <option value="Drinks">Bebidas</option>
