@@ -15,14 +15,17 @@ function Tienda() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.post(
-          "https://servidor-vinos.onrender.com/product/filtrado",
-          {
-            paginas: currentPage,
-            cantidad: 10,
-            tipos: activeFilter
-          }
-        );
+        let endpoint = "https://servidor-vinos.onrender.com/product/all";
+
+        if (activeFilter !== "") {
+          endpoint = "https://servidor-vinos.onrender.com/product/filtrado";
+        }
+
+        const { data } = await axios.post(endpoint, {
+          paginas: currentPage,
+          cantidad: 10,
+          tipos: activeFilter
+        });
 
         setSearchResults(data);
       } catch (error) {
