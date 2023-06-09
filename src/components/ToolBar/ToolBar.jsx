@@ -1,63 +1,68 @@
-import React, { useState } from 'react';
-import SearchResults from '../SearchResults/SearchResults';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import SearchResults from "../SearchResults/SearchResults";
 
 const Toolbar = () => {
-  const [activeFilter, setActiveFilter] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [bodyFiltros, setBodyFiltros] = useState({
+    tipos: "",
+    ofertas: false,
+    porcentajeDesc: 0,
+    Variedad: "",
+    marca: "",
+    contenido: 0,
+    envase: "",
+    ordenarmiento: "",
+    cask: 0,
+  });
 
-  const handleFilterChange = (event) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post(
+          "https://servidor-vinos.onrender.com/product/filtrado?paginas=1&cantidad=10",
+          bodyFiltros
+        );
+        setFilteredResults(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error al filtrar productos:", error);
+      }
+    };
+
+    fetchData();
+  }, [bodyFiltros]);
+
+  const handleFilterChange = async (event) => {
     const selectedFilter = event.target.value;
     setActiveFilter(selectedFilter);
 
-    // Filtrar los productos según el filtro seleccionado
-    const filteredProducts = products.filter((product) => product.type.toLowerCase() === selectedFilter.toLowerCase());
-
-    // Establecer los resultados filtrados
-    setFilteredResults(filteredProducts);
-    setSelectedProduct(null);
+    try {
+      const { data } = await axios.post(
+        "https://servidor-vinos.onrender.com/product/filtrado?paginas=1&cantidad=10",
+        { ...bodyFiltros, tipos: selectedFilter }
+      );
+      setFilteredResults(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error al filtrar productos:", error);
+    }
   };
-
-  const handleToggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-  };
-
-  // Lista de productos (puedes reemplazarla con tus propios datos)
-  const products = [
-    { id: 1, name: 'Tequila', liters: '500ml', type: 'PATRON', details: 'Detalles de la Bebida 1', image: 'https://i.ibb.co/2SypNwY/1.png' },
-    { id: 2, name: 'Vino', liters: '1L', type: 'Malbec', details: 'Detalles de la Bebida 2', image: 'https://i.ibb.co/VmMZ00f/2.png' },
-    { id: 3, name: 'Bebida 3', liters: '750ml', type: 'Agua', details: 'Detalles de la Bebida 3', image: 'https://i.ibb.co/HX9K9q9/3.png' },
-  ];
 
   return (
     <div>
-
       <div className="toolbar-menu">
         <select value={activeFilter} onChange={handleFilterChange}>
           <option value="">Todos</option>
-          <option value="vinos">Vinos</option>
-          <option value="licores">Licores</option>
-          <option value="tequilas">Tequilas</option>
-          <option value="cervezas">Cervezas</option>
-          <option value="coctelerias">Bebidas</option>
+          <option value="Came">Vinos</option>
+          <option value="Liquer">Licores</option>
+          <option value="Tequila">Tequilas</option>
+          <option value="Beer">Cervezas</option>
+          <option value="Drinks">Bebidas</option>
         </select>
       </div>
-      <SearchResults searchResults={filteredResults} handleProductClick={handleProductClick} />
-      {selectedProduct && (
-        <div className="product-details">
-          <h3>Detalles del producto:</h3>
-          <h4>{selectedProduct.name}</h4>
-          <p>Litros: {selectedProduct.liters}</p>
-          <p>Tipo: {selectedProduct.type}</p>
-          <p>Detalles: {selectedProduct.details}</p>
-          <img src={selectedProduct.image} alt={selectedProduct.name} />
-        </div>
-      )}
+      <SearchResults searchResults={filteredResults} />
     </div>
   );
 };

@@ -5,34 +5,33 @@ import SearchBar from '../../SearchBar/SearchBar';
 import './Tienda.css';
 import Toolbar from '../../ToolBar/ToolBar';
 import SearchResults from '../../SearchResults/SearchResults';
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer/Footer';
 
 function Tienda() {
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilter, setActiveFilter] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://servidor-vinos.onrender.com/product/all', {
-          params: {
-            paginas: currentPage
+        const { data } = await axios.post(
+          "https://servidor-vinos.onrender.com/product/filtrado",
+          {
+            paginas: currentPage,
+            cantidad: 10,
+            tipos: activeFilter
           }
-        });
+        );
 
-        // Verificar si la respuesta fue exitosa y actualizar los resultados de búsqueda
-        if (response.status === 200) {
-          setSearchResults(response.data);
-        } else {
-          console.error('Error al buscar productos:', response.data.error);
-        }
+        setSearchResults(data);
       } catch (error) {
         console.error('Error al buscar productos:', error);
       }
     };
 
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, activeFilter]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -44,10 +43,15 @@ function Tienda() {
     setCurrentPage(currentPage + 1);
   };
 
+  const handleFilterChange = (selectedFilter) => {
+    setActiveFilter(selectedFilter);
+    setCurrentPage(1);
+  };
+
   return (
     <div>
       <NavBar />
-      <Toolbar />
+      <Toolbar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
       <div className="product-list">
         <SearchResults searchResults={searchResults} />
       </div>
