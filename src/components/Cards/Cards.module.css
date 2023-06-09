@@ -55,7 +55,7 @@
     color: beige;
   }
 
-  .genres {
+  .type {
     
     font-size: 14px;
     line-height:1.8rem;
@@ -64,7 +64,7 @@
     font-family: cursive;
   }
 
-  .rating{
+  .stock{
     font-size:1.1rem;
     line-height:1.8rem;
     text-align:center;

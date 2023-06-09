@@ -52,16 +52,16 @@ function NavBar() {
                 <li className="nav-item">
                   <NavLink
                     exact
-                    to="/perfiles"
+                    to="/profilepage"
                     activeClassName="active"
                     className="nav-links"
                     onClick={handleClick}
                   >
-                    Perfiles
+                    Perfil
                   </NavLink>
                 </li>
                 <li>
-                  <Logout onClick={handleClick} />
+                  <Logout  onClick={handleClick} />
                 </li>
               </>
             ) : (

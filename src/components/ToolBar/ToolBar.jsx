@@ -35,12 +35,8 @@ const Toolbar = () => {
   ];
 
   return (
-    <div className={`toolbar ${isOpen ? 'open' : ''}`}>
-      <button className="toolbar-toggle" onClick={handleToggleMenu}>
-        <span className="toolbar-toggle-line"></span>
-        <span className="toolbar-toggle-line"></span>
-        <span className="toolbar-toggle-line"></span>
-      </button>
+    <div>
+
       <div className="toolbar-menu">
         <select value={activeFilter} onChange={handleFilterChange}>
           <option value="">Todos</option>

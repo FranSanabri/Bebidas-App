@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Logout = () => {
@@ -9,9 +10,17 @@ const Logout = () => {
   };
 
   return (
-    <div>
-      <li className='nav-item' onClick={handleLogout}>Cerrar sesión</li>
-    </div>
+    <li className="nav-item">
+       <NavLink
+                    exact
+                    to="/logout"
+                    activeClassName="active"
+                    className="nav-links"
+                    onClick={handleLogout}
+                  >
+                    Cerrar Sesion
+                  </NavLink>
+    </li>
   );
 };
 

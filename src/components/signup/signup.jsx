@@ -17,5 +17,7 @@ const Register = () => {
     </div>
   );
 };
+const mapDispatchToProps=()=>{
 
+}
 export default Register;

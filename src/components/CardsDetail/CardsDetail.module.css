@@ -1,0 +1,53 @@
+.contains {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    text-align: center;
+    margin: 30px 80px;
+  }
+  
+  .containproduct {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .containInfo {
+    margin-top: 20px;
+    border: 2px solid rgb(55, 56, 55);
+    border-radius: 8px;
+  }
+  
+  .info {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .image {
+    width: 650px;
+    height: 600px;
+    object-fit: contain;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .buttonImg {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .containsImg{
+      margin-top: 40px;
+      display: flex;
+    }

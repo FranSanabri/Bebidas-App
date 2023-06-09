@@ -1,0 +1,18 @@
+.search-results {
+    /* Estilo del contenedor de resultados de búsqueda */
+  }
+  
+  .product-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product-card {
+    width: calc(100% / 3);
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* Estilo de cada tarjeta de producto */
+  }
+  

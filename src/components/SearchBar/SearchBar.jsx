@@ -1,32 +1,49 @@
 import React, { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
+import axios from 'axios';
 import './SearchBar.css';
+import SearchResults from '../SearchResults/SearchResults';
 
-const SearchBar = ({ setSearchResults }) => {
+const SearchContainer = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearch = () => {
-    // Aquí puedes implementar la lógica de búsqueda de productos
-    // Por ejemplo, puedes llamar a una API o buscar en una lista de productos local
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`https://servidor-vinos.onrender.com/product/all`, {
+        params: {
+          paginas: 1
+        }
+      });
 
-    // Aquí se simula la búsqueda de productos con un array de productos de ejemplo
-    const products = [
-      { id: 1, name: 'Tequila', liters: '500ml', type: 'PATRON', details: 'Detalles de la Bebida 1', image: 'https://i.ibb.co/2SypNwY/1.png' },
-      { id: 2, name: 'Vino', liters: '1L', type: 'Malbec', details: 'Detalles de la Bebida 2', image: 'https://i.ibb.co/VmMZ00f/2.png' },
-      { id: 3, name: 'Bebida 3', liters: '750ml', type: 'Agua', details: 'Detalles de la Bebida 3', image: 'https://i.ibb.co/HX9K9q9/3.png' },
-    ];
-
-    const filteredResults = products.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    setSearchResults(filteredResults);
+      // Verificar si la respuesta fue exitosa y actualizar los resultados de búsqueda
+      if (response.status === 200) {
+        setSearchResults(response.data);
+      } else {
+        console.error('Error al buscar productos:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error al buscar productos:', error);
+    }
   };
 
+  return (
+    <div>
+      <SearchBar
+        searchQuery={searchQuery}
+        onSearchInputChange={handleSearchInputChange}
+        onSearch={handleSearch}
+      />
+      {searchResults.length > 0 && <SearchResults searchResults={searchResults} />}
+    </div>
+  );
+};
+
+const SearchBar = ({ searchQuery, onSearchInputChange, onSearch }) => {
   return (
     <div className="search-bar-container">
       <div className="search-bar-wrapper">
@@ -34,10 +51,10 @@ const SearchBar = ({ setSearchResults }) => {
           <input
             type="text"
             value={searchQuery}
-            onChange={handleSearchInputChange}
+            onChange={onSearchInputChange}
             placeholder="Busca tus bebidas"
           />
-          <div className="search-bar-button" onClick={handleSearch}>
+          <div className="search-bar-button" onClick={onSearch}>
             <BiSearch size={18} />
           </div>
         </div>
@@ -46,4 +63,4 @@ const SearchBar = ({ setSearchResults }) => {
   );
 };
 
-export default SearchBar;
+export default SearchContainer;
