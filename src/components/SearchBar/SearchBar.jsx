@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { BiSearch } from 'react-icons/bi';
-import './SearchBar.css';
+import React, { useState } from "react";
+import { BiSearch } from "react-icons/bi";
+import "./SearchBar.css";
+import axios from "axios";
 
 const SearchBar = ({ setSearchResults }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async (event) => {
     // Aquí puedes implementar la lógica de búsqueda de productos
     // Por ejemplo, puedes llamar a una API o buscar en una lista de productos local
 
