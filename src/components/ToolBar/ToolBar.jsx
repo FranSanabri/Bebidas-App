@@ -10,7 +10,7 @@ import {
   handleTipos,
   handleporcentaje,
   orderAll,
-} from "../pageFilt/handlers";
+} from "../handlersFilter/handlers";
 import SearchResults from "../SearchResults/SearchResults";
 import "./ToolBar.css";
 
