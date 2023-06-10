@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SearchResults from "../SearchResults/SearchResults";
+import './ToolBar.css';
 
-const Toolbar = () => {
-  const [activeFilter, setActiveFilter] = useState("");
+const Toolbar = ({ activeFilter, onFilterChange }) => {
   const [filteredResults, setFilteredResults] = useState([]);
   const [bodyFiltros, setBodyFiltros] = useState({
     tipos: "",
@@ -36,7 +36,8 @@ const Toolbar = () => {
 
   const handleFilterChange = async (event) => {
     const selectedFilter = event.target.value;
-    setActiveFilter(selectedFilter);
+    onFilterChange(selectedFilter); // Llamar a la función onFilterChange desde Tienda
+    setBodyFiltros({ ...bodyFiltros, tipos: selectedFilter }); // Actualizar el estado local
 
     try {
       const { data } = await axios.post(

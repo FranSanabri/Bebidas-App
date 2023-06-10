@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './SearchResults.css';
 
-const SearchResults = ({ searchResults, handleProductClick }) => {
+const SearchResults = ({ searchResults }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const openModal = (product) => {
@@ -19,7 +19,11 @@ const SearchResults = ({ searchResults, handleProductClick }) => {
         <div className="search-results">
           <div className="product-container">
             {searchResults.map((product) => (
-              <div className="product-card" key={product.id}>
+              <div
+                className="product-card"
+                key={product.id}
+                onClick={() => openModal(product)} // Abrir el modal al hacer clic en la tarjeta
+              >
                 <h4 className="product-name">{product.name}</h4>
                 <p className="product-info">Marca: {product.brand}</p>
                 <p className="product-info">Precio: ${product.price}</p>
@@ -35,9 +39,6 @@ const SearchResults = ({ searchResults, handleProductClick }) => {
                 {product.images.length > 0 && (
                   <img className="product-image" src={product.images[0]} alt={product.name} />
                 )}
-                <button className="product-button" onClick={() => openModal(product)}>
-                  Ver detalles
-                </button>
               </div>
             ))}
           </div>
@@ -48,6 +49,8 @@ const SearchResults = ({ searchResults, handleProductClick }) => {
         isOpen={selectedProduct !== null}
         onRequestClose={closeModal}
         contentLabel="Detalles del producto"
+        className="product-details-modal"
+        overlayClassName="product-details-overlay"
       >
         {selectedProduct && (
           <div>
@@ -65,7 +68,11 @@ const SearchResults = ({ searchResults, handleProductClick }) => {
             <p>Disponibilidad: {selectedProduct.availability ? 'Disponible' : 'No disponible'}</p>
             <p>Veces vendido: {selectedProduct.sells}</p>
             {selectedProduct.images.length > 0 && (
-              <img className="selected-product-image" src={selectedProduct.images[0]} alt={selectedProduct.name} />
+              <img
+                className="selected-product-image"
+                src={selectedProduct.images[0]}
+                alt={selectedProduct.name}
+              />
             )}
             <button onClick={closeModal}>Cerrar</button>
           </div>

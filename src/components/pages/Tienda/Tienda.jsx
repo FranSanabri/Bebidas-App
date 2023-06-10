@@ -11,9 +11,12 @@ function Tienda() {
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilter, setActiveFilter] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true);
+
       try {
         let endpoint = "https://servidor-vinos.onrender.com/product/all";
 
@@ -30,6 +33,8 @@ function Tienda() {
         setSearchResults(data);
       } catch (error) {
         console.error('Error al buscar productos:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -55,15 +60,21 @@ function Tienda() {
     <div>
       <NavBar />
       <Toolbar activeFilter={activeFilter} onFilterChange={handleFilterChange} />
-      <div className="product-list">
-        <SearchResults searchResults={searchResults} />
-      </div>
+      {isLoading ? (
+        <div className="loader-wrapper">
+          <div className="loader">Loading...</div>
+        </div>
+      ) : (
+        <div className="product-list">
+          <SearchResults searchResults={searchResults} />
+        </div>
+      )}
       <div className="pagination">
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>Anterior</button>
         <button onClick={handleNextPage}>Siguiente</button>
       </div>
       <div>
-        <Footer />
+        <Footer className="footer" />
       </div>
     </div>
   );
