@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BiSearch } from "react-icons/bi";
 import {
   handleCask,
   handleContenedor,
@@ -16,6 +17,7 @@ import "./ToolBar.css";
 
 const Toolbar = ({ currentPage }) => {
   const page = currentPage;
+  const [search, setSearch] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [sabor, setSabor] = useState([]);
@@ -35,11 +37,11 @@ const Toolbar = ({ currentPage }) => {
   useEffect(() => {
     axios
       .post(
-        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}`,
+        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}&search=${search}`,
         bodyFiltros
       )
       .then(({ data }) => setFilteredResults(data));
-  }, [bodyFiltros, page]);
+  }, [bodyFiltros, page, search]);
   useEffect(() => {
     if (bodyFiltros.tipos !== "") {
       axios
@@ -66,8 +68,27 @@ const Toolbar = ({ currentPage }) => {
     }
   }, [bodyFiltros.tipos]);
 
+  const handleSearchInputChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+
   return (
-    <div>
+    <div >
+      <div>
+        <div className="search-bar-container">
+          <div className="search-bar-wrapper">
+            <div className="search-bar-input">
+              <input
+                type="text"
+                value={search}
+                onChange={handleSearchInputChange}
+                placeholder="Busca tus bebidas"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="filtros">
         <select
           className="select"
@@ -150,9 +171,9 @@ const Toolbar = ({ currentPage }) => {
           onChange={(event) => handleOferta(event, bodyFiltros, setBodyFiltros)}
         >
           <optgroup label="Ofertas">
-          <option value="null">Todos</option>
-          <option value={false}>Sin oferta</option>
-          <option value={true}>Con Oferta</option>
+            <option value="null">Todos</option>
+            <option value={false}>Sin oferta</option>
+            <option value={true}>Con Oferta</option>
           </optgroup>
         </select>
         <select
@@ -160,11 +181,12 @@ const Toolbar = ({ currentPage }) => {
           onChange={(event) =>
             handleporcentaje(event, bodyFiltros, setBodyFiltros)
           }
-        ><optgroup label="Porcentaje de descuento">
-          <option value={0}>Todos</option>
-          <option value={5}>De 5% a 10%</option>
-          <option value={10}>De 10% a 25%</option>
-          <option value={25}>De 25% a 35%</option>
+        >
+          <optgroup label="Porcentaje de descuento">
+            <option value={0}>Todos</option>
+            <option value={5}>De 5% a 10%</option>
+            <option value={10}>De 10% a 25%</option>
+            <option value={25}>De 25% a 35%</option>
           </optgroup>
         </select>
         <select
