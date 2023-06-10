@@ -75,10 +75,9 @@ const Toolbar = ({ currentPage }) => {
         >
           <option value="">Todos</option>
           <option value="Wine">Vinos</option>
-          <option value="Beer">Cervezas</option>
-          <option value="Tequila">Tequilas</option>
+          <option value="Came">Vinos</option>
           <option value="Liqueur">Licores</option>
-          <option value="Drinks">Bebidas</option>
+          <option value="Tequila">Tequilas</option>
         </select>
         {bodyFiltros.tipos !== "" ? (
           <select

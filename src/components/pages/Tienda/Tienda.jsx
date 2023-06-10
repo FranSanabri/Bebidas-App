@@ -11,7 +11,6 @@ function Tienda() {
   const [activeFilter, setActiveFilter] = useState("");
 
 
-
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
