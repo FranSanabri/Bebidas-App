@@ -6,6 +6,23 @@
   background-color: black;
 }
 
+.filtros{
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.select {
+  margin-top: 20px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  font-size: 14px;
+}
+
 .toolbar-button {
   background-color: #eee;
   border: none;

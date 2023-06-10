@@ -1,3 +1,13 @@
+export const handleTipos = (event, bodyFiltros, setBodyFiltros) => {
+  setBodyFiltros({
+    ...bodyFiltros,
+    tipos: event.target.value,
+    Variedad: "",
+    marca: "",
+    envase: "",
+  });
+};
+
 export const handleMarca = (event, bodyFiltros, setBodyFiltros) => {
   setBodyFiltros({ ...bodyFiltros, marca: event.target.value });
 };
@@ -78,78 +88,39 @@ export const handleOferta = (event, bodyFiltros, setBodyFiltros) => {
   setBodyFiltros({ ...bodyFiltros, ofertas: event.target.value });
 };
 
-export const orderSells = (event, bodyFiltros, setBodyFiltros) => {
-  let name, order;
+export const orderAll = (event, bodyFiltros, setBodyFiltros) => {
+  let name, order, param;
   switch (event.target.value) {
-    case "ascendente":
-      name = "sells";
-      order = "ASC";
-      break;
-    case "Descendente":
-      name = "sells";
-      order = "DESC";
-      break;
-    default:
-      name = "";
-      order = "";
-      break;
-  }
-  setBodyFiltros({
-    ...bodyFiltros,
-    ordenarmiento: { ...bodyFiltros.ordenarmiento, name: name, order: order },
-  });
-};
-export const orderprice = (event, bodyFiltros, setBodyFiltros) => {
-  let name, order;
-  switch (event.target.value) {
-    case "ascendente":
+    case "precioAscendente":
       name = "price";
       order = "ASC";
       break;
-    case "Descendente":
+    case "precioDescendente":
       name = "price";
       order = "DESC";
       break;
-    default:
-      name = "";
-      order = "";
-      break;
-  }
-  setBodyFiltros({
-    ...bodyFiltros,
-    ordenarmiento: { ...bodyFiltros.ordenarmiento, name: name, order: order },
-  });
-};
-export const orderAlcoholContent = (event, bodyFiltros, setBodyFiltros) => {
-  let name, order;
-  switch (event.target.value) {
-    case "ascendente":
+    case "alcoholAscendente":
       name = "alcoholContent";
       order = "ASC";
       break;
-    case "Descendente":
+    case "alcoholDescendente":
       name = "alcoholContent";
       order = "DESC";
       break;
-    default:
-      name = "";
-      order = "";
-      break;
-  }
-  setBodyFiltros({
-    ...bodyFiltros,
-    ordenarmiento: { ...bodyFiltros.ordenarmiento, name: name, order: order },
-  });
-};
-export const orderAmount = (event, bodyFiltros, setBodyFiltros) => {
-  let name, order;
-  switch (event.target.value) {
-    case "ascendente":
+    case "amountAscendente":
       name = "amount";
       order = "ASC";
       break;
-    case "Descendente":
+    case "amountDescendente":
       name = "amount";
+      order = "DESC";
+      break;
+    case "ventasAscendente":
+      name = "sells";
+      order = "ASC";
+      break;
+    case "ventasDescendente":
+      name = "sells";
       order = "DESC";
       break;
     default:

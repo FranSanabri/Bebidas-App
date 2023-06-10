@@ -11,7 +11,6 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/tienda" element={<Tienda />} />
       <Route path="/profilepage" element={<ProfilePage />} />
-      <Route path="/tienda/:product/:page" element={<PageFilt />} />
     </Routes>
   );
 }
