@@ -4,17 +4,17 @@ import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const { loginWithRedirect } = useAuth0();
+  const redirectUri = process.env.REACT_APP_REDIRECT_URI || `${window.location.origin}/authorize`;
 
   const handleClick = () => {
-    loginWithRedirect();
+    loginWithRedirect({
+      redirectUri: redirectUri,
+    });
   };
 
   return (
     <li className="nav-item">
-      <NavLink
-        className="nav-links"
-        onClick={handleClick}
-      >
+      <NavLink className="nav-links" onClick={handleClick}>
         Ingresar
       </NavLink>
     </li>

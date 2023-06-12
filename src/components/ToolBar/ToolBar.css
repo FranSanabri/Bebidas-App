@@ -3,14 +3,14 @@
   justify-content: center;
   margin-bottom: 20px;
   z-index: 20;
-  background-color: black;
+  background-color: #000;
 }
 
-.filtros{
+.filtros {
   display: flex;
   justify-content: center;
-  justify-content: space-around;
   flex-wrap: wrap;
+  margin-top: 40px;
 }
 
 .select {
@@ -18,7 +18,7 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: white;
+  background-color: #fff;
   color: #333;
   font-size: 14px;
 }
@@ -44,3 +44,63 @@
 .toolbar-button:hover {
   background-color: #ddd;
 }
+
+.search-bar-container {
+  position: relative;
+  top: 30px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 30px;
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.search-bar-container:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.search-bar-label {
+  display: none;
+}
+
+.search-bar-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-bar-container input::placeholder {
+  color: #999;
+}
+
+.search-bar-input input {
+  font-size: 0.875rem;
+  flex: 1;
+  outline: none;
+  background-color: transparent;
+  border: none;
+}
+
+.search-bar-button {
+  padding: 0.5rem;
+  background-color: #f44336;
+  border-radius: 999px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar-button:hover {
+  background-color: #e53935;
+}
+

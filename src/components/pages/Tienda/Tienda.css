@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 600px;
   }
   
   .pagination button {
@@ -28,4 +28,5 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+  
   

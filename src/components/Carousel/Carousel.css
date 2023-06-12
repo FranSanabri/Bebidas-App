@@ -66,6 +66,17 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+  .text-slider {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f7f7f7; /* Cambia el color de fondo a gris */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   .carousel-indicator {
     cursor: pointer;

@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import NavBar from '../../Navbar/Navbar';
-import SearchBar from '../../SearchBar/SearchBar';
-import './Tienda.css';
-import Toolbar from '../../ToolBar/ToolBar';
-import Footer from '../../Footer/Footer';
+import React, { useState } from "react";
+import NavBar from "../../Navbar/Navbar";
+import "./Tienda.css";
+import Toolbar from "../../ToolBar/ToolBar";
+import Footer from "../../Footer/Footer";
 
 function Tienda() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilter, setActiveFilter] = useState("");
-
-
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -30,16 +26,19 @@ function Tienda() {
   return (
     <div>
       <NavBar />
-      <Toolbar currentPage={currentPage} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+      <Toolbar
+        currentPage={currentPage}
+        activeFilter={activeFilter}
+        onFilterChange={handleFilterChange}
+      />
       {/* <div className="product-list">
         <SearchResults searchResults={searchResults} />
       </div> */}
       <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>Anterior</button>
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          Anterior
+        </button>
         <button onClick={handleNextPage}>Siguiente</button>
-      </div>
-      <div>
-        <Footer />
       </div>
     </div>
   );

@@ -18,7 +18,6 @@ const Home = () => {
     <div>
       <NavBar setSearchResults={setSearchResults} />
       <Carousel />
-      <SearchResults searchResults={searchResults} handleProductClick={handleProductClick} />
       <Footer />
     </div>
   );
