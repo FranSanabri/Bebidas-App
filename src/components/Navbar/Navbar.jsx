@@ -19,7 +19,7 @@ function NavBar() {
       <nav className="navbar">
         <div className="nav-container">
           <Link exact to="/" className="nav-logo">
-            <img className="img-hidden" src="/images/logo.PNG" alt="Logo" />
+            <img className="img-hidden" src="https://i.ibb.co/fN28Z9h/LOGO-2-DRINK-UP-Nav-Bar-1.png" alt="Logo" />
             <i className="fas fa-code"></i>
           </Link>
 
