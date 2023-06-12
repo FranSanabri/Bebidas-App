@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const { loginWithRedirect } = useAuth0();
-  const redirectUri = process.env.REACT_APP_REDIRECT_URI || `${window.location.origin}/login`;
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const redirectUri = process.env.REACT_APP_REDIRECT_URI || `${window.location.origin}/authorize`;
 
   const handleClick = () => {
     loginWithRedirect({
