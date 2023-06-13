@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { hadlerUser} from "../../editProfile/handlersUser";
-import { UserName } from "../../editProfile/userName";
-import { UserAge } from "../../editProfile/userAge";
-import { UserPhone } from "../../editProfile/userPhone";
-import { UserUbicacion } from "../../editProfile/userUbicacion";
+import { UserEdit } from "../../editProfile/userEdit";
 import { UserReviews } from "../../editProfile/userReviews";
 import { UserRecord } from "../../editProfile/UserRecord";
 
@@ -31,29 +28,29 @@ const ProfilePage = () => {
       <h1>Página de perfil</h1>
       {usuario.email ? (
         <div>
-          <UserName
+          <UserEdit
             usuario={usuario}
             putUser={putUser}
-            setPutUser={setPutUser}
             setSave={setSave}
+            data={"userName"}
           />
-          <UserAge
+            <UserEdit
+              usuario={usuario}
+              putUser={putUser}
+              setSave={setSave}
+              data={"age"}
+            />
+          <UserEdit
             usuario={usuario}
             putUser={putUser}
-            setPutUser={setPutUser}
             setSave={setSave}
+            data={"phone"}
           />
-          <UserPhone
+          <UserEdit
             usuario={usuario}
             putUser={putUser}
-            setPutUser={setPutUser}
             setSave={setSave}
-          />
-          <UserUbicacion
-            usuario={usuario}
-            putUser={putUser}
-            setPutUser={setPutUser}
-            setSave={setSave}
+            data={"ubicacion"}
           />
           <UserReviews usuario={usuario} />
           <UserRecord usuario={usuario} />
