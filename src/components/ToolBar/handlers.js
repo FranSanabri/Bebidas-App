@@ -1,4 +1,20 @@
-export const handleTipos = (event, bodyFiltros, setBodyFiltros) => {
+export const handlePreviousPage = (page, setPage) => {
+  if (page > 1) {
+    setPage(page - 1);
+  }
+};
+
+export const handleNextPage = (page, setPage) => {
+  setPage(page + 1);
+};
+
+export const handleSearchInputChange = (event, setSearch, setPage) => {
+  setPage(1);
+  setSearch(event.target.value);
+};
+
+export const handleTipos = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
   setBodyFiltros({
     ...bodyFiltros,
     tipos: event.target.value,
@@ -8,23 +24,38 @@ export const handleTipos = (event, bodyFiltros, setBodyFiltros) => {
   });
 };
 
-export const handleMarca = (event, bodyFiltros, setBodyFiltros) => {
+export const handleMarca = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
   setBodyFiltros({ ...bodyFiltros, marca: event.target.value });
 };
 
-export const handleSabor = (event, bodyFiltros, setBodyFiltros) => {
+export const handleSabor = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
   setBodyFiltros({ ...bodyFiltros, Variedad: event.target.value });
 };
 
-export const handleContenedor = (event, bodyFiltros, setBodyFiltros) => {
+export const handleContenedor = (
+  event,
+  bodyFiltros,
+  setBodyFiltros,
+  setPage
+) => {
+  setPage(1);
   setBodyFiltros({ ...bodyFiltros, envase: event.target.value });
 };
 
-export const handleCask = (event, bodyFiltros, setBodyFiltros) => {
+export const handleCask = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
   setBodyFiltros({ ...bodyFiltros, cask: event.target.value });
 };
 
-export const handleContenido = (event, bodyFiltros, setBodyFiltros) => {
+export const handleContenido = (
+  event,
+  bodyFiltros,
+  setBodyFiltros,
+  setPage
+) => {
+  setPage(1);
   let desde, hasta;
   switch (parseInt(event.target.value)) {
     case 400:
@@ -54,7 +85,13 @@ export const handleContenido = (event, bodyFiltros, setBodyFiltros) => {
   });
 };
 
-export const handleporcentaje = (event, bodyFiltros, setBodyFiltros) => {
+export const handleporcentaje = (
+  event,
+  bodyFiltros,
+  setBodyFiltros,
+  setPage
+) => {
+  setPage(1);
   let desde, hasta;
   switch (parseInt(event.target.value)) {
     case 5:
@@ -84,12 +121,14 @@ export const handleporcentaje = (event, bodyFiltros, setBodyFiltros) => {
   });
 };
 
-export const handleOferta = (event, bodyFiltros, setBodyFiltros) => {
+export const handleOferta = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
   setBodyFiltros({ ...bodyFiltros, ofertas: event.target.value });
 };
 
-export const orderAll = (event, bodyFiltros, setBodyFiltros) => {
-  let name, order, param;
+export const orderAll = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  let name, order;
   switch (event.target.value) {
     case "precioAscendente":
       name = "price";
