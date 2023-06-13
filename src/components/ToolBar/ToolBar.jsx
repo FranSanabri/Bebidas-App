@@ -109,7 +109,7 @@ const Toolbar = () => {
               handleSabor(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Todos</option>
+            <option value="">Marca</option>
             {sabor &&
               sabor.data?.map((sab) => {
                 return <option value={sab}>{sab}</option>;
@@ -123,7 +123,7 @@ const Toolbar = () => {
               handleMarca(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Todas</option>
+            <option value="">Tipo</option>
             {marcas.data?.map((marc) => {
               return <option value={marc}>{marc}</option>;
             })}
@@ -150,7 +150,7 @@ const Toolbar = () => {
             }
           >
             <optgroup label="Sin orden"></optgroup>
-            <option value={0}>Todos</option>
+            <option value={0}>Fecha</option>
             <option value={6}>6 Meses</option>
             <option value={12}>12 Meses</option>
             <option value={14}>14 Meses</option>
@@ -162,8 +162,8 @@ const Toolbar = () => {
             handleContenido(event, bodyFiltros, setBodyFiltros, setPage)
           }
         >
-          <optgroup label="Cantidad"></optgroup>
-          <option value={0}>Todos</option>
+          <optgroup value={0} label="Cantidad"></optgroup>
+          <option value={0}>Cantidad</option>
           <option value={400}>400cc a 500cc</option>
           <option value={500}>500cc a 700cc</option>
           <option value={700}>700cc a 1000cc</option>
@@ -176,7 +176,7 @@ const Toolbar = () => {
           }
         >
           <optgroup label="Ofertas">
-            <option value="null">Todos</option>
+            <option value="null">Ofertas</option>
             <option value={false}>Sin oferta</option>
             <option value={true}>Con Oferta</option>
           </optgroup>
@@ -188,7 +188,7 @@ const Toolbar = () => {
           }
         >
           <optgroup label="Porcentaje de descuento">
-            <option value={0}>Todos</option>
+            <option value={0}>Porcentaje de descuento</option>
             <option value={5}>De 5% a 10%</option>
             <option value={10}>De 10% a 25%</option>
             <option value={25}>De 25% a 35%</option>
@@ -201,7 +201,7 @@ const Toolbar = () => {
           }
         >
           <optgroup label="Sin orden">
-            <option value="todos">Todos</option>
+            <option value="todos">Ordenamiento</option>
           </optgroup>
           <optgroup label="Orden de precio">
             <option value="precioAscendente">Precio ascendente</option>
