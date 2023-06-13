@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-export const UserEdit = ({ usuario, putUser, setSave, data }) => {
+export const UserEditImage = ({ usuario, setSave, data, setImg }) => {
   const [edit, setEdit] = useState(false);
   return (
     <div>
       <h1>{data}</h1>
       {usuario[data] && !edit ? (
         <div>
-          <h2>{usuario[data]}</h2>
+          <img src={usuario[data]} alt="" />
           <button onClick={() => setEdit(true)}>Cambiar {data}</button>
         </div>
       ) : (
@@ -29,14 +29,14 @@ export const UserEdit = ({ usuario, putUser, setSave, data }) => {
             </div>
           )}
           <input
-            type="text"
+            name="image"
+            type="file"
             onChange={(event) => {
-              putUser.changes.push({
-                name: data,
-                data: event.target.value,
-              });
               setSave(true);
+              setImg(event.target.files[0]);
             }}
+            placeholder="I"
+            required
           />
         </div>
       )}
