@@ -1,7 +1,13 @@
-import React from 'react';
+import { useState } from 'react';
 import './Footer.css';
+import { NavLink } from 'react-router-dom';
 
 function Footer() {
+  const [click, setClick] = useState(false);
+  const handleClick = () => {
+    setClick(!click);
+  };
+
   return (
     <footer className="footer-container">
       <div className="container mx-auto py-10 px-4">
@@ -12,7 +18,15 @@ function Footer() {
           </div>
           <div className="footer-item">
             <h2 className="footer-title">Contactos</h2>
-            <p className="footer-text">Participantes de este proyecto</p>
+            <NavLink
+              exact
+              to="/contactus"
+              activeClassName="active"
+              className="nav-links"
+              onClick={handleClick}
+            >
+              Comunicate con nosotros
+            </NavLink>
           </div>
         </div>
       </div>
