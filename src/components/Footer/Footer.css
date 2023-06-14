@@ -1,10 +1,14 @@
 .footer-container {
- position: relative;
+  position: relative;
   bottom: 0;
   width: 100%;
-  background-color: #808080;
-  color: #eaeaea;
-  }
+  background-color: #2b2a2a; /* Cambia el color de fondo a un tono oscuro */
+  color: #ffffff; /* Cambia el color del texto a blanco */
+  padding: 20px; /* Agrega un espacio interno para el contenido del footer */
+  display: flex;
+  justify-content: space-between; /* Distribuye el contenido en ambos extremos */
+  align-items: center;
+}
   
   .container {
     max-width: 100%;
@@ -36,8 +40,48 @@
   
   .footer-item {
     margin-bottom: 2rem;
+    text-decoration: none;
+    color: white;
   }
   
+  .footer-item-1 {
+    position: absolute;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    color: white;
+    right: 100px;
+  }
+  
+  .footer-text-1{
+    margin-bottom: 2rem;
+    margin-top: 2px;
+    text-decoration: none;
+    color: rgb(52, 209, 21);
+  }
+
+  .footer-text-2{
+    position: absolute;
+    text-decoration: none;
+    color: white;
+    bottom: -40px;
+  }
+
+  .footer-text-3{
+    position: absolute;
+    text-decoration: none;
+    color: white;
+  }
+  
+  
+
+  .footer-title-1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  
+
   .footer-title {
     font-size: 1.25rem;
     font-weight: bold;
@@ -47,3 +91,18 @@
   .footer-text {
     font-size: 0.815rem;
   }
+
+.logo{
+  position: absolute;
+  top: 64px;
+  width: 7%;
+  left: 490px;
+}
+
+.img-footer {
+  display: block;
+  height: 90px;
+  position: absolute;
+  top: 50px;
+  left: 750px;
+}

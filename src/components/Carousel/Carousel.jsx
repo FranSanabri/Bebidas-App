@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Carousel.css';
+import Carousel from "react-elastic-carousel";
 
-function Carousel() {
+function CarouselComponent() {
   const images = [
     "https://i.ibb.co/chMH2kQ/1.png",
     "https://i.ibb.co/QJg2TdJ/2.png",
@@ -24,6 +25,21 @@ function Carousel() {
     return () => clearTimeout(time);
   }, [img]);
 
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 550, itemsToShow: 2 },
+    { width: 768, itemsToShow: 3 },
+    { width: 1200, itemsToShow: 4 },
+  ];
+
+  const Item = ({ children }) => {
+    return (
+      <div className="carousel-item">
+        <h3>{children}</h3>
+      </div>
+    );
+  };
+
   return (
     <div className="carousel-container">
       <div className="carousel-wrapper">
@@ -31,6 +47,7 @@ function Carousel() {
           key={img}
           src={images[img]}
           className="carousel-image"
+          alt="Carousel Image"
         />
 
         <a
@@ -61,57 +78,29 @@ function Carousel() {
           )}
         </div>
       </div>
-      <div className="carousel-slider">
+      <div>
+      <h2 className="text-slider">Nuestras mejores ofertas, al mejor precio!</h2>
+        <Carousel breakPoints={breakPoints} className='carousel-2'>
+          <Item><img src="https://i.ibb.co/2SypNwY/1.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/VmMZ00f/2.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/HX9K9q9/3.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/gRKnhFf/1.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/4McB6rG/2.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/Sw2k6CY/3.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/2SypNwY/1.png" alt="" className="w-full" /></Item>
+          <Item><img src="https://i.ibb.co/VmMZ00f/2.png" alt="" className="w-full" />
+</Item>
+        </Carousel>
       </div>
+      <div className="carousel-slider"></div>
       <div className="slider">
-        <h2 className="text-slider">Nuestras mejores ofertas, al mejor precio!</h2>
+
         <div className="slide-track">
-          <div className="slide">
-            <img src="https://i.ibb.co/2SypNwY/1.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/VmMZ00f/2.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/HX9K9q9/3.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/gRKnhFf/1.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/4McB6rG/2.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/Sw2k6CY/3.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/2SypNwY/1.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/VmMZ00f/2.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/HX9K9q9/3.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/gRKnhFf/1.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/4McB6rG/2.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="hhttps://i.ibb.co/Sw2k6CY/3.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/QJg2TdJ/2.png" alt="" className="w-full" />
-          </div>
-          <div className="slide">
-            <img src="https://i.ibb.co/SDkWbrC/3.png" alt="" className="w-full" />
-          </div>
+          {/* Resto del código de los slides */}
         </div>
       </div>
     </div>
   );
 }
 
-export default Carousel;
+export default CarouselComponent;

@@ -31,10 +31,10 @@ import Modal from 'react-modal';
     <div>
       <NavBar />
       <div className='contact-form'>
-        <h1 className='form-title'>Contact Us</h1>
+        <h1 className='form-title'>Contactanos!</h1>
         <form className='form-mail' onSubmit={sendEmail}>
           <div className='form-group'>
-            <label htmlFor='user_name'>Name</label>
+            <label htmlFor='user_name'>Nombre</label>
             <input type="text" id='user_name' name='user_name' className='form-input' />
           </div>
 
@@ -44,11 +44,11 @@ import Modal from 'react-modal';
           </div>
 
           <div className='form-group'>
-            <label htmlFor='user_message'>Message</label>
+            <label htmlFor='user_message'>Mensaje</label>
             <textarea id='user_message' name="user_message" className='form-textarea' rows="5"></textarea>
           </div>
 
-          <button type='submit' className='form-button'>Send</button>
+          <button type='submit' className='form-button'>Enviar</button>
         </form>
       </div>
       <Modal
