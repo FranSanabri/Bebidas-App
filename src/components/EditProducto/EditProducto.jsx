@@ -5,6 +5,7 @@ import { ProductEdit } from "./productParams";
 import { handlePutProduct } from "./handlerProduct";
 import "./EditProduct.css";
 import { TypeEdit } from "./selects/type";
+import { EditProductImg } from "./EditProductImg";
 
 function ProductoEditar() {
   const { id } = useParams();
@@ -15,6 +16,9 @@ function ProductoEditar() {
   const [sabor, setSabor] = useState([]);
   const [contenedor, setContenedor] = useState([]);
   const [create, setCreate] = useState([]);
+  const [img, setImg] = useState([]);
+  const [descuento, setDescuento] = useState(null);
+  const [habilitado, setHabilitado] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -27,6 +31,8 @@ function ProductoEditar() {
           productId: response.data.id,
           changes: [],
         });
+        setDescuento(response.data.ableDiscount);
+        setHabilitado(response.data.availability);
       } catch (error) {
         setErrorMessage("Error al obtener los datos del producto.");
       }
@@ -61,8 +67,42 @@ function ProductoEditar() {
     }
   }, [product]);
 
-  console.log(putProduct);
-  console.log(create);
+  const handleDescount = () => {
+    if (descuento) {
+      setDescuento(false);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "ableDiscount"
+      );
+      update.push({ name: "ableDiscount", data: false });
+      setPutProduct({ ...putProduct, changes: update });
+    } else {
+      setDescuento(true);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "ableDiscount"
+      );
+      update.push({ name: "ableDiscount", data: true });
+      setPutProduct({ ...putProduct, changes: update });
+    }
+  };
+
+  const handleAvailability = () => {
+    if (habilitado) {
+      setHabilitado(false);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "availability"
+      );
+      update.push({ name: "availability", data: false });
+      setPutProduct({ ...putProduct, changes: update });
+    } else {
+      setHabilitado(true);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "availability"
+      );
+      update.push({ name: "availability", data: true });
+      setPutProduct({ ...putProduct, changes: update });
+    }
+  };
+
 
   if (!product) {
     return <p>Cargando...</p>;
@@ -97,7 +137,7 @@ function ProductoEditar() {
         setPutProduct={setPutProduct}
         setCreate={setCreate}
         create={create}
-       dataFilt={`sabor${product.type}`}
+        dataFilt={`sabor${product.type}`}
       />
       <TypeEdit
         product={product}
@@ -116,13 +156,16 @@ function ProductoEditar() {
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
       />
-      <ProductEdit
-        product={product}
-        data="cask"
-        type="number"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-      />
+      {product.type === "Wine" ? (
+        <ProductEdit
+          product={product}
+          data="cask"
+          type="number"
+          PutProduct={putProduct}
+          setPutProduct={setPutProduct}
+        />
+      ) : null}
+
       <ProductEdit
         product={product}
         data="price"
@@ -137,20 +180,20 @@ function ProductoEditar() {
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
       />
-      <ProductEdit
-        product={product}
-        data="ableDiscount"
-        type="bulean"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-      />
-      <ProductEdit
-        product={product}
-        data="percentageDiscount"
-        type="number"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-      />
+      <div>
+        <label htmlFor="">Descuento</label>
+        <button onClick={handleDescount}>{descuento ? <p>true</p> : <p>false</p>}</button>
+      </div>
+      {descuento ? (
+        <ProductEdit
+          product={product}
+          data="percentageDiscount"
+          type="number"
+          PutProduct={putProduct}
+          setPutProduct={setPutProduct}
+        />
+      ) : null}
+
       <TypeEdit
         product={product}
         data="container"
@@ -161,13 +204,10 @@ function ProductoEditar() {
         create={create}
         dataFilt={`contenedor`}
       />
-      <ProductEdit
-        product={product}
-        data="availability"
-        type="bulean"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-      />
+      <div>
+        <label htmlFor="">habilitado</label>
+        <button onClick={handleAvailability}>{habilitado ? <p>true</p> : <p>false</p>}</button>
+      </div>
       <h3>ventas:{product.sells}</h3>
       <ProductEdit
         product={product}
@@ -176,16 +216,12 @@ function ProductoEditar() {
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
       />
-      {product.images.map((image) => {
-        return (
-          <div>
-            <img src={image} alt="" />
-          </div>
-        );
-      })}
+      <EditProductImg product={product} setImg={setImg} img={img} />
 
-      <button onClick={() => handlePutProduct(putProduct, create)}>
-        cambiar prroducto
+      <button
+        onClick={() => handlePutProduct(putProduct, create, img, product)}
+      >
+        Editar producto
       </button>
     </div>
   );
