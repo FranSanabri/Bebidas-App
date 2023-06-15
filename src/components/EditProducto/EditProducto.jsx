@@ -1,93 +1,228 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { ProductEdit } from "./productParams";
+import { handlePutProduct } from "./handlerProduct";
+import "./EditProduct.css";
+import { TypeEdit } from "./selects/type";
+import { EditProductImg } from "./EditProductImg";
 
 function ProductoEditar() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [putProduct, setPutProduct] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [marcas, setMarcas] = useState([]);
+  const [sabor, setSabor] = useState([]);
+  const [contenedor, setContenedor] = useState([]);
+  const [create, setCreate] = useState([]);
+  const [img, setImg] = useState([]);
+  const [descuento, setDescuento] = useState(null);
+  const [habilitado, setHabilitado] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://servidor-vinos.onrender.com/product/${id}`);
+        const response = await axios.get(
+          `https://servidor-vinos.onrender.com/product/${id}`
+        );
         setProduct(response.data);
+        setPutProduct({
+          productId: response.data.id,
+          changes: [],
+        });
+        setDescuento(response.data.ableDiscount);
+        setHabilitado(response.data.availability);
       } catch (error) {
-        setErrorMessage('Error al obtener los datos del producto.');
+        setErrorMessage("Error al obtener los datos del producto.");
       }
     };
 
     fetchProduct();
   }, [id]);
 
-  const handleInputChange = (property, value) => {
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [property]: value,
-    }));
-  };
+  useEffect(() => {
+    if (product) {
+      axios
+        .get(
+          `https://servidor-vinos.onrender.com/filtros?name=marca${product.type}`
+        )
+        .then(({ data }) => setMarcas(data));
+    }
+  }, [product]);
+  useEffect(() => {
+    if (product) {
+      axios
+        .get(
+          `https://servidor-vinos.onrender.com/filtros?name=sabor${product.type}`
+        )
+        .then(({ data }) => setSabor(data));
+    }
+  }, [product]);
+  useEffect(() => {
+    if (product) {
+      axios
+        .get(`https://servidor-vinos.onrender.com/filtros?name=contenedor`)
+        .then(({ data }) => setContenedor(data));
+    }
+  }, [product]);
 
-  const handleUpdate = async () => {
-    try {
-      const response = await axios.put(
-        `https://servidor-vinos.onrender.com/product/putProduct/${id}`,
-        product
+  const handleDescount = () => {
+    if (descuento) {
+      setDescuento(false);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "ableDiscount"
       );
-      setSuccessMessage(response.data);
-      navigate(`/editar/${id}`); // Redirigir al route de /editar/:id
-    } catch (error) {
-      setErrorMessage('Error al actualizar los datos del producto.');
+      update.push({ name: "ableDiscount", data: false });
+      setPutProduct({ ...putProduct, changes: update });
+    } else {
+      setDescuento(true);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "ableDiscount"
+      );
+      update.push({ name: "ableDiscount", data: true });
+      setPutProduct({ ...putProduct, changes: update });
     }
   };
+
+  const handleAvailability = () => {
+    if (habilitado) {
+      setHabilitado(false);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "availability"
+      );
+      update.push({ name: "availability", data: false });
+      setPutProduct({ ...putProduct, changes: update });
+    } else {
+      setHabilitado(true);
+      const update = putProduct.changes.filter(
+        (changeObj) => changeObj.name !== "availability"
+      );
+      update.push({ name: "availability", data: true });
+      setPutProduct({ ...putProduct, changes: update });
+    }
+  };
+
 
   if (!product) {
     return <p>Cargando...</p>;
   }
-
   return (
-    <div>
-      {/* Mostrar etiquetas y campos de entrada */}
-      <div>
-        <label>Name</label>
-        <input
-          type="text"
-          value={product.name}
-          onChange={(e) => handleInputChange('name', e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Price</label>
-        <input
+    <div className="container">
+      <ProductEdit
+        product={product}
+        data="name"
+        type="text"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
+      <TypeEdit
+        product={product}
+        data="type"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
+      <ProductEdit
+        product={product}
+        data="alcoholContent"
+        type="number"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
+      <TypeEdit
+        product={product}
+        data="Variety"
+        type={sabor}
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+        setCreate={setCreate}
+        create={create}
+        dataFilt={`sabor${product.type}`}
+      />
+      <TypeEdit
+        product={product}
+        data="brand"
+        type={marcas}
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+        setCreate={setCreate}
+        create={create}
+        dataFilt={`marca${product.type}`}
+      />
+      <ProductEdit
+        product={product}
+        data="amount"
+        type="number"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
+      {product.type === "Wine" ? (
+        <ProductEdit
+          product={product}
+          data="cask"
           type="number"
-          value={product.price}
-          onChange={(e) => handleInputChange('price', Number(e.target.value))}
+          PutProduct={putProduct}
+          setPutProduct={setPutProduct}
         />
-      </div>
+      ) : null}
+
+      <ProductEdit
+        product={product}
+        data="price"
+        type="number"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
+      <ProductEdit
+        product={product}
+        data="stock"
+        type="number"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
       <div>
-        <label>Amount</label>
-        <input
+        <label htmlFor="">Descuento</label>
+        <button onClick={handleDescount}>{descuento ? <p>true</p> : <p>false</p>}</button>
+      </div>
+      {descuento ? (
+        <ProductEdit
+          product={product}
+          data="percentageDiscount"
           type="number"
-          value={product.amount}
-          onChange={(e) => handleInputChange('amount', Number(e.target.value))}
+          PutProduct={putProduct}
+          setPutProduct={setPutProduct}
         />
-      </div>
+      ) : null}
+
+      <TypeEdit
+        product={product}
+        data="container"
+        type={contenedor}
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+        setCreate={setCreate}
+        create={create}
+        dataFilt={`contenedor`}
+      />
       <div>
-        <label>Container</label>
-        <input
-          type="text"
-          value={product.container}
-          onChange={(e) => handleInputChange('container', e.target.value)}
-        />
+        <label htmlFor="">habilitado</label>
+        <button onClick={handleAvailability}>{habilitado ? <p>true</p> : <p>false</p>}</button>
       </div>
+      <h3>ventas:{product.sells}</h3>
+      <ProductEdit
+        product={product}
+        data="description"
+        type="text"
+        PutProduct={putProduct}
+        setPutProduct={setPutProduct}
+      />
+      <EditProductImg product={product} setImg={setImg} img={img} />
 
-      {/* Mostrar mensaje de éxito o error */}
-      {successMessage && <p>{successMessage}</p>}
-      {errorMessage && <p>{errorMessage}</p>}
-
-      {/* Botón para actualizar el producto */}
-      <button onClick={handleUpdate}>Actualizar Producto</button>
+      <button
+        onClick={() => handlePutProduct(putProduct, create, img, product)}
+      >
+        Editar producto
+      </button>
     </div>
   );
 }
