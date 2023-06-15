@@ -5,6 +5,7 @@ import Tienda from './components/pages/Tienda/Tienda';
 import ProfilePage from './components/pages/ProfilePage/ProfilePage';
 import EditProducto from './components/EditProducto/EditProducto';
 import ContactUs from './components/pages/ContactUs/ContactUs';
+import Create from './components/createProduct/Create';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route path="/profilepage" element={<ProfilePage />} />
       <Route path="/editar/:id" element={<EditProducto />} />
       <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/create" element={<Create />} />
     </Routes>
   );
 }
