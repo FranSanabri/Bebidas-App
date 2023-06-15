@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { handleEditCancel, handleInputChange } from "./handlersUser";
 
-export const UserEdit = ({ usuario, putUser, setSave, data }) => {
+export const UserEdit = ({ usuario, putUser, setPutUser, setSave, data }) => {
   const [edit, setEdit] = useState(false);
+
   return (
     <div>
       <h1>{data}</h1>
@@ -19,10 +21,9 @@ export const UserEdit = ({ usuario, putUser, setSave, data }) => {
           ) : (
             <div>
               <button
-                onClick={() => {
-                  setEdit(false);
-                  setSave(false);
-                }}
+                onClick={() =>
+                  handleEditCancel(setEdit, setPutUser, putUser, data, setSave)
+                }
               >
                 no cambiar {data}
               </button>
@@ -30,13 +31,9 @@ export const UserEdit = ({ usuario, putUser, setSave, data }) => {
           )}
           <input
             type="text"
-            onChange={(event) => {
-              putUser.changes.push({
-                name: data,
-                data: event.target.value,
-              });
-              setSave(true);
-            }}
+            onChange={(event) =>
+              handleInputChange(event, putUser, data, setPutUser, setSave)
+            }
           />
         </div>
       )}

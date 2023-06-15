@@ -18,9 +18,11 @@ const ProfilePage = () => {
     changes: [],
   });
 
+  console.log(putUser);
+
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
         .then(({ data }) => {
           setUsuario(data[0]);
           setPutUser({ ...putUser, userId: data[0].id });
@@ -39,24 +41,28 @@ const ProfilePage = () => {
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"userName"}
           />
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"age"}
           />
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"phone"}
           />
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"ubicacion"}
           />

@@ -13,6 +13,7 @@ export const hadlerUser = async (putUser, img) => {
     alert("Se ha cambiado tu perfil");
     window.location.reload();
   } catch (error) {
+    alert("parece que hubo un error")
     console.log("Parece que hubo un error:", error);
   }
 };
@@ -65,4 +66,37 @@ export const uploadImage = async (img) => {
     console.log("Parece que hubo un error:", error);
     return null;
   }
+};
+
+
+export const handleInputChange = (event, putUser, data, setPutUser, setSave) => {
+  const change = event.target.value;
+  if (change === "") {
+    const updatedChanges = putUser.changes.filter(
+      (changeObj) => changeObj.name !== data
+    );
+    setPutUser({
+      ...putUser,
+      changes: updatedChanges,
+    });
+  } else {
+    const updatedChanges = putUser.changes.filter(
+      (changeObj) => changeObj.name !== data
+    );
+    updatedChanges.push({ name: data, data: change });
+    setPutUser({
+      ...putUser,
+      changes: updatedChanges,
+    });
+  }
+  setSave(true);
+};
+
+export const handleEditCancel = (setEdit, setPutUser, putUser, data, setSave) => {
+  setEdit(false);
+  setPutUser({
+    ...putUser,
+    changes: putUser.changes.filter((change) => change.name !== data),
+  });
+  setSave(false);
 };
