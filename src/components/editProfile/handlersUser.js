@@ -11,7 +11,6 @@ export const hadlerUser = async (putUser, img) => {
   try {
     await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
     alert("Se ha cambiado tu perfil");
-    window.location.reload();
   } catch (error) {
     alert("parece que hubo un error")
     console.log("Parece que hubo un error:", error);

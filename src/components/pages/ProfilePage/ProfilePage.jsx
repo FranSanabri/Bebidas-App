@@ -8,8 +8,8 @@ import { UserRecord } from "../../editProfile/UserRecord";
 import { UserEditImage } from "../../editProfile/userEditImage";
 
 const ProfilePage = () => {
-  const { user } = useAuth0();
-  // const user = "administrado123@gmail.com";
+  // const { user } = useAuth0();
+  const user = "juanpabloaste00@gmail.com";
   const [usuario, setUsuario] = useState({});
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
@@ -18,9 +18,11 @@ const ProfilePage = () => {
     changes: [],
   });
 
+  console.log(putUser);
+
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user}`)
         .then(({ data }) => {
           setUsuario(data[0]);
           setPutUser({ ...putUser, userId: data[0].id });
@@ -39,24 +41,28 @@ const ProfilePage = () => {
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"userName"}
           />
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"age"}
           />
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"phone"}
           />
           <UserEdit
             usuario={usuario}
             putUser={putUser}
+            setPutUser={setPutUser}
             setSave={setSave}
             data={"ubicacion"}
           />
