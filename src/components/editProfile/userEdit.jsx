@@ -34,6 +34,7 @@ export const UserEdit = ({ usuario, putUser, setPutUser, setSave, data }) => {
             onChange={(event) =>
               handleInputChange(event, putUser, data, setPutUser, setSave)
             }
+            value={putUser.changes.find(changeObj => changeObj.name === data)?.data || ''}
           />
         </div>
       )}
