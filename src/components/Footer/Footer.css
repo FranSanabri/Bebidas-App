@@ -1,6 +1,5 @@
 .footer-container {
-  position: relative;
-  bottom: 0;
+  position: absolute;
   width: 100%;
   background-color: #2b2a2a; /* Cambia el color de fondo a un tono oscuro */
   color: #ffffff; /* Cambia el color del texto a blanco */
@@ -8,6 +7,7 @@
   display: flex;
   justify-content: space-between; /* Distribuye el contenido en ambos extremos */
   align-items: center;
+  margin-bottom: 0px;
 }
   
   .container {
