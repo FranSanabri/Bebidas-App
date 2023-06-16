@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import './EditarProducto.css';
 
 function ProductoEditar() {
   const { id } = useParams();
@@ -47,9 +48,10 @@ function ProductoEditar() {
   }
 
   return (
-    <div>
+    <div className="product-edit-container">
+      <h2>Editar Producto</h2>
       {/* Mostrar etiquetas y campos de entrada */}
-      <div>
+      <div className="input-container">
         <label>Name</label>
         <input
           type="text"
@@ -57,7 +59,7 @@ function ProductoEditar() {
           onChange={(e) => handleInputChange('name', e.target.value)}
         />
       </div>
-      <div>
+      <div className="input-container">
         <label>Price</label>
         <input
           type="number"
@@ -65,7 +67,7 @@ function ProductoEditar() {
           onChange={(e) => handleInputChange('price', Number(e.target.value))}
         />
       </div>
-      <div>
+      <div className="input-container">
         <label>Amount</label>
         <input
           type="number"
@@ -73,7 +75,7 @@ function ProductoEditar() {
           onChange={(e) => handleInputChange('amount', Number(e.target.value))}
         />
       </div>
-      <div>
+      <div className="input-container">
         <label>Container</label>
         <input
           type="text"
@@ -87,7 +89,7 @@ function ProductoEditar() {
       {errorMessage && <p>{errorMessage}</p>}
 
       {/* Botón para actualizar el producto */}
-      <button onClick={handleUpdate}>Actualizar Producto</button>
+      <button className="update-button" onClick={handleUpdate}>Actualizar Producto</button>
     </div>
   );
 }

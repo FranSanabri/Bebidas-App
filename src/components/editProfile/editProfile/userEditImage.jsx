@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { handleEditCancel, handleInputChange } from "./handlersUser";
 
-export const UserEdit = ({ usuario, putUser, setPutUser, setSave, data }) => {
+export const UserEditImage = ({ usuario, setSave, data, setImg }) => {
   const [edit, setEdit] = useState(false);
-
   return (
     <div>
       <h1>{data}</h1>
       {usuario[data] && !edit ? (
         <div>
-          <h2>{usuario[data]}</h2>
+          <img src={usuario[data]} alt="" />
           <button onClick={() => setEdit(true)}>Cambiar {data}</button>
         </div>
       ) : (
@@ -21,19 +19,24 @@ export const UserEdit = ({ usuario, putUser, setPutUser, setSave, data }) => {
           ) : (
             <div>
               <button
-                onClick={() =>
-                  handleEditCancel(setEdit, setPutUser, putUser, data, setSave)
-                }
+                onClick={() => {
+                  setEdit(false);
+                  setSave(false);
+                }}
               >
                 no cambiar {data}
               </button>
             </div>
           )}
           <input
-            type="text"
-            onChange={(event) =>
-              handleInputChange(event, putUser, data, setPutUser, setSave)
-            }
+            name="image"
+            type="file"
+            onChange={(event) => {
+              setSave(true);
+              setImg(event.target.files[0]);
+            }}
+            placeholder="I"
+            required
           />
         </div>
       )}
