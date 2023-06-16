@@ -1,5 +1,6 @@
 import styles from "./detail.module.css";
 import ImageDetail from "@/app/components/ImageDetail/img";
+import Paypal from './paypal'
 
 const fetchProducts = (id) => {
   return fetch(`http://localhost:3001/product/${id}`, {
@@ -12,7 +13,11 @@ const fetchProducts = (id) => {
 export default async function Detail({ params }) {
   const { id } = params;
   const products = await fetchProducts(id);
-
+const product={
+  name: products.name,
+  price: products.price,
+  description: products.description
+}
   return (
     <div className={styles.contains}>
       <div className={styles.containproduct}>
@@ -38,7 +43,7 @@ export default async function Detail({ params }) {
             {products.yearPacking ? (
               <h3>Año de empacado: {products.yearPacking}</h3>
             ) : null}
-            <button className={styles.button}>Comprar ahora</button>
+            <Paypal product={product}/>
           </div>
         </div>
       </div>

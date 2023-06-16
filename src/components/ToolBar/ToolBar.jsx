@@ -15,11 +15,17 @@ import {
   orderAll,
 } from "./handlers";
 import SearchResults from "../SearchResults/SearchResults";
+<<<<<<< HEAD
+import './ToolBar.css';
+
+const Toolbar = ({ activeFilter, onFilterChange }) => {
+=======
 import "./ToolBar.css";
 
 const Toolbar = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
   const [filteredResults, setFilteredResults] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [sabor, setSabor] = useState([]);
@@ -37,6 +43,38 @@ const Toolbar = () => {
   });
 
   useEffect(() => {
+<<<<<<< HEAD
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.post(
+          "https://servidor-vinos.onrender.com/product/filtrado?paginas=1&cantidad=10",
+          bodyFiltros
+        );
+        setFilteredResults(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error al filtrar productos:", error);
+      }
+    };
+
+    fetchData();
+  }, [bodyFiltros]);
+
+  const handleFilterChange = async (event) => {
+    const selectedFilter = event.target.value;
+    onFilterChange(selectedFilter); // Llamar a la función onFilterChange desde Tienda
+    setBodyFiltros({ ...bodyFiltros, tipos: selectedFilter }); // Actualizar el estado local
+
+    try {
+      const { data } = await axios.post(
+        "https://servidor-vinos.onrender.com/product/filtrado?paginas=1&cantidad=10",
+        { ...bodyFiltros, tipos: selectedFilter }
+      );
+      setFilteredResults(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error al filtrar productos:", error);
+=======
     axios
       .post(
         `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}&search=${search}`,
@@ -51,6 +89,7 @@ const Toolbar = () => {
           `https://servidor-vinos.onrender.com/filtros?name=marca${bodyFiltros.tipos}`
         )
         .then(({ data }) => setMarcas(data));
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
     }
   }, [bodyFiltros.tipos]);
   useEffect(() => {
@@ -96,7 +135,13 @@ const Toolbar = () => {
           }
         >
           <option value="">Todos</option>
+<<<<<<< HEAD
+          <option value="Came">Vinos</option>
+          <option value="Liqueur">Licores</option>
+          <option value="Tequila">Tequilas</option>
+=======
           <option value="Wine">Vinos</option>
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
           <option value="Beer">Cervezas</option>
           <option value="Tequila">Tequilas</option>
           <option value="Liqueur">Licores</option>

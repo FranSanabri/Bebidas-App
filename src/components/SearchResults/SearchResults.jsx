@@ -37,9 +37,15 @@ const SearchResults = ({ searchResults }) => {
           <div className="product-container">
             {searchResults.map((product) => (
               <div
+<<<<<<< HEAD
+                className="product-card"
+                key={product.id}
+                onClick={() => openModal(product)} // Abrir el modal al hacer clic en la tarjeta
+=======
                 className="product-card clickable"
                 key={product.id}
                 onClick={() => openModal(product)}
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
               >
                 <h4 className="product-name">{product.name}</h4>
                 <p className="product-info"> {product.brand}</p>
@@ -53,10 +59,13 @@ const SearchResults = ({ searchResults }) => {
                     alt={product.name}
                   />
                 )}
+<<<<<<< HEAD
+=======
                 <p className="product-info">${product.price}</p>
                 <Link to={`/Compra?name=${product.name}&amount=${product.price}`} >
                 <button className="buy-button"  >Comprar ya!</button>
                 </Link>
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
               </div>
             ))}
           </div>
@@ -65,6 +74,39 @@ const SearchResults = ({ searchResults }) => {
         <div class="loader"></div>
       )}
 
+<<<<<<< HEAD
+      <Modal
+        isOpen={selectedProduct !== null}
+        onRequestClose={closeModal}
+        contentLabel="Detalles del producto"
+        className="product-details-modal"
+        overlayClassName="product-details-overlay"
+      >
+        {selectedProduct && (
+          <div>
+            <h4>{selectedProduct.name}</h4>
+            <p>Tipo: {selectedProduct.type}</p>
+            <p>Contenido de alcohol: {selectedProduct.alcoholContent}%</p>
+            <p>Variedad: {selectedProduct.Variety}</p>
+            <p>Marca: {selectedProduct.brand}</p>
+            <p>Cantidad: {selectedProduct.amount} ml</p>
+            <p>Precio: ${selectedProduct.price}</p>
+            <p>Stock: {selectedProduct.stock}</p>
+            <p>Puede aplicar descuento: {selectedProduct.ableDiscount ? 'Sí' : 'No'}</p>
+            <p>Porcentaje de descuento: {selectedProduct.percentageDiscount}%</p>
+            <p>Contenedor: {selectedProduct.container}</p>
+            <p>Disponibilidad: {selectedProduct.availability ? 'Disponible' : 'No disponible'}</p>
+            <p>Veces vendido: {selectedProduct.sells}</p>
+            {selectedProduct.images.length > 0 && (
+              <img
+                className="selected-product-image"
+                src={selectedProduct.images[0]}
+                alt={selectedProduct.name}
+              />
+            )}
+            <button onClick={closeModal}>Cerrar</button>
+          </div>
+=======
       <Transition in={selectedProduct !== null} timeout={duration}>
         {(state) => (
           <Modal
@@ -119,6 +161,7 @@ const SearchResults = ({ searchResults }) => {
               )}
             </div>
           </Modal>
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
         )}
       </Transition>
     </div>
