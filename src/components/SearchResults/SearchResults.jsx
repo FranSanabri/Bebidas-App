@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { Transition } from "react-transition-group";
 import { MdClose } from "react-icons/md";
 import "./SearchResults.css";
+import { Link } from "react-router-dom";
 
 const SearchResults = ({ searchResults }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -53,7 +54,9 @@ const SearchResults = ({ searchResults }) => {
                   />
                 )}
                 <p className="product-info">${product.price}</p>
-                <button className="buy-button">Comprar ya!</button>
+                <Link to={`/Compra?name=${product.name}&amount=${product.price}`} >
+                <button className="buy-button"  >Comprar ya!</button>
+                </Link>
               </div>
             ))}
           </div>
