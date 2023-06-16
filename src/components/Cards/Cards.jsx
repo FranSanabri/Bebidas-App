@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import styles from './Cards.module.css'
+import s from './Cards.module.css'
 
 class CardProduct extends React.Component {
 

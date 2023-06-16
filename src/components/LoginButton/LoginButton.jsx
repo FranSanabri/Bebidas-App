@@ -13,6 +13,7 @@ const Login = () => {
     <li className="nav-item">
       <NavLink
         className="nav-links"
+        to="/login"
         onClick={handleClick}
       >
         Ingresar

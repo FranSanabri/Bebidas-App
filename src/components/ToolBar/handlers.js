@@ -1,0 +1,174 @@
+export const handlePreviousPage = (page, setPage) => {
+  if (page > 1) {
+    setPage(page - 1);
+  }
+};
+
+export const handleNextPage = (page, setPage) => {
+  setPage(page + 1);
+};
+
+export const handleSearchInputChange = (event, setSearch, setPage) => {
+  setPage(1);
+  setSearch(event.target.value);
+};
+
+export const handleTipos = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  setBodyFiltros({
+    ...bodyFiltros,
+    tipos: event.target.value,
+    Variedad: "",
+    marca: "",
+    envase: "",
+  });
+};
+
+export const handleMarca = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  setBodyFiltros({ ...bodyFiltros, marca: event.target.value });
+};
+
+export const handleSabor = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  setBodyFiltros({ ...bodyFiltros, Variedad: event.target.value });
+};
+
+export const handleContenedor = (
+  event,
+  bodyFiltros,
+  setBodyFiltros,
+  setPage
+) => {
+  setPage(1);
+  setBodyFiltros({ ...bodyFiltros, envase: event.target.value });
+};
+
+export const handleCask = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  setBodyFiltros({ ...bodyFiltros, cask: event.target.value });
+};
+
+export const handleContenido = (
+  event,
+  bodyFiltros,
+  setBodyFiltros,
+  setPage
+) => {
+  setPage(1);
+  let desde, hasta;
+  switch (parseInt(event.target.value)) {
+    case 400:
+      desde = 0;
+      hasta = 400;
+      break;
+    case 500:
+      desde = 401;
+      hasta = 500;
+      break;
+    case 700:
+      desde = 501;
+      hasta = 700;
+      break;
+    case 1000:
+      desde = 701;
+      hasta = 1000;
+      break;
+    default:
+      desde = 0;
+      hasta = 0;
+      break;
+  }
+  setBodyFiltros({
+    ...bodyFiltros,
+    contenido: { ...bodyFiltros.contenido, desde: desde, hasta: hasta },
+  });
+};
+
+export const handleporcentaje = (
+  event,
+  bodyFiltros,
+  setBodyFiltros,
+  setPage
+) => {
+  setPage(1);
+  let desde, hasta;
+  switch (parseInt(event.target.value)) {
+    case 5:
+      desde = 5;
+      hasta = 10;
+      break;
+    case 10:
+      desde = 10;
+      hasta = 25;
+      break;
+    case 25:
+      desde = 25;
+      hasta = 35;
+      break;
+    default:
+      desde = 0;
+      hasta = 0;
+      break;
+  }
+  setBodyFiltros({
+    ...bodyFiltros,
+    porcentajeDesc: {
+      ...bodyFiltros.porcentajeDesc,
+      desde: desde,
+      hasta: hasta,
+    },
+  });
+};
+
+export const handleOferta = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  setBodyFiltros({ ...bodyFiltros, ofertas: event.target.value });
+};
+
+export const orderAll = (event, bodyFiltros, setBodyFiltros, setPage) => {
+  setPage(1);
+  let name, order;
+  switch (event.target.value) {
+    case "precioAscendente":
+      name = "price";
+      order = "ASC";
+      break;
+    case "precioDescendente":
+      name = "price";
+      order = "DESC";
+      break;
+    case "alcoholAscendente":
+      name = "alcoholContent";
+      order = "ASC";
+      break;
+    case "alcoholDescendente":
+      name = "alcoholContent";
+      order = "DESC";
+      break;
+    case "amountAscendente":
+      name = "amount";
+      order = "ASC";
+      break;
+    case "amountDescendente":
+      name = "amount";
+      order = "DESC";
+      break;
+    case "ventasAscendente":
+      name = "sells";
+      order = "ASC";
+      break;
+    case "ventasDescendente":
+      name = "sells";
+      order = "DESC";
+      break;
+    default:
+      name = "";
+      order = "";
+      break;
+  }
+  setBodyFiltros({
+    ...bodyFiltros,
+    ordenarmiento: { ...bodyFiltros.ordenarmiento, name: name, order: order },
+  });
+};

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import NavBar from '../../Navbar/Navbar';
-import SearchBar from '../../SearchBar/SearchBar';
-import './Tienda.css';
-import Toolbar from '../../ToolBar/ToolBar';
-import SearchResults from '../../SearchResults/SearchResults';
-import Footer from '../../Footer/Footer';
+import React, { useState } from "react";
+import NavBar from "../../Navbar/Navbar";
+import "./Tienda.css";
+import Toolbar from "../../ToolBar/ToolBar";
+import Footer from "../../Footer/Footer";
 
 function Tienda() {
+<<<<<<< HEAD
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilter, setActiveFilter] = useState("");
@@ -76,6 +74,12 @@ function Tienda() {
       <div>
         <Footer className="footer" />
       </div>
+=======
+  return (
+    <div>
+      <NavBar />
+      <Toolbar />
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
     </div>
   );
 }

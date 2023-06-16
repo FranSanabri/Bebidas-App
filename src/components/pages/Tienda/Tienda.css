@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 620px;
   }
   
   .pagination button {
@@ -29,6 +29,7 @@
     cursor: not-allowed;
   }
   
+<<<<<<< HEAD
   @keyframes load-loop {
     0% {
       background-position: 100%;
@@ -85,4 +86,6 @@
     z-index: -1;
     animation: infinite 1.4s load-loop ease;
   }
+=======
+>>>>>>> 6553f089453cce068b9799221d91a10437ace453
   
