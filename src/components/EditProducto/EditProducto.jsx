@@ -67,8 +67,10 @@ function ProductoEditar() {
     }
   }, [product]);
 
-  const handleDescount = () => {
-    if (descuento) {
+  console.log(product);
+
+  const handleDescount = (e) => {
+    if (e.target.value === "false") {
       setDescuento(false);
       const update = putProduct.changes.filter(
         (changeObj) => changeObj.name !== "ableDiscount"
@@ -85,8 +87,8 @@ function ProductoEditar() {
     }
   };
 
-  const handleAvailability = () => {
-    if (habilitado) {
+  const handleAvailability = (e) => {
+    if (e.target.value === "false") {
       setHabilitado(false);
       const update = putProduct.changes.filter(
         (changeObj) => changeObj.name !== "availability"
@@ -102,7 +104,6 @@ function ProductoEditar() {
       setPutProduct({ ...putProduct, changes: update });
     }
   };
-
 
   if (!product) {
     return <p>Cargando...</p>;
@@ -121,6 +122,7 @@ function ProductoEditar() {
         data="type"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        setProduct={setProduct}
       />
       <ProductEdit
         product={product}
@@ -180,10 +182,11 @@ function ProductoEditar() {
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
       />
-      <div>
-        <label htmlFor="">Descuento</label>
-        <button onClick={handleDescount}>{descuento ? <p>true</p> : <p>false</p>}</button>
-      </div>
+
+      <select onChange={handleDescount}>
+        <option value={false}>Sin descuento</option>
+        <option value={true}>Con descuento</option>
+      </select>
       {descuento ? (
         <ProductEdit
           product={product}
@@ -204,10 +207,11 @@ function ProductoEditar() {
         create={create}
         dataFilt={`contenedor`}
       />
-      <div>
-        <label htmlFor="">habilitado</label>
-        <button onClick={handleAvailability}>{habilitado ? <p>true</p> : <p>false</p>}</button>
-      </div>
+
+      <select onChange={handleAvailability}>
+        <option value={false}>Sin habilitado</option>
+        <option value={true}>habilitado</option>
+      </select>
       <h3>ventas:{product.sells}</h3>
       <ProductEdit
         product={product}

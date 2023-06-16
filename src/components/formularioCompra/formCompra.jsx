@@ -41,7 +41,7 @@ export const FormCompra = () => {
 
     if (!error) {
       const { id } = paymentMethod;
-      const { data } = await axios.post("http://localhost:3001/buy", {
+      const { data } = await axios.post("https://servidor-vinos.onrender.com/buy", {
         amount,
         id,
         product,

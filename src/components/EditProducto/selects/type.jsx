@@ -10,6 +10,7 @@ export const TypeEdit = ({
   create,
   setCreate,
   dataFilt,
+  setProduct
 }) => {
   const [inputValue, setInputValue] = useState(product[data]);
   const [nuevo, setNuevo] = useState(false);
@@ -58,6 +59,11 @@ export const TypeEdit = ({
       );
       update.push({ name: data, data: change });
       setPutProduct({ ...PutProduct, changes: update });
+      if(setProduct){
+        setProduct((prevProduct) => {
+          return { ...prevProduct, type: change };
+        })
+      }
     }
   };
   return (

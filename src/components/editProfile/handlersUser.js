@@ -9,9 +9,7 @@ export const hadlerUser = async (putUser, img) => {
     });
   }
   try {
-    console.log("---------------hola");
-    const data = await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
-    console.log(data);
+    await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
     alert("Se ha cambiado tu perfil");
   } catch (error) {
     alert("parece que hubo un error")

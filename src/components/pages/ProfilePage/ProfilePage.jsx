@@ -8,8 +8,8 @@ import { UserRecord } from "../../editProfile/UserRecord";
 import { UserEditImage } from "../../editProfile/userEditImage";
 
 const ProfilePage = () => {
-  const { user } = useAuth0();
-  // const user = "administrado123@gmail.com";
+  // const { user } = useAuth0();
+  const user = "juanpabloaste00@gmail.com";
   const [usuario, setUsuario] = useState({});
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
@@ -22,7 +22,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user}`)
         .then(({ data }) => {
           setUsuario(data[0]);
           setPutUser({ ...putUser, userId: data[0].id });
