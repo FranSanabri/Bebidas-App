@@ -15,13 +15,13 @@ axios.defaults.baseURL = vercelUrl; // Establecer la URL base para las solicitud
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin}>
+    <React.StrictMode>
     <BrowserRouter>
-      <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin}>
         <App />
-      </Auth0Provider>
     </BrowserRouter>
   </React.StrictMode>,
+  </Auth0Provider>
 );
 
 reportWebVitals();
