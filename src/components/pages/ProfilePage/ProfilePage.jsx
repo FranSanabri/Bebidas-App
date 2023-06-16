@@ -219,8 +219,8 @@ const ProfilePage = () => {
                     handleInputChange(
                       event,
                       putUser,
-                      "ubicacion",
                       setPutUser,
+                      "ubicacion",
                       setSave
                     )
                   }
