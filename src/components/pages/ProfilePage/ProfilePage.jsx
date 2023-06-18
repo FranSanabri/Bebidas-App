@@ -11,13 +11,13 @@ import { UserRecord } from "../../editProfile/UserRecord";
 import { UserEditImage } from "../../editProfile/userEditImage";
 
 const ProfilePage = () => {
-  const { user } = useAuth0();
-  // const user = "juanpabloaste00@gmail.com";
+  // const { user } = useAuth0();
+  const user = "juanpabloaste00@gmail.com";
   const [usuario, setUsuario] = useState({});
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
   const [putUser, setPutUser] = useState({
-    userId: null,
+    userEmail: user,
     changes: [],
   });
 
@@ -26,14 +26,11 @@ const ProfilePage = () => {
   const [telefono, setTelefono] = useState(false);
   const [ubicacion, setUbicacion] = useState(false);
 
-  console.log(putUser);
-
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user}`)
         .then(({ data }) => {
           setUsuario(data[0]);
-          setPutUser({ ...putUser, userId: data[0].id });
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {

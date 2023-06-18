@@ -9,6 +9,7 @@ import Create from "./components/createProduct/Create";
 import { loadStripe } from "@stripe/stripe-js";
 import { FormCompra } from "./components/formularioCompra/formCompra";
 import { Elements } from "@stripe/react-stripe-js";
+import { Dashboard } from "./components/dashboard/dashboard";
 
 const stripePromise = loadStripe(
   "pk_test_51NJLe4DxCAER9P4mmVPMsglUYKPpkaHPAHQb6FADLILpEvvOyDLOeDnkqBpeCMr7XjshHIPAbjV5pJRDVSydQ1Zl00ko1MsssO"
@@ -24,7 +25,8 @@ function App() {
         <Route path="/editar/:id" element={<EditProducto />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/create" element={<Create />} />
-        <Route path="/Compra" element={<FormCompra />} />
+        <Route path="/compra" element={<FormCompra />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Elements>
   );

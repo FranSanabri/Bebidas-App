@@ -5,6 +5,7 @@ import axios from "axios";
 import { useLocation } from "react-router";
 import "./formCompra.css";
 import { NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const FormCompra = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +16,9 @@ export const FormCompra = () => {
   let amount = parseFloat(queryParams.get("amount"));
   const stripe = useStripe();
   const elements = useElements();
+  const {user} = useAuth0()
+
+  const email = user.name
 
   amount = parseInt(amount.toString().replace(".", ""));
 
@@ -45,9 +49,8 @@ export const FormCompra = () => {
         amount,
         id,
         product,
+        email,
       });
-
-      console.log(data);
     }
   };
 
