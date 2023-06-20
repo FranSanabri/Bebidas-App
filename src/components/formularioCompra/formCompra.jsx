@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./formCompra.css";
 import { NavLink } from "react-router-dom";
 
 export const FormCompra = () => {
   const [showModal, setShowModal] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const product = queryParams.get("name");
   let amount = parseFloat(queryParams.get("amount"));
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
 
   amount = parseInt(amount.toString().replace(".", ""));
 
@@ -41,13 +44,26 @@ export const FormCompra = () => {
 
     if (!error) {
       const { id } = paymentMethod;
-      const { data } = await axios.post("http://localhost:3001/buy", {
-        amount,
-        id,
-        product,
-      });
-
-      console.log(data);
+      try {
+        const { data } = await axios.post("http://localhost:3001/buy", {
+          amount,
+          id,
+          product,
+        });
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+          navigate("/Tienda");
+        }, 3000);
+        console.log(data);
+      } catch (error) {
+        setShowErrorMessage(true);
+        console.log(error);
+        setTimeout(() => {
+          setShowErrorMessage(false);
+          navigate("/Tienda");
+        }, 3000);
+      }
     }
   };
 
@@ -104,6 +120,16 @@ export const FormCompra = () => {
           </div>
         </Modal>
       </form>
+      {showSuccessMessage && (
+        <div className="message success-message">
+          ¡Compra realizada con éxito!
+        </div>
+      )}
+      {showErrorMessage && (
+        <div className="message error-message">
+          Hubo un problema al realizar el pago. Inténtalo nuevamente más tarde.
+        </div>
+      )}
     </div>
   );
 };
