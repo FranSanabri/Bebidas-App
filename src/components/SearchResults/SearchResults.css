@@ -387,6 +387,8 @@
       padding: 20px;
       width: 80%;
       max-width: 400px;
+      max-height: 500px; /* Agrega una altura máxima deseada */
+      overflow-y: auto; /* Agrega la barra de desplazamiento vertical */
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
     }

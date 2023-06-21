@@ -1,15 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { MdClose, MdShoppingCart } from "react-icons/md";
 import "./SearchResults.css";
 import { Link } from "react-router-dom";
+import { FormCompra } from "../formularioCompra/formCompra";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const SearchResults = ({ searchResults }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
+  let [cartItems, setCartItems] = useState([]);
+  const [cartBack, setCartBack] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showCartMenu, setShowCartMenu] = useState(false);
   const [animateCart, setAnimateCart] = useState(false);
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    if (storedCartItems) {
+      cartItems = JSON.parse(storedCartItems);
+      setCartItems(JSON.parse(storedCartItems));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+
+  const handlerClick = (id) => {
+    const updateCart = cartItems.filter((item) => {
+      if (item.product.id === id) {
+        const price = item.product.price * item.quantity;
+        const newTotal = totalPrice - price;
+        setTotalPrice(newTotal);
+      } else {
+        return item;
+      }
+    });
+    setCartItems(updateCart);
+  };
 
   const openModal = (product) => {
     setSelectedProduct(product);
@@ -20,44 +50,56 @@ const SearchResults = ({ searchResults }) => {
   };
 
   const addToCart = (product, event, quantity) => {
-    event.stopPropagation(); // Avoid propagating the click event to the parent container
-    const existingItem = cartItems.find((item) => item.product.id === product.id);
+    event.stopPropagation(); // Evitar propagar el evento de clic al contenedor principal
 
-    if (existingItem) {
-      const updatedQuantity = existingItem.quantity + quantity;
-      const updatedItems = cartItems.map((item) => {
-        if (item.product.id === product.id) {
-          return { ...item, quantity: updatedQuantity > 20 ? 20 : updatedQuantity };
-        }
-        return item;
-      });
+    if (product.stock > 0 && quantity <= product.stock) {
+      const existingItem = cartItems.find(
+        (item) => item.product.id === product.id
+      );
 
-      setCartItems(updatedItems);
+      if (existingItem) {
+        const updatedQuantity = existingItem.quantity + quantity;
+        const updatedItems = cartItems.map((item) => {
+          if (
+            item.product.id === product.id &&
+            updatedQuantity <= item.product.stock
+          ) {
+            return {
+              ...item,
+              quantity: updatedQuantity > 20 ? 20 : updatedQuantity,
+            };
+          }
+          return item;
+        });
+        setCartItems(updatedItems);
+      } else {
+        const newQuantity = quantity > 20 ? 20 : quantity;
+        setCartItems([...cartItems, { product, quantity: newQuantity }]);
+      }
+
+      setTotalPrice(totalPrice + product.price * quantity);
+      setAnimateCart(true); // Iniciar la animación
+      setTimeout(() => setAnimateCart(false), 1000); // Detener la animación después de 1 segundo
     } else {
-      const newQuantity = quantity > 20 ? 20 : quantity;
-      setCartItems([...cartItems, { product, quantity: newQuantity }]);
+      alert("El producto se ha quedado sin stock");
     }
-
-    setTotalPrice(totalPrice + product.price * quantity);
-    setAnimateCart(true); // Start the animation
-    setTimeout(() => setAnimateCart(false), 1000); // Stop the animation after 1 second
   };
 
   const toggleCartMenu = () => {
     setShowCartMenu(!showCartMenu);
   };
 
-  const totalAmount = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
-
-  const buyFromCart = (product) => {
-    const cartItem = cartItems.find((item) => item.product.id === product.id);
-    const quantity = cartItem ? cartItem.quantity : 1;
-    return `/Compra?name=${product.name}&amount=${product.price}&quantity=${quantity}`;
-  };
+  const totalAmount = cartItems.reduce(
+    (total, item) => total + item.product.price * item.quantity,
+    0
+  );
 
   return (
     <div>
-      <div className={`cart-icon ${animateCart ? "animate-shake" : ""}`} onClick={toggleCartMenu}>
+      <div
+        className={`cart-icon ${animateCart ? "animate-shake" : ""}`}
+        onClick={toggleCartMenu}
+      >
         <MdShoppingCart size={24} />
         <span className="cart-items-count">{cartItems.length}</span>
       </div>
@@ -74,11 +116,12 @@ const SearchResults = ({ searchResults }) => {
               >
                 <h4 className="product-name">{product.name}</h4>
                 <p className="product-info"> {product.brand}</p>
-                <p className="product-disponibilidad">
-                  {product.availability ? "Disponible" : "No disponible"}
-                </p>
                 {product.images.length > 0 && (
-                  <img className="product-image" src={product.images[0]} alt={product.name} />
+                  <img
+                    className="product-image"
+                    src={product.images[0]}
+                    alt={product.name}
+                  />
                 )}
                 <p className="product-info">${product.price}</p>
                 <div className="quantity-container">
@@ -93,15 +136,16 @@ const SearchResults = ({ searchResults }) => {
                   <button
                     className="add-to-cart-button"
                     onClick={(event) =>
-                      addToCart(product, event, parseInt(event.target.previousSibling.value))
+                      addToCart(
+                        product,
+                        event,
+                        parseInt(event.target.previousSibling.value)
+                      )
                     }
                   >
                     Agregar al carrito
                   </button>
                 </div>
-                <Link to={buyFromCart(product)}>
-                  <button className="buy-button">Comprar</button>
-                </Link>
               </div> : null
             ))}
           </div>
@@ -132,10 +176,20 @@ const SearchResults = ({ searchResults }) => {
                 <p>Cantidad: {selectedProduct.amount} ml</p>
                 <p>Precio: ${selectedProduct.price}</p>
                 <p>Stock: {selectedProduct.stock}</p>
-                <p>Puede aplicar descuento: {selectedProduct.ableDiscount ? "Sí" : "No"}</p>
-                <p>Porcentaje de descuento: {selectedProduct.percentageDiscount}%</p>
+                <p>
+                  Puede aplicar descuento:{" "}
+                  {selectedProduct.ableDiscount ? "Sí" : "No"}
+                </p>
+                <p>
+                  Porcentaje de descuento: {selectedProduct.percentageDiscount}%
+                </p>
                 <p>Contenedor: {selectedProduct.container}</p>
-                <p>Disponibilidad: {selectedProduct.availability ? "Disponible" : "No disponible"}</p>
+                <p>
+                  Disponibilidad:{" "}
+                  {selectedProduct.availability
+                    ? "Disponible"
+                    : "No disponible"}
+                </p>
                 <p>Veces vendido: {selectedProduct.sells}</p>
                 {selectedProduct.images.length > 0 && (
                   <img
@@ -160,6 +214,9 @@ const SearchResults = ({ searchResults }) => {
                   <div className="cart-item-details">
                     <p className="cart-item-name">
                       {item.product.name} (x{item.quantity})
+                      <button onClick={() => handlerClick(item.product.id)}>
+                        X
+                      </button>
                     </p>
                     <p className="cart-item-price">${item.product.price}</p>
                   </div>
@@ -170,14 +227,17 @@ const SearchResults = ({ searchResults }) => {
                       alt={item.product.name}
                     />
                   )}
-                  <Link to={buyFromCart(item.product)}>
-                    <button className="buy-button">Comprar</button>
-                  </Link>
                 </div>
               </li>
             ))}
           </ul>
-          <p className="cart-total">Total: ${totalAmount}</p>
+          <p className="cart-total">Total: ${totalAmount.toFixed(2)}</p>
+          <FormCompra
+            cartItems={cartItems}
+            setCartItems={setCartItems}
+            totalPrice={totalPrice}
+            setTotalPrice={setTotalPrice}
+          />
           <button className="close-cart-button" onClick={toggleCartMenu}>
             Cerrar
           </button>

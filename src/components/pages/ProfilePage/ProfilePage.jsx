@@ -16,7 +16,7 @@ const ProfilePage = () => {
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
   const [putUser, setPutUser] = useState({
-    userId: null,
+    userEmail: usuario.email,
     changes: [],
   });
 
@@ -25,14 +25,11 @@ const ProfilePage = () => {
   const [telefono, setTelefono] = useState(false);
   const [ubicacion, setUbicacion] = useState(false);
 
-  console.log(putUser);
-
   useEffect(() => {
     if (user) {
       axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
         .then(({ data }) => {
-          setUsuario(data[0]);
-          setPutUser({ ...putUser, userId: data[0].id });
+          setUsuario(data);
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {

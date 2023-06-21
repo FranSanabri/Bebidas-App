@@ -22,11 +22,11 @@ export const Dashboard = () => {
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {
-      alert("Ha ocurrido un error");
+      alert("No has iniciado sesion");
     }
   }, []);
 
-  if (usuario) {
+  if (usuario.admin) {
     return (
       <div className="dashboard-container">
         <div className="sidebar">

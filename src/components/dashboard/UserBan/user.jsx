@@ -4,8 +4,8 @@ import { useState } from "react";
 export const User = ({ user }) => {
   const [usuario, setUsuario] = useState(user);
 
-  const handleClick = async () => {
-    const newBan = !usuario.ban;
+  const handlerClick = async () => {
+    let newBan = !usuario.ban ? true : false;
     setUsuario({ ...usuario, ban: newBan });
     await axios.put(`https://servidor-vinos.onrender.com/users/put`, {
       userEmail: usuario.email,
@@ -31,7 +31,7 @@ export const User = ({ user }) => {
         </h2>
         <h2 style={{ fontSize: "1rem", color: "#888" }}>{usuario.email}</h2>
         <button
-          onClick={handleClick}
+          onClick={handlerClick}
           style={{
             marginTop: "0.5rem",
             padding: "0.5rem 1rem",
