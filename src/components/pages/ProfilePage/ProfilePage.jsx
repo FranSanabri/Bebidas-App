@@ -23,11 +23,11 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
         .then(({ data }) => {
           setUsuario(data);
           setPutUser({
-            userEmail: user.name,
+            userEmail: user.email,
             changes: [],
           });
         })

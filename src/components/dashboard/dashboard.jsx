@@ -16,7 +16,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
         .then(({ data }) => {
           setUsuario(data);
         })
