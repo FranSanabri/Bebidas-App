@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/pages/Home/Home";
 import Tienda from "./components/pages/Tienda/Tienda";
@@ -10,38 +9,13 @@ import Create from "./components/createProduct/Create";
 import { loadStripe } from "@stripe/stripe-js";
 import { FormCompra } from "./components/formularioCompra/formCompra";
 import { Elements } from "@stripe/react-stripe-js";
+import { Dashboard } from "./components/dashboard/dashboard";
 
 const stripePromise = loadStripe(
   "pk_test_51NJLe4DxCAER9P4mmVPMsglUYKPpkaHPAHQb6FADLILpEvvOyDLOeDnkqBpeCMr7XjshHIPAbjV5pJRDVSydQ1Zl00ko1MsssO"
 );
 
 function App() {
-  const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
-
-  useEffect(() => {
-    const storedAuth = localStorage.getItem("auth");
-    if (storedAuth && !isAuthenticated) {
-      const parsedAuth = JSON.parse(storedAuth);
-      if (parsedAuth.accessToken && parsedAuth.idToken) {
-        loginWithRedirect({
-          appState: { targetUrl: window.location.pathname },
-        });
-      }
-    }
-  }, [isAuthenticated, loginWithRedirect]);
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const authData = {
-        accessToken: user?.accessToken,
-        idToken: user?.idToken,
-      };
-      localStorage.setItem("auth", JSON.stringify(authData));
-    } else {
-      localStorage.removeItem("auth");
-    }
-  }, [isAuthenticated, user]);
-
   return (
     <Elements stripe={stripePromise}>
       <Routes>
@@ -51,7 +25,8 @@ function App() {
         <Route path="/editar/:id" element={<EditProducto />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/create" element={<Create />} />
-        <Route path="/Compra" element={<FormCompra />} />
+        <Route path="/compra" element={<FormCompra />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Elements>
   );

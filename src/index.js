@@ -15,7 +15,7 @@ axios.defaults.baseURL = vercelUrl; // Establecer la URL base para las solicitud
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin}>
+  <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin} cacheLocation="localstorage" useRefreshTokens>
     <React.StrictMode>
     <BrowserRouter>
         <App />

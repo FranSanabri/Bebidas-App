@@ -1,67 +1,63 @@
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-  }
-
-  .form {
-    left: 580px;
-    position: sticky;
-    display: grid;
-    min-height:450px;
-    width:400px;
-    margin:50px 15px;
-    cursor:pointer;
-    background-color: rgba(19, 0, 97, 0);
-    border: 1px solid #0026ff00;
-    border-radius: 0px;
-    
-  }
-  
-  
-  label {
-    margin-bottom: 10px;
-    font-weight: bold;
-    
-  }
-  
-  input,
-  select {
-    padding: 8px;
-    margin-bottom: 10px;
-    text-align:center;
-    color: initial;
-    font-family: cursive;
-    font-size: 20px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  /* Estilos para el NavBar (se puede ajustar según tus necesidades) */
-  .NavBar {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  /* Estilos para mensajes de error */
-  .error {
-    color: #ff0000;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-  
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+}
 
 .label {
   display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 8px;
+  color: initial;
+  font-family: cursive;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el NavBar (se puede ajustar según tus necesidades) */
+.NavBar {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Estilos para mensajes de error */
+.error {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
 }
