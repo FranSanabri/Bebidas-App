@@ -37,6 +37,8 @@ const ProfilePage = () => {
     }
   }, []);
 
+  console.log(user);
+
   return (
     <div>
       <h1>Página de perfil</h1>
