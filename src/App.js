@@ -16,15 +16,29 @@ const stripePromise = loadStripe(
 );
 
 function App() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth && !isAuthenticated) {
+      const parsedAuth = JSON.parse(storedAuth);
+      if (parsedAuth.accessToken && parsedAuth.idToken) {
+        loginWithRedirect({
+          appState: { targetUrl: window.location.pathname },
+        });
+      }
+    }
+  }, [isAuthenticated, loginWithRedirect]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
-      localStorage.setItem("user", JSON.stringify(user));
+      const authData = {
+        accessToken: user?.accessToken,
+        idToken: user?.idToken,
+      };
+      localStorage.setItem("auth", JSON.stringify(authData));
     } else {
-      localStorage.removeItem("isAuthenticated");
-      localStorage.removeItem("user");
+      localStorage.removeItem("auth");
     }
   }, [isAuthenticated, user]);
 
