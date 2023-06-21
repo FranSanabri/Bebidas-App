@@ -66,6 +66,7 @@ const SearchResults = ({ searchResults }) => {
         <div className="search-results">
           <div className="product-container">
             {searchResults.map((product) => (
+              product.availability ?
               <div
                 className="product-card clickable"
                 key={product.id}
@@ -101,7 +102,7 @@ const SearchResults = ({ searchResults }) => {
                 <Link to={buyFromCart(product)}>
                   <button className="buy-button">Comprar</button>
                 </Link>
-              </div>
+              </div> : null
             ))}
           </div>
         </div>
