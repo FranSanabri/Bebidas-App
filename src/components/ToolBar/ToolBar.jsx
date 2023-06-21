@@ -39,7 +39,7 @@ const Toolbar = () => {
   useEffect(() => {
     axios
       .post(
-        `http://localhost:3001/product/filtrado?paginas=${page}&search=${search}`,
+        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}&search=${search}`,
         bodyFiltros
       )
       .then(({ data }) => setFilteredResults(data));

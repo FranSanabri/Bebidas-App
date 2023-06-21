@@ -14,9 +14,6 @@ const SearchResults = ({ searchResults }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [showCartMenu, setShowCartMenu] = useState(false);
   const [animateCart, setAnimateCart] = useState(false);
-  // const { user } = useAuth0();
-
-  const user = { name: "juanpabloaste00@gmail.com" };
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
@@ -30,7 +27,6 @@ const SearchResults = ({ searchResults }) => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  console.log(cartItems);
 
   const handlerClick = (id) => {
     const updateCart = cartItems.filter((item) => {
@@ -112,6 +108,7 @@ const SearchResults = ({ searchResults }) => {
         <div className="search-results">
           <div className="product-container">
             {searchResults.map((product) => (
+              product.availability ?
               <div
                 className="product-card clickable"
                 key={product.id}
@@ -149,7 +146,7 @@ const SearchResults = ({ searchResults }) => {
                     Agregar al carrito
                   </button>
                 </div>
-              </div>
+              </div> : null
             ))}
           </div>
         </div>

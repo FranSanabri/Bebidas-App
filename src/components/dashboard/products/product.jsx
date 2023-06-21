@@ -43,26 +43,76 @@ export const Product = ({ product }) => {
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        borderBottom: "1px solid #ccc",
+        padding: "0.5rem",
+      }}
+    >
       {product.name ? (
         <div
-          style={{ display: "flex", marginLeft: "15rem", marginBottom: "1rem" }}
+          style={{
+            display: "flex",
+            marginLeft: "15rem",
+            marginBottom: "1rem",
+          }}
         >
           <img
             src={product.images[0]}
             alt=""
-            style={{ maxWidth: "50px", maxHeight: "50px" }}
+            style={{
+              maxWidth: "50px",
+              maxHeight: "50px",
+              borderRadius: "4px",
+              marginRight: "1rem",
+            }}
           />
-          <h2>{product.name}</h2>
-          <h2>stock:{product.stock}</h2>
+          <h2
+            style={{
+              marginLeft: "1rem",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+            }}
+          >
+            {product.name}
+          </h2>
           <button
             onClick={handleClick}
-            style={{ maxWidth: "50px", maxHeight: "30px" }}
+            style={{
+              width: "100px",
+              height: "30px",
+              marginLeft: "1rem",
+              backgroundColor: habilitado.changes[0].data ? "green" : "red",
+              color: "white",
+              borderRadius: "4px",
+              border: "none",
+              cursor: "pointer",
+              textTransform: "uppercase",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            {habilitado.changes[0].data + ""}
+            {habilitado.changes[0].data ? "Enabled" : "Disabled"}
           </button>
           <Link to={`/editar/${product.id}`}>
-            <button>Editar</button>
+            <button
+              style={{
+                marginLeft: "1rem",
+                backgroundColor: "blue",
+                color: "white",
+                borderRadius: "4px",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "bold",
+                padding: "0.5rem 1rem",
+              }}
+            >
+              Editar
+            </button>
           </Link>
         </div>
       ) : null}

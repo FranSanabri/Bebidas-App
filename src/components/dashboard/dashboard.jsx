@@ -5,38 +5,38 @@ import { Ventas } from "./ventas/ventas";
 import { Link } from "react-router-dom";
 import { UserBan } from "./UserBan/userBan";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./dashboard.css";
 
 export const Dashboard = () => {
-  const user = "administrado123@gmail.com";
   const [usuario, setUsuario] = useState({});
   const [product, setProducts] = useState(true);
   const [ventas, setVentas] = useState(false);
-  const [users, setUsers] = useState(false)
-  // const {user} = useAuth0()
+  const [users, setUsers] = useState(false);
+  const { user } = useAuth0();
 
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
         .then(({ data }) => {
           setUsuario(data);
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {
-      alert("a ocurrido un error");
+      alert("No has iniciado sesion");
     }
   }, []);
 
   if (usuario.admin) {
     return (
-      <div style={{ display: "flex" }}>
-        <div style={{display: "flex", justifyContent: "space-between", position: "fixed" }} >
+      <div className="dashboard-container">
+        <div className="sidebar">
           <button
             onClick={() => {
               setProducts(false);
               setVentas(true);
-              setUsers(false)
+              setUsers(false);
             }}
-            style={{ width: "100px", height: "40px" }}
+            className={`sidebar-button ${ventas ? "active" : ""}`}
           >
             Ventas
           </button>
@@ -44,25 +44,27 @@ export const Dashboard = () => {
             onClick={() => {
               setProducts(true);
               setVentas(false);
-              setUsers(false)
+              setUsers(false);
             }}
-            style={{ width: "100px", height: "40px" }}
+            className={`sidebar-button ${product ? "active" : ""}`}
           >
             Productos
           </button>
-          <button onClick={() => {
+          <button
+            onClick={() => {
               setProducts(false);
               setVentas(false);
-              setUsers(true)
+              setUsers(true);
             }}
-            style={{ width: "100px", height: "40px" }}>Users</button>
-          <Link to="/Create">
-            <button style={{ width: "100px", height: "50px" }}>
-              Crear Productos
-            </button>
+            className={`sidebar-button ${users ? "active" : ""}`}
+          >
+            Usuarios
+          </button>
+          <Link to="/Create" className="create-product-button">
+            Crear Producto
           </Link>
         </div>
-        <div style={{marginTop:"70px"}} >
+        <div className="content">
           {product && !ventas && !users ? <Products /> : null}
           {!product && ventas && !users ? <Ventas /> : null}
           {!product && !ventas && users ? <UserBan /> : null}

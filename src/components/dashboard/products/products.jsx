@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Product } from "./product";
 import { handleNextPage, handlePreviousPage } from "../../ToolBar/handlers";
+import "./products.css";
 
 export const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,28 +20,33 @@ export const Products = () => {
       });
   }, [pages, search]);
 
-
   return (
-    <div>
+    <div className="products-container">
       {products.length ? (
         <div>
           {products.map((product) => {
             return <Product product={product} />;
           })}
         </div>
-      ) : <h1>Cargando</h1> }
-      <button
-        onClick={() => handlePreviousPage(pages, setPages)}
-        disabled={pages === 1}
-      >
-        Anterior
-      </button>
-      <button
-        onClick={() => handleNextPage(pages, setPages)}
-        disabled={!products.length || products.length / 10 < 1}
-      >
-        Siguiente
-      </button>
+      ) : (
+        <h1 className="products-loading">Cargando</h1>
+      )}
+      <div className="pagination-buttons">
+        <button
+          className="pagination-button"
+          onClick={() => handlePreviousPage(pages, setPages)}
+          disabled={pages === 1}
+        >
+          Anterior
+        </button>
+        <button
+          className="pagination-button"
+          onClick={() => handleNextPage(pages, setPages)}
+          disabled={!products.length || products.length / 10 < 1}
+        >
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 };

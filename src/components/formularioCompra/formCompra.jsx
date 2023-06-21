@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./formCompra.css";
-import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const FormCompra = ({
@@ -13,6 +12,7 @@ export const FormCompra = ({
   totalPrice,
   setTotalPrice,
 }) => {
+  // const email = "juanpabloaste00@gmail.com";
   const [showModal, setShowModal] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -24,6 +24,7 @@ export const FormCompra = ({
   const { user } = useAuth0();
   const total = totalPrice * 100;
   const amount = ~~total;
+  const navigate = useNavigate();
   let products = "";
   let historial = usuario.record ? usuario.record : [];
   for (const product of cartItems) {
@@ -47,21 +48,14 @@ export const FormCompra = ({
   };
 
   useEffect(() => {
-    if (email) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${email}`)
+    if (user) {
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
         .then(({ data }) => {
           setUsuario(data);
         })
         .catch((error) => console.log("parece que hubo un error:", error));
-    } else {
-      alert("Inicia sesion para poder comprar");
-      navigate("/login");
     }
   }, []);
-
-  // const email = user.name
-  const email = "juanpabloaste00@gmail.com";
-  const navigate = useNavigate();
 
   const cardElementOptions = {
     style: {
@@ -78,12 +72,12 @@ export const FormCompra = ({
   };
 
   const putUser = {
-    userEmail: email,
+    userEmail: usuario.email,
     changes: [{ name: "record", data: historial }],
   };
 
   const handlerUser = async () => {
-    if (email) {
+    if (usuario.email) {
       await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
     } else {
       alert("Inicia sesion para poder comprar");
@@ -99,20 +93,26 @@ export const FormCompra = ({
     });
 
     if (!error) {
+      if (usuario && !usuario.email) {
+        alert("No has iniciado sesion, no puedes comprar productos");
+      }
       if (usuario && usuario.ban) {
-        alert("No puedes comrar estas baneado");
-      } else if (usuario && !usuario.age) {
+        alert("No puedes comprar estas baneado");
+      } else if (usuario && usuario.email && !usuario.age) {
         alert("no has completado tu informacion de usuario");
         navigate("/profilepage");
-      } else if (usuario && !alcohol) {
+      } else if (usuario && usuario.email && !alcohol) {
         const { id } = paymentMethod;
         try {
-          const { data } = await axios.post("http://localhost:3001/buy", {
-            products,
-            id,
-            email,
-            amount,
-          });
+          const { data } = await axios.post(
+            "https://servidor-vinos.onrender.com/buy",
+            {
+              products,
+              id,
+              email: usuario.email,
+              amount,
+            }
+          );
           setShowSuccessMessage(true);
           setTimeout(() => {
             setShowSuccessMessage(false);
@@ -135,12 +135,15 @@ export const FormCompra = ({
       } else if (usuario && alcohol && usuario.age >= 18) {
         const { id } = paymentMethod;
         try {
-          const { data } = await axios.post("http://localhost:3001/buy", {
-            products,
-            id,
-            email,
-            amount,
-          });
+          const { data } = await axios.post(
+            "https://servidor-vinos.onrender.com/buy",
+            {
+              products,
+              id,
+              email: usuario.email,
+              amount,
+            }
+          );
           setShowSuccessMessage(true);
           setTimeout(() => {
             setShowSuccessMessage(false);
