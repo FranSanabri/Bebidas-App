@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const Venta = ({ vent }) => {
+export const Venta = ({ vent, pendientes }) => {
   const [pedido, setPedido] = useState({});
 
   useEffect(() => {
     axios
-      .get(`https://servidor-vinos.onrender.com/pedidos/id?idUser=${vent.payment_intent}`)
+      .get(
+        `https://servidor-vinos.onrender.com/pedidos/id?idUser=${vent.payment_intent}`
+      )
       .then(({ data }) => setPedido(data))
       .catch((error) => console.log(error));
   }, []);
@@ -20,14 +22,38 @@ export const Venta = ({ vent }) => {
   };
 
   return (
-    <div style={{ display: "flex", marginLeft: "1rem", marginBottom: "1rem" }}>
-      <h2>{vent.description}</h2>
-      <h2>{vent.amount / 100}</h2>
-      <h2>{vent.receipt_email}</h2>
-      <h2>{vent.billing_details.address.postal_code}</h2>
-      <button onClick={() => handleClick(pedido.estado, vent.payment_intent)}>
-        {pedido.estado}
-      </button>
+    <div>
+      {!pendientes ? (
+        <div
+          style={{ display: "flex", marginLeft: "1rem", marginBottom: "1rem" }}
+        >
+          <h2>{vent.description}</h2>
+          <h2>{vent.amount / 100}</h2>
+          <h2>{vent.receipt_email}</h2>
+          <h2>{vent.billing_details.address.postal_code}</h2>
+          <button
+            onClick={() => handleClick(pedido.estado, vent.payment_intent)}
+          >
+            {pedido.estado}
+          </button>
+        </div>
+      ) : null}
+
+      {pendientes && pedido.estado === "pending" ? (
+        <div
+          style={{ display: "flex", marginLeft: "1rem", marginBottom: "1rem" }}
+        >
+          <h2>{vent.description}</h2>
+          <h2>{vent.amount / 100}</h2>
+          <h2>{vent.receipt_email}</h2>
+          <h2>{vent.billing_details.address.postal_code}</h2>
+          <button
+            onClick={() => handleClick(pedido.estado, vent.payment_intent)}
+          >
+            {pedido.estado}
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };

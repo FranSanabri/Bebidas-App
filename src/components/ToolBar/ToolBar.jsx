@@ -39,34 +39,30 @@ const Toolbar = () => {
   useEffect(() => {
     axios
       .post(
-        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}&search=${search}`,
+        `http://localhost:3001/product/filtrado?paginas=${page}&search=${search}`,
         bodyFiltros
       )
       .then(({ data }) => setFilteredResults(data));
   }, [bodyFiltros, page, search]);
   useEffect(() => {
     if (bodyFiltros.tipos !== "") {
-      axios
-        .get(
+      Promise.all([
+        axios.get(
           `https://servidor-vinos.onrender.com/filtros?name=marca${bodyFiltros.tipos}`
-        )
-        .then(({ data }) => setMarcas(data));
-    }
-  }, [bodyFiltros.tipos]);
-  useEffect(() => {
-    if (bodyFiltros.tipos !== "") {
-      axios
-        .get(
+        ),
+        axios.get(
           `https://servidor-vinos.onrender.com/filtros?name=sabor${bodyFiltros.tipos}`
-        )
-        .then(({ data }) => setSabor(data));
-    }
-  }, [bodyFiltros.tipos]);
-  useEffect(() => {
-    if (bodyFiltros.tipos !== "") {
-      axios
-        .get(`https://servidor-vinos.onrender.com/filtros?name=contenedor`)
-        .then(({ data }) => setContenedor(data));
+        ),
+        axios.get(
+          `https://servidor-vinos.onrender.com/filtros?name=contenedor`
+        ),
+      ])
+        .then(([marcasResponse, saborResponse, contenedorResponse]) => {
+          setMarcas(marcasResponse.data);
+          setSabor(saborResponse.data);
+          setContenedor(contenedorResponse.data);
+        })
+        .catch((error) => {});
     }
   }, [bodyFiltros.tipos]);
 
@@ -237,7 +233,7 @@ const Toolbar = () => {
         </button>
         <button
           onClick={() => handleNextPage(page, setPage)}
-          disabled={!filteredResults.length || (filteredResults.length / 10 < 1)}
+          disabled={!filteredResults.length || filteredResults.length / 10 < 1}
         >
           Siguiente
         </button>

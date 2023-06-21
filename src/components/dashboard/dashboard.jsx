@@ -7,16 +7,16 @@ import { UserBan } from "./UserBan/userBan";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const Dashboard = () => {
-  // const user = "administrado123@gmail.com";
+  const user = "administrado123@gmail.com";
   const [usuario, setUsuario] = useState({});
   const [product, setProducts] = useState(true);
   const [ventas, setVentas] = useState(false);
   const [users, setUsers] = useState(false)
-  const {user} = useAuth0()
+  // const {user} = useAuth0()
 
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user}`)
         .then(({ data }) => {
           setUsuario(data);
         })
@@ -29,7 +29,7 @@ export const Dashboard = () => {
   if (usuario.admin) {
     return (
       <div style={{ display: "flex" }}>
-        <div style={{display:"flex", flexDirection:"column"}} >
+        <div style={{display: "flex", justifyContent: "space-between", position: "fixed" }} >
           <button
             onClick={() => {
               setProducts(false);
@@ -62,7 +62,7 @@ export const Dashboard = () => {
             </button>
           </Link>
         </div>
-        <div>
+        <div style={{marginTop:"70px"}} >
           {product && !ventas && !users ? <Products /> : null}
           {!product && ventas && !users ? <Ventas /> : null}
           {!product && !ventas && users ? <UserBan /> : null}

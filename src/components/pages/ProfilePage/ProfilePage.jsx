@@ -30,7 +30,7 @@ const ProfilePage = () => {
     if (user) {
       axios(`https://servidor-vinos.onrender.com/users?email=${user}`)
         .then(({ data }) => {
-          setUsuario(data[0]);
+          setUsuario(data);
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {

@@ -40,7 +40,7 @@ const Create = () => {
           "https://servidor-vinos.onrender.com/product/postProduct",
           form
         );
-        alert("Se ha cambiado tu perfil");
+        alert("Se ha creado el producto");
         window.location.reload();
       } catch (error) {
         alert("Parece que hubo un error");

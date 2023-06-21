@@ -8,7 +8,6 @@ export const Product = ({ product }) => {
     changes: [{ name: "availability", data: product.availability }],
   });
 
-
   const handleClick = () => {
     if (habilitado.changes[0].data) {
       setHabilitado({
@@ -20,7 +19,7 @@ export const Product = ({ product }) => {
           },
         ],
       });
-      habilitado.changes[0].data = false
+      habilitado.changes[0].data = false;
       axios.put(
         "https://servidor-vinos.onrender.com/product/putProduct",
         habilitado
@@ -35,7 +34,7 @@ export const Product = ({ product }) => {
           },
         ],
       });
-      habilitado.changes[0].data = true
+      habilitado.changes[0].data = true;
       axios.put(
         "https://servidor-vinos.onrender.com/product/putProduct",
         habilitado
@@ -46,13 +45,16 @@ export const Product = ({ product }) => {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       {product.name ? (
-        <div style={{ display: "flex", marginLeft: "15rem", marginBottom: "1rem"  }}>
+        <div
+          style={{ display: "flex", marginLeft: "15rem", marginBottom: "1rem" }}
+        >
           <img
             src={product.images[0]}
             alt=""
             style={{ maxWidth: "50px", maxHeight: "50px" }}
           />
           <h2>{product.name}</h2>
+          <h2>stock:{product.stock}</h2>
           <button
             onClick={handleClick}
             style={{ maxWidth: "50px", maxHeight: "30px" }}
