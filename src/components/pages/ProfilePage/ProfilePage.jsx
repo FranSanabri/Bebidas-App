@@ -15,11 +15,7 @@ const ProfilePage = () => {
   const [usuario, setUsuario] = useState({});
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
-  const [putUser, setPutUser] = useState({
-    userEmail: usuario.email,
-    changes: [],
-  });
-
+  const [putUser, setPutUser] = useState({});
   const [name, setName] = useState(false);
   const [edad, setEdad] = useState(false);
   const [telefono, setTelefono] = useState(false);
@@ -30,6 +26,10 @@ const ProfilePage = () => {
       axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
         .then(({ data }) => {
           setUsuario(data);
+          setPutUser({
+            userEmail: user.name,
+            changes: [],
+          });
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {
