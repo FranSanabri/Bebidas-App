@@ -5,17 +5,21 @@ import {
   handleContenedor,
   handleContenido,
   handleMarca,
+  handleNextPage,
   handleOferta,
+  handlePreviousPage,
   handleSabor,
+  handleSearchInputChange,
   handleTipos,
   handleporcentaje,
   orderAll,
-} from "../handlersFilter/handlers";
+} from "./handlers";
 import SearchResults from "../SearchResults/SearchResults";
 import "./ToolBar.css";
 
-const Toolbar = ({ currentPage }) => {
-  const page = currentPage;
+const Toolbar = () => {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [sabor, setSabor] = useState([]);
@@ -35,11 +39,11 @@ const Toolbar = ({ currentPage }) => {
   useEffect(() => {
     axios
       .post(
-        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}`,
+        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}&search=${search}`,
         bodyFiltros
       )
       .then(({ data }) => setFilteredResults(data));
-  }, [bodyFiltros, page]);
+  }, [bodyFiltros, page, search]);
   useEffect(() => {
     if (bodyFiltros.tipos !== "") {
       axios
@@ -68,10 +72,28 @@ const Toolbar = ({ currentPage }) => {
 
   return (
     <div>
+      <div>
+        <div className="search-bar-container">
+          <div className="search-bar-wrapper">
+            <div className="search-bar-input">
+              <input
+                type="text"
+                value={search}
+                onChange={(event) =>
+                  handleSearchInputChange(event, setSearch, setPage)
+                }
+                placeholder="Busca tus bebidas"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="filtros">
         <select
           className="select"
-          onChange={(event) => handleTipos(event, bodyFiltros, setBodyFiltros)}
+          onChange={(event) =>
+            handleTipos(event, bodyFiltros, setBodyFiltros, setPage)
+          }
         >
           <option value="">Todos</option>
           <option value="Wine">Vinos</option>
@@ -83,10 +105,10 @@ const Toolbar = ({ currentPage }) => {
           <select
             className="select"
             onChange={(event) =>
-              handleSabor(event, bodyFiltros, setBodyFiltros)
+              handleSabor(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Todos</option>
+            <option value="">Marca</option>
             {sabor &&
               sabor.data?.map((sab) => {
                 return <option value={sab}>{sab}</option>;
@@ -97,10 +119,10 @@ const Toolbar = ({ currentPage }) => {
           <select
             className="select"
             onChange={(event) =>
-              handleMarca(event, bodyFiltros, setBodyFiltros)
+              handleMarca(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Todas</option>
+            <option value="">Tipo</option>
             {marcas.data?.map((marc) => {
               return <option value={marc}>{marc}</option>;
             })}
@@ -110,7 +132,7 @@ const Toolbar = ({ currentPage }) => {
           <select
             className="select"
             onChange={(event) =>
-              handleContenedor(event, bodyFiltros, setBodyFiltros)
+              handleContenedor(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
             <option value="">Todos</option>
@@ -122,10 +144,12 @@ const Toolbar = ({ currentPage }) => {
         {bodyFiltros.tipos === "Wine" && bodyFiltros.tipos !== "" ? (
           <select
             className="select"
-            onChange={(event) => handleCask(event, bodyFiltros, setBodyFiltros)}
+            onChange={(event) =>
+              handleCask(event, bodyFiltros, setBodyFiltros, setPage)
+            }
           >
             <optgroup label="Sin orden"></optgroup>
-            <option value={0}>Todos</option>
+            <option value={0}>Fecha</option>
             <option value={6}>6 Meses</option>
             <option value={12}>12 Meses</option>
             <option value={14}>14 Meses</option>
@@ -134,11 +158,11 @@ const Toolbar = ({ currentPage }) => {
         <select
           className="select"
           onChange={(event) =>
-            handleContenido(event, bodyFiltros, setBodyFiltros)
+            handleContenido(event, bodyFiltros, setBodyFiltros, setPage)
           }
         >
-          <optgroup label="Cantidad"></optgroup>
-          <option value={0}>Todos</option>
+          <optgroup value={0} label="Cantidad"></optgroup>
+          <option value={0}>Cantidad</option>
           <option value={400}>400cc a 500cc</option>
           <option value={500}>500cc a 700cc</option>
           <option value={700}>700cc a 1000cc</option>
@@ -146,32 +170,37 @@ const Toolbar = ({ currentPage }) => {
         </select>
         <select
           className="select"
-          onChange={(event) => handleOferta(event, bodyFiltros, setBodyFiltros)}
+          onChange={(event) =>
+            handleOferta(event, bodyFiltros, setBodyFiltros, setPage)
+          }
         >
           <optgroup label="Ofertas">
-          <option value="null">Todos</option>
-          <option value={false}>Sin oferta</option>
-          <option value={true}>Con Oferta</option>
+            <option value="null">Ofertas</option>
+            <option value={false}>Sin oferta</option>
+            <option value={true}>Con Oferta</option>
           </optgroup>
         </select>
         <select
           className="select"
           onChange={(event) =>
-            handleporcentaje(event, bodyFiltros, setBodyFiltros)
+            handleporcentaje(event, bodyFiltros, setBodyFiltros, setPage)
           }
-        ><optgroup label="Porcentaje de descuento">
-          <option value={0}>Todos</option>
-          <option value={5}>De 5% a 10%</option>
-          <option value={10}>De 10% a 25%</option>
-          <option value={25}>De 25% a 35%</option>
+        >
+          <optgroup label="Porcentaje de descuento">
+            <option value={0}>Porcentaje de descuento</option>
+            <option value={5}>De 5% a 10%</option>
+            <option value={10}>De 10% a 25%</option>
+            <option value={25}>De 25% a 35%</option>
           </optgroup>
         </select>
         <select
           className="select"
-          onChange={(event) => orderAll(event, bodyFiltros, setBodyFiltros)}
+          onChange={(event) =>
+            orderAll(event, bodyFiltros, setBodyFiltros, setPage)
+          }
         >
           <optgroup label="Sin orden">
-            <option value="todos">Todos</option>
+            <option value="todos">Ordenamiento</option>
           </optgroup>
           <optgroup label="Orden de precio">
             <option value="precioAscendente">Precio ascendente</option>
@@ -197,6 +226,20 @@ const Toolbar = ({ currentPage }) => {
       </div>
       <div>
         <SearchResults searchResults={filteredResults} />
+      </div>
+      <div className="pagination">
+        <button
+          onClick={() => handlePreviousPage(page, setPage)}
+          disabled={page === 1}
+        >
+          Anterior
+        </button>
+        <button
+          onClick={() => handleNextPage(page, setPage)}
+          disabled={!filteredResults.length || (filteredResults.length / 10 < 1)}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );

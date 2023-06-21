@@ -9,16 +9,19 @@ import axios from 'axios';
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-axios.defaults.baseURL = "http://localhost:3001";
+const vercelUrl = "https://bebidas-app-sandy.vercel.app"; // URL de Vercel
+
+axios.defaults.baseURL = vercelUrl; // Establecer la URL base para las solicitudes de axios
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin} cacheLocation="localstorage" useRefreshTokens>
+    <React.StrictMode>
     <BrowserRouter>
-      <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin}>
         <App />
-      </Auth0Provider>
     </BrowserRouter>
   </React.StrictMode>,
+  </Auth0Provider>
 );
 
 reportWebVitals();
