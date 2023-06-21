@@ -12,7 +12,6 @@ import { UserEditImage } from "../../editProfile/userEditImage";
 
 const ProfilePage = () => {
   const { user } = useAuth0();
- const user = "juanpabloaste00@gmail.com";
   const [usuario, setUsuario] = useState({});
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
