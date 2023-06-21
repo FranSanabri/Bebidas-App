@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/pages/Home/Home";
 import Tienda from "./components/pages/Tienda/Tienda";
@@ -15,6 +16,18 @@ const stripePromise = loadStripe(
 );
 
 function App() {
+  const { isAuthenticated, user } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("user");
+    }
+  }, [isAuthenticated, user]);
+
   return (
     <Elements stripe={stripePromise}>
       <Routes>
