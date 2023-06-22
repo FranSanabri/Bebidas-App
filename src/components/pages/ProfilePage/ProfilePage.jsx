@@ -239,7 +239,7 @@ const ProfilePage = () => {
             usuario={usuario}
             putUser={putUser}
             setSave={setSave}
-            data={"Imagen de perfil"}
+            data={"image"}
             setImg={setImg}
           />
           <UserReviews usuario={usuario} />

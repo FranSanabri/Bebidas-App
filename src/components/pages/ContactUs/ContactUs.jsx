@@ -31,7 +31,7 @@ import Modal from 'react-modal';
     <div>
       <NavBar />
       <div className='contact-form'>
-        <h1 className='form-title'>Contactanos!!!!!!!!!</h1>
+        <h1 className='form-title'>Contactanos!</h1>
         <form className='form-mail' onSubmit={sendEmail}>
           <div className='form-group'>
             <label htmlFor='user_name'>Nombre</label>

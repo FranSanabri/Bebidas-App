@@ -6,20 +6,19 @@
   height: 100px; /* Ajusta la altura del footer según tus necesidades */
   background-color: #2b2a2a;
   color: #ffffff;
-  padding: 240px;
+  padding: 180px;
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
- box-sizing: border-box;
 }
 
 .footer-content {
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0px;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
   box-sizing: border-box;
 }
 
@@ -27,12 +26,12 @@
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 15px;
 }
 
 .footer-item {
   position: relative;
-  right: 100px;
+  right: 90px;
   margin-bottom: 2rem;
   text-decoration: none;
   color: white;
@@ -40,7 +39,7 @@
 
 .footer-item-1 {
   position: relative;
-  left: 800px;
+  left: 1000px;
   bottom: 166px;
   margin-bottom: 2rem;
   text-decoration: none;
@@ -73,9 +72,9 @@
 
 .payment-logo {
   position: absolute;
-  left: 570px;
+  left: 580px;
   display: block;
-  height: 90px;
+  height: 150px;
   margin-bottom: 2rem;
 }
 
@@ -84,7 +83,7 @@
   right: 100px;
   display: block;
   width: 100%;
-  max-width: 200px;
+  max-width: 220px;
   margin: 0 auto;
 }
 
