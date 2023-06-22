@@ -17,9 +17,9 @@ export const UserBan = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {users.length ? (
-        <div>
+        <div style={{ width: "100%" }}>
           {users.map((user) => {
             return <User user={user} />;
           })}
@@ -27,18 +27,22 @@ export const UserBan = () => {
       ) : (
         <h1>Cargando...</h1>
       )}
-      <button
-        onClick={() => handlePreviousPage(pages, setPages)}
-        disabled={pages === 1}
-      >
-        Anterior
-      </button>
-      <button
-        onClick={() => handleNextPage(pages, setPages)}
-        disabled={!users.length || users.length / 10 < 1}
-      >
-        Siguiente
-      </button>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
+        <button
+          onClick={() => handlePreviousPage(pages, setPages)}
+          disabled={pages === 1}
+          style={{ marginRight: "0.5rem" }}
+        >
+          Anterior
+        </button>
+        <button
+          onClick={() => handleNextPage(pages, setPages)}
+          disabled={!users.length || users.length / 10 < 1}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 };

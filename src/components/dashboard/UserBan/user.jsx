@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 
-export const User = ({ user }) => {
+export const User = ({ user, gridArea }) => {
   const [usuario, setUsuario] = useState(user);
 
-  const handleClick = async () => {
-    const newBan = !usuario.ban;
+  const handlerClick = async () => {
+    let newBan = !usuario.ban ? true : false;
     setUsuario({ ...usuario, ban: newBan });
     await axios.put(`https://servidor-vinos.onrender.com/users/put`, {
       userEmail: usuario.email,
@@ -16,13 +16,19 @@ export const User = ({ user }) => {
   return (
     <div
       style={{
+        gridArea: gridArea,
         display: "flex",
-        marginLeft: "1rem",
-        marginBottom: "1rem",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "0",
         background: "#f5f5f5",
         padding: "1rem",
         borderRadius: "4px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        border: "1px solid #ccc",
+        flexGrow: 1,
+        margin: "0.5rem",
       }}
     >
       <div>
@@ -31,7 +37,7 @@ export const User = ({ user }) => {
         </h2>
         <h2 style={{ fontSize: "1rem", color: "#888" }}>{usuario.email}</h2>
         <button
-          onClick={handleClick}
+          onClick={handlerClick}
           style={{
             marginTop: "0.5rem",
             padding: "0.5rem 1rem",
@@ -50,3 +56,5 @@ export const User = ({ user }) => {
     </div>
   );
 };
+
+

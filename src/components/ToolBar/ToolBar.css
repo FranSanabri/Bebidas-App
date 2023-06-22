@@ -81,6 +81,11 @@
   gap: 1rem;
 }
 
+.pagination button{
+ color: black;
+ margin-top: 70px;
+}
+
 .search-bar-container input::placeholder {
   color: #999;
 

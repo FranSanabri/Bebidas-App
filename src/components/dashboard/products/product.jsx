@@ -96,7 +96,7 @@ export const Product = ({ product }) => {
               justifyContent: "center",
             }}
           >
-            {habilitado.changes[0].data ? "Enabled" : "Disabled"}
+            {habilitado.changes[0].data ? "Habilitado" : "Deshabilitado"}
           </button>
           <Link to={`/editar/${product.id}`}>
             <button

@@ -4,6 +4,7 @@
   
   .sidebar {
     width: 200px;
+    height: 100vh;
     background-color: #f5f5f5;
     padding: 20px;
   }
@@ -53,4 +54,30 @@
     padding: 20px;
     background-color: #fff;
   }
+
+  .home-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #000; /* Color del texto */
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Color de fondo */
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  
+  .home-button:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse */
+  }
+  
+  .home-icon {
+    margin-right: 5px;
+  }
+  
   

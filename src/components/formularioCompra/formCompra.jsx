@@ -1,25 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./formCompra.css";
-import { NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
-export const FormCompra = () => {
+export const FormCompra = ({
+  cartItems,
+  setCartItems,
+  totalPrice,
+  setTotalPrice,
+}) => {
+  // const email = "juanpabloaste00@gmail.com";
   const [showModal, setShowModal] = useState(false);
   const [confirmExit, setConfirmExit] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const product = queryParams.get("name");
-  let amount = parseFloat(queryParams.get("amount"));
+  const [usuario, setUsuario] = useState({});
+  const [alcohol, setAlcohol] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const { user } = useAuth0();
+  const total = totalPrice * 100;
+  const amount = ~~total;
   const navigate = useNavigate();
+  let products = "";
+  let historial = usuario.record ? usuario.record : [];
+  for (const product of cartItems) {
+    products = products + product.product.name + ", ";
+    historial.push(product.product.id);
+    if (product.product.alcoholContent >= 1 && !alcohol) {
+      setAlcohol(true);
+    }
+  }
 
-  amount = parseInt(amount.toString().replace(".", ""));
+  const handleCompra = () => {
+    for (const product of cartItems) {
+      axios.put("https://servidor-vinos.onrender.com/product/putProduct", {
+        productId: product.product.id,
+        changes: [
+          { name: "stock", data: product.product.stock - product.quantity },
+          { name: "sells", data: product.product.sells + product.quantity },
+        ],
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
+        .then(({ data }) => {
+          setUsuario(data);
+        })
+        .catch((error) => console.log("parece que hubo un error:", error));
+    }
+  }, []);
 
   const cardElementOptions = {
     style: {
@@ -35,6 +71,20 @@ export const FormCompra = () => {
     },
   };
 
+  const putUser = {
+    userEmail: usuario.email,
+    changes: [{ name: "record", data: historial }],
+  };
+
+  const handlerUser = async () => {
+    if (usuario.email) {
+      await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
+    } else {
+      alert("Inicia sesion para poder comprar");
+      navigate("/login");
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -43,26 +93,74 @@ export const FormCompra = () => {
     });
 
     if (!error) {
-      const { id } = paymentMethod;
-      try {
-        const { data } = await axios.post("http://localhost:3001/buy", {
-          amount,
-          id,
-          product,
-        });
-        setShowSuccessMessage(true);
-        setTimeout(() => {
-          setShowSuccessMessage(false);
-          navigate("/Tienda");
-        }, 3000);
-        console.log(data);
-      } catch (error) {
-        setShowErrorMessage(true);
-        console.log(error);
-        setTimeout(() => {
-          setShowErrorMessage(false);
-          navigate("/Tienda");
-        }, 3000);
+      if (usuario && !usuario.email) {
+        alert("No has iniciado sesion, no puedes comprar productos");
+      }
+      if (usuario && usuario.ban) {
+        alert("No puedes comprar estas baneado");
+      } else if (usuario && usuario.email && !usuario.age) {
+        alert("no has completado tu informacion de usuario");
+        navigate("/profilepage");
+      } else if (usuario && usuario.email && !alcohol) {
+        const { id } = paymentMethod;
+        try {
+          const { data } = await axios.post(
+            "https://servidor-vinos.onrender.com/buy",
+            {
+              products,
+              id,
+              email: usuario.email,
+              amount,
+            }
+          );
+          setShowSuccessMessage(true);
+          setTimeout(() => {
+            setShowSuccessMessage(false);
+            navigate("/Tienda");
+          }, 3000);
+          handlerUser();
+          handleCompra();
+          setCartItems([]);
+          setTotalPrice(0);
+        } catch (error) {
+          setShowErrorMessage(true);
+          console.log(error);
+          setTimeout(() => {
+            setShowErrorMessage(false);
+            navigate("/Tienda");
+          }, 3000);
+        }
+      } else if (usuario && alcohol && usuario.age < 18) {
+        alert("No puedes comprar alcohol siendo menor");
+      } else if (usuario && alcohol && usuario.age >= 18) {
+        const { id } = paymentMethod;
+        try {
+          const { data } = await axios.post(
+            "https://servidor-vinos.onrender.com/buy",
+            {
+              products,
+              id,
+              email: usuario.email,
+              amount,
+            }
+          );
+          setShowSuccessMessage(true);
+          setTimeout(() => {
+            setShowSuccessMessage(false);
+            navigate("/Tienda");
+          }, 3000);
+          handleCompra();
+          handlerUser();
+          setCartItems([]);
+          setTotalPrice(0);
+        } catch (error) {
+          setShowErrorMessage(true);
+          console.log(error);
+          setTimeout(() => {
+            setShowErrorMessage(false);
+            navigate("/Tienda");
+          }, 3000);
+        }
       }
     }
   };
@@ -99,9 +197,6 @@ export const FormCompra = () => {
           <CardElement className="card-element" options={cardElementOptions} />
         </div>
         <button className="submit-button">Comprar</button>
-        <button className="submit-button" onClick={handleGoBack}>
-          Atrás
-        </button>
         <Modal
           isOpen={showModal}
           onRequestClose={() => setShowModal(false)}
@@ -109,7 +204,9 @@ export const FormCompra = () => {
           className="custom-modal"
           overlayClassName="custom-modal-overlay"
         >
-          <h2 className="modal-title">¿Deseas salir sin guardar los cambios?</h2>
+          <h2 className="modal-title">
+            ¿Deseas salir sin guardar los cambios?
+          </h2>
           <div className="modal-buttons">
             <button className="modal-button" onClick={handleConfirmExit}>
               Sí

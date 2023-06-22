@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Create.css";
+import { NavLink } from "react-router-dom";
+import { FiHome } from "react-icons/fi";
 import axios from "axios";
 
 const Create = () => {
@@ -40,7 +42,7 @@ const Create = () => {
           "https://servidor-vinos.onrender.com/product/postProduct",
           form
         );
-        alert("Se ha cambiado tu perfil");
+        alert("Se ha creado el producto");
         window.location.reload();
       } catch (error) {
         alert("Parece que hubo un error");
@@ -206,6 +208,10 @@ const Create = () => {
         />
         <button onClick={submitForm}>Crear Producto</button>
       </div>
+      <NavLink to="/dashboard" className="dashboard-button">
+      <FiHome className="dashboard-icon" />
+      Volver al dashboard
+    </NavLink>
     </>
   );
 };

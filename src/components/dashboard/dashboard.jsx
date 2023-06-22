@@ -5,6 +5,7 @@ import { Ventas } from "./ventas/ventas";
 import { Link } from "react-router-dom";
 import { UserBan } from "./UserBan/userBan";
 import { useAuth0 } from "@auth0/auth0-react";
+import { FiHome } from "react-icons/fi"; // Importar el icono de inicio
 import "./dashboard.css";
 
 export const Dashboard = () => {
@@ -16,17 +17,17 @@ export const Dashboard = () => {
 
   useEffect(() => {
     if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.name}`)
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
         .then(({ data }) => {
           setUsuario(data);
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {
-      alert("Ha ocurrido un error");
+      alert("No has iniciado sesión");
     }
   }, []);
 
-  if (usuario) {
+  if (usuario.admin) {
     return (
       <div className="dashboard-container">
         <div className="sidebar">
@@ -62,6 +63,10 @@ export const Dashboard = () => {
           </button>
           <Link to="/Create" className="create-product-button">
             Crear Producto
+          </Link>
+          <Link to="/" className="home-button">
+            <FiHome className="home-icon" />
+            Volver al inicio
           </Link>
         </div>
         <div className="content">

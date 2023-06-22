@@ -89,45 +89,45 @@ function CarouselComponent() {
         <Carousel responsive={responsive} className="carousel-2">
           <Product
             url="https://i.ibb.co/2SypNwY/1.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Patron Añejo"
+            price="$23,80"
+            description="Cálido tono ámbar con aromas de agave cocido, albaricoque y especias"
           />
           <Product
             url="https://i.ibb.co/VmMZ00f/2.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Vino Malbec"
+            price="$2,450"
+            description="Vino para disfrutar en la mesa"
           />
           <Product
             url="https://i.ibb.co/HX9K9q9/3.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Mil Demonios Aguardiente"
+            price="$4,890"
+            description="Fuerte y rico para tomar"
           />
           <Product
             url="https://i.ibb.co/gRKnhFf/1.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Vino Cordero Con Piel de Loco"
+            price="$3,120"
+            description="Para disfrutar en familia un domingo de asado"
           />
           <Product
             url="https://i.ibb.co/4McB6rG/2.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Coca-Cola"
+            price="$340"
+            description="Disfruta del sabor original. al mejor precio!"
           />
           <Product
             url="https://i.ibb.co/Sw2k6CY/3.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Buchanan´s Deluxe"
+            price="$5,430"
+            description="Rico y fuerte de disfrutar"
           />
           <Product
             url="https://i.ibb.co/2SypNwY/1.png"
-            name="Nombre del producto"
-            price="Precio del producto"
-            description="Descripción del producto"
+            name="Patron Añejo"
+            price="$23,80"
+            description="Cálido tono ámbar con aromas de agave cocido, albaricoque y especias"
           />
         </Carousel>
       </div>
