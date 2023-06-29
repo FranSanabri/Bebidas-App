@@ -9,9 +9,7 @@ import { FiHome } from "react-icons/fi"; // Importar el icono de inicio
 import "./dashboard.css";
 
 export const Dashboard = () => {
-  const [usuario, setUsuario] = useState({
-    admin: true
-  });
+  const [usuario, setUsuario] = useState({});
   const [product, setProducts] = useState(true);
   const [ventas, setVentas] = useState(false);
   const [users, setUsers] = useState(false);
