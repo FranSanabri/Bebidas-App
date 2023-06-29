@@ -1,4 +1,5 @@
 import axios from "axios";
+import './EditProduct.css';
 import { useState } from "react";
 
 export const EditProductImg = ({ product, setImg, img }) => {
@@ -41,18 +42,18 @@ export const EditProductImg = ({ product, setImg, img }) => {
 
   return (
     <div>
-      <h1>Images</h1>
+      <h1>Producto</h1>
       {product.images.length && !edit ? (
-        <div>
+        <div className="EditProductImg">
           {product.images.map((image, index) => {
             return (
               <div key={index}>
-                <img src={image} alt="" />
-                <button onClick={() => handleDelete(image)}>X</button>
+                <img className="imagen-producto" src={image} alt="" />
+                <button className="close-boton-imagen" onClick={() => handleDelete(image)}>X</button>
               </div>
             );
           })}
-          <button onClick={handlecancel}>Cambiar Images</button>
+          <button className="boton-imagen-cambiar" onClick={handlecancel}>Cambiar Images</button>
         </div>
       ) : (
         <div>

@@ -24,7 +24,7 @@ function Footer() {
             <img className="footer-logo" src="https://i.ibb.co/fN28Z9h/LOGO-2-DRINK-UP-Nav-Bar-1.png" alt="Logo" />
           </div>
           <div className="footer-item-1">
-            <h2 className="footer-title">Contactos</h2>
+            <h2 className="footer-title-1">Contactos</h2>
             <NavLink
               exact
               to="/contactus"
@@ -37,6 +37,9 @@ function Footer() {
             <div>
               <p className="footer-text-3">¿Quiénes somos?</p>
               <p className="footer-text-2">Lenguajes utilizados</p>
+              <p class="footer-copyright">
+        &copy; 2023 DrinkUp | Todos los derechos reservados.
+      </p>
             </div>
           </div>
         </div>

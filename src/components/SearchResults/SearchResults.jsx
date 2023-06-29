@@ -163,7 +163,7 @@ const SearchResults = ({ searchResults }) => {
         overlayClassName="custom-overlay-1"
       >
         <div className="modal-content-1">
-          <button className="close-button" onClick={closeModal}>
+          <button className="close-button-1" onClick={closeModal}>
             <MdClose />
           </button>
           {selectedProduct && (
@@ -229,7 +229,7 @@ const SearchResults = ({ searchResults }) => {
               </li>
             ))}
           </ul>
-          <p className="cart-total">Total: ${totalAmount.toFixed(2)}</p>
+          <p className="cart-total">: ${totalAmount.toFixed(2)}</p>
           <FormCompra
             cartItems={cartItems}
             setCartItems={setCartItems}

@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom";
 
 export default function Product(props) {
   return (
-    <div className="card">
-      <img className="product--image" src={props.url} alt="product image" />
+    <div className="card-1">
+      <img className="product--image-1" src={props.url} alt="product image" />
       <h2 className="titulo">{props.name}</h2>
       <p className="price">{props.price}</p>
       <p className="descripcion">{props.description}</p>

@@ -84,7 +84,7 @@ function CarouselComponent() {
           )}
         </div>
       </div>
-      <div className="carousel-content">
+      <div className="carousel-contenedor">
         <h2 className="text-slider">Nuestras mejores ofertas, al mejor precio!</h2>
         <Carousel responsive={responsive} className="carousel-2">
           <Product

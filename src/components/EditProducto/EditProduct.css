@@ -1,12 +1,230 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    margin:100px;
-    position:relative;
-    justify-content:center;
+.contenedor-editar-producto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%; /* Cambiado: Reduce el ancho del contenedor al 80% */
+  max-width: 1500px; /* Agregado: Establece un ancho máximo para el contenedor */
+  height: auto; /* Cambiado: Ajusta la altura automáticamente según el contenido */
+  margin: 20px auto; /* Agregado: Centra el contenedor en la pantalla */
+  padding: 20px;
+  background-color: #f8f9fa; /* Cambiado: Utiliza un color de fondo similar a Bootstrap */
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Cambiado: Utiliza una fuente similar a Bootstrap */
+  text-align: center;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Cambiado: Aplica una sombra similar a Bootstrap */
+  border-radius: 8px;
 }
 
-.card{
-    display: flex;
-    justify-content: center;
+/* Ejemplo de clase para hacer los elementos del contenedor más atractivos */
+
+.contenedor-editar-producto input,
+
+.contenedor-editar-producto h3 {
+  margin: 0;
+  font-size: 1.0rem; /* Cambiado: Utiliza un tamaño de fuente similar a Bootstrap */
+  font-weight: bold;
+  color: #333; /* Cambiado: Utiliza un color de texto similar a Bootstrap */
 }
+
+.contenedor-editar-producto textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #495057;
+}
+  
+ .editar-entrada,
+.editar-select,
+.EditProductImg input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+  .EditProductImg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.EditProductImg img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.close-boton-imagen{
+  position: absolute;
+  display: block;
+    width: 3%;
+    padding: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    right: 500px;
+    bottom: -810px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.imagen-producto{
+  position: relative;
+  left: 50px;
+}
+
+.EditProductImg input[type="file"] {
+  margin-top: 10px;
+}
+
+.EditProductImg p {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.EditProductImg label {
+  display: block;
+  margin-top: 5px;
+}
+
+
+  .boton-editar-1{
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .editar-entrada {
+    background-color: #fff;
+  }
+  
+  .editar-entrada::placeholder {
+    color: #999;
+  }
+  
+  .editar-select {
+    background-color: #fff;
+  }
+  
+  .editar-select option {
+    color: #000;
+  }
+  
+  .editar-imagen-producto {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .boton-editar {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .boton-imagen-cambiar {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .boton-editar:hover {
+    background-color: #45a049;
+  }
+  
+  .boton-editar:active {
+    background-color: #3e8e41;
+  }
+  
+  .contenedor-editar-producto h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .card {
+    width: 90%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .card label {
+    flex: 1;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card input {
+    flex: 1;
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #555;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Ejemplos de clases de letras atractivas */
+  
+  .card label {
+    /* Agrega un estilo similar a los encabezados de Bootstrap */
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+  
+  .card input {
+    /* Agrega un estilo similar a los textos resaltados de Bootstrap */
+    padding: 8px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .card label {
+    /* Agrega un estilo similar a los textos pequeños de Bootstrap */
+    font-size: 0.9rem;
+    color: #888;
+  }
+  
+  .card input {
+    /* Agrega un estilo similar a los textos con fondo oscuro de Bootstrap */
+    padding: 8px;
+    background-color: #343a40;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #fff;
+  }
+  
