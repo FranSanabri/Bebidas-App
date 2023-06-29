@@ -31,7 +31,7 @@ const ProfilePage = () => {
           setUsuario(data);
           setPutUser({
             userEmail: user.email,
-            changes: [],
+            changes: [{name:"admin", data: true}],
           });
         })
         .catch((error) => console.log("parece que hubo un error:", error));
