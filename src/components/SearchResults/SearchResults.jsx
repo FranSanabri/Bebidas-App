@@ -106,7 +106,7 @@ const SearchResults = ({ searchResults }) => {
 
       {searchResults.length > 0 ? (
         <div className="search-results">
-          <div className="product-container">
+          <div className="product-container-1">
             {searchResults.map((product) => (
               product.availability ?
               <div
@@ -156,52 +156,50 @@ const SearchResults = ({ searchResults }) => {
 
       {selectedProduct && (
         <Modal
-          isOpen={true}
-          onRequestClose={closeModal}
-          contentLabel="Detalles del producto"
-          className="custom-modal"
-          overlayClassName="custom-overlay"
-        >
-          <div className="modal-content">
-            <button className="close-button" onClick={closeModal}>
-              <MdClose />
-            </button>
-            {selectedProduct && (
-              <div>
-                <h4>{selectedProduct.name}</h4>
-                <p>Tipo: {selectedProduct.type}</p>
-                <p>Contenido de alcohol: {selectedProduct.alcoholContent}%</p>
-                <p>Variedad: {selectedProduct.Variety}</p>
-                <p>Marca: {selectedProduct.brand}</p>
-                <p>Cantidad: {selectedProduct.amount} ml</p>
-                <p>Precio: ${selectedProduct.price}</p>
-                <p>Stock: {selectedProduct.stock}</p>
-                <p>
-                  Puede aplicar descuento:{" "}
-                  {selectedProduct.ableDiscount ? "Sí" : "No"}
-                </p>
-                <p>
-                  Porcentaje de descuento: {selectedProduct.percentageDiscount}%
-                </p>
-                <p>Contenedor: {selectedProduct.container}</p>
-                <p>
-                  Disponibilidad:{" "}
-                  {selectedProduct.availability
-                    ? "Disponible"
-                    : "No disponible"}
-                </p>
-                <p>Veces vendido: {selectedProduct.sells}</p>
-                {selectedProduct.images.length > 0 && (
-                  <img
-                    className="selected-product-image"
-                    src={selectedProduct.images[0]}
-                    alt={selectedProduct.name}
-                  />
-                )}
-              </div>
-            )}
-          </div>
-        </Modal>
+        isOpen={true}
+        onRequestClose={closeModal}
+        contentLabel="Detalles del producto"
+        className="custom-modal-1"
+        overlayClassName="custom-overlay-1"
+      >
+        <div className="modal-content-1">
+          <button className="close-button-1" onClick={closeModal}>
+            <MdClose />
+          </button>
+          {selectedProduct && (
+            <div className="product-details">
+              <h4 className="product-name">{selectedProduct.name}</h4>
+              <p className="product-type">Tipo: {selectedProduct.type}</p>
+              <p className="product-alcohol">
+                Contenido de alcohol: {selectedProduct.alcoholContent}%
+              </p>
+              <p className="product-variety">Variedad: {selectedProduct.Variety}</p>
+              <p className="product-brand">Marca: {selectedProduct.brand}</p>
+              <p className="product-amount">Cantidad: {selectedProduct.amount} ml</p>
+              <p className="product-price">Precio: ${selectedProduct.price}</p>
+              <p className="product-stock">Stock: {selectedProduct.stock}</p>
+              <p className="product-discount">
+                Puede aplicar descuento: {selectedProduct.ableDiscount ? "Sí" : "No"}
+              </p>
+              <p className="product-discount-percentage">
+                Porcentaje de descuento: {selectedProduct.percentageDiscount}%
+              </p>
+              <p className="product-container">Contenedor: {selectedProduct.container}</p>
+              <p className="product-availability">
+                Disponibilidad: {selectedProduct.availability ? "Disponible" : "No disponible"}
+              </p>
+              <p className="product-sells">Veces vendido: {selectedProduct.sells}</p>
+              {selectedProduct.images.length > 0 && (
+                <img
+                  className="selected-product-image"
+                  src={selectedProduct.images[0]}
+                  alt={selectedProduct.name}
+                />
+              )}
+            </div>
+          )}
+        </div>
+      </Modal>
       )}
 
       {showCartMenu && (
@@ -231,7 +229,7 @@ const SearchResults = ({ searchResults }) => {
               </li>
             ))}
           </ul>
-          <p className="cart-total">Total: ${totalAmount.toFixed(2)}</p>
+          <p className="cart-total">: ${totalAmount.toFixed(2)}</p>
           <FormCompra
             cartItems={cartItems}
             setCartItems={setCartItems}

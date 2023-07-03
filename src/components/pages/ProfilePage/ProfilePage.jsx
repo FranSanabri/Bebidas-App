@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
 import {
   hadlerUser,
@@ -9,6 +11,7 @@ import {
 import { UserReviews } from "../../editProfile/userReviews";
 import { UserRecord } from "../../editProfile/UserRecord";
 import { UserEditImage } from "../../editProfile/userEditImage";
+import './profilePage.css';
 
 const ProfilePage = () => {
   const { user } = useAuth0();
@@ -28,7 +31,7 @@ const ProfilePage = () => {
           setUsuario(data);
           setPutUser({
             userEmail: user.email,
-            changes: [],
+            changes: [{name:"admin", data: true}],
           });
         })
         .catch((error) => console.log("parece que hubo un error:", error));
@@ -40,26 +43,27 @@ const ProfilePage = () => {
   console.log(user);
 
   return (
-    <div>
-      <h1>Página de perfil</h1>
+    <div className="profile-container">
+      <h1>Perfil</h1>
       {usuario.email ? (
         <div>
-          <div>
-            <h1>userName</h1>
+          <div className="profile-field-container">
+            <h1 className="profile-title">Nombre</h1>
             {usuario.userName && !name ? (
               <div>
-                <h2>{usuario.userName}</h2>
-                <button onClick={() => setName(true)}>Cambiar userName</button>
+                <h2 className="profile-field-value">{usuario.userName}</h2>
+                <button className="profile-button" onClick={() => setName(true)}>Cambiar nombre</button>
               </div>
             ) : (
               <div>
                 {!name ? (
                   <div>
-                    <h4>no has completado este campo</h4>
+                    <h4 className="profile-field-value">No has completado este campo</h4>
                   </div>
                 ) : (
                   <div>
                     <button
+                      className="profile-button profile-edit-button"
                       onClick={() =>
                         handleEditCancel(
                           setName,
@@ -70,11 +74,12 @@ const ProfilePage = () => {
                         )
                       }
                     >
-                      no cambiar userName
+                      No cambiar nombre
                     </button>
                   </div>
                 )}
                 <input
+                  className="profile-input"
                   type="text"
                   onChange={(event) =>
                     handleInputChange(
@@ -89,22 +94,23 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
-          <div>
-            <h1>age</h1>
+          <div className="profile-field-container">
+            <h1 className="profile-title">Edad</h1>
             {usuario.age && !edad ? (
               <div>
-                <h2>{usuario.age}</h2>
-                <button onClick={() => setEdad(true)}>Cambiar age</button>
+                <h2 className="profile-field-value">{usuario.age}</h2>
+                <button className="profile-button" onClick={() => setEdad(true)}>Cambiar edad</button>
               </div>
             ) : (
               <div>
                 {!edad ? (
                   <div>
-                    <h4>no has completado este campo</h4>
+                    <h4 className="profile-field-value">No has completado este campo</h4>
                   </div>
                 ) : (
                   <div>
                     <button
+                      className="profile-button profile-edit-button"
                       onClick={() =>
                         handleEditCancel(
                           setEdad,
@@ -115,11 +121,12 @@ const ProfilePage = () => {
                         )
                       }
                     >
-                      no cambiar age
+                    No cambiar edad
                     </button>
                   </div>
                 )}
                 <input
+                  className="profile-input"
                   type="text"
                   onChange={(event) =>
                     handleInputChange(
@@ -134,22 +141,23 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
-          <div>
-            <h1>phone</h1>
+          <div className="profile-field-container">
+            <h1 className="profile-title">Celular</h1>
             {usuario.phone && !telefono ? (
               <div>
-                <h2>{usuario.phone}</h2>
-                <button onClick={() => setTelefono(true)}>Cambiar phone</button>
+                <h2 className="profile-field-value">{usuario.phone}</h2>
+                <button className="profile-button" onClick={() => setTelefono(true)}>Cambiar celular</button>
               </div>
             ) : (
               <div>
                 {!telefono ? (
                   <div>
-                    <h4>no has completado este campo</h4>
+                    <h4 className="profile-field-value">No has completado este campo</h4>
                   </div>
                 ) : (
                   <div>
                     <button
+                      className="profile-button profile-edit-button"
                       onClick={() =>
                         handleEditCancel(
                           setTelefono,
@@ -160,11 +168,12 @@ const ProfilePage = () => {
                         )
                       }
                     >
-                      no cambiar phone
+                      No cambiar numero de celular
                     </button>
                   </div>
                 )}
                 <input
+                  className="profile-input"
                   type="text"
                   onChange={(event) =>
                     handleInputChange(
@@ -179,24 +188,23 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
-          <div>
-            <h1>ubicacion</h1>
+          <div className="profile-field-container">
+            <h1 className="profile-title">Ubicacion</h1>
             {usuario.ubicacion && !ubicacion ? (
               <div>
-                <h2>{usuario.ubicacion}</h2>
-                <button onClick={() => setUbicacion(true)}>
-                  Cambiar ubicacion
-                </button>
+                <h2 className="profile-field-value">{usuario.ubicacion}</h2>
+                <button className="profile-button" onClick={() => setUbicacion(true)}>Cambiar ubicacion</button>
               </div>
             ) : (
               <div>
                 {!ubicacion ? (
                   <div>
-                    <h4>no has completado este campo</h4>
+                    <h4 className="profile-field-value">No has completado este campo</h4>
                   </div>
                 ) : (
                   <div>
                     <button
+                      className="profile-button profile-edit-button"
                       onClick={() =>
                         handleEditCancel(
                           setUbicacion,
@@ -207,11 +215,12 @@ const ProfilePage = () => {
                         )
                       }
                     >
-                      no cambiar ubicacion
+                      No cambiar ubicacion
                     </button>
                   </div>
                 )}
                 <input
+                  className="profile-input"
                   type="text"
                   onChange={(event) =>
                     handleInputChange(
@@ -236,14 +245,18 @@ const ProfilePage = () => {
           <UserReviews usuario={usuario} />
           <UserRecord usuario={usuario} />
           {save ? (
-            <button onClick={() => hadlerUser(putUser, img)}>
+            <button className="profile-button profile-save-button" onClick={() => hadlerUser(putUser, img)}>
               Cambiar perfil
             </button>
           ) : null}
         </div>
       ) : (
-        <h1>cargando</h1>
+        <h1>Cargando</h1>
       )}
+      <div className="back-tienda">
+      <Link to="/Tienda" className="back-to-store-link">
+        <FiArrowLeft className="back-to-store-icon" /> Volver a la tienda
+      </Link></div>
     </div>
   );
 };

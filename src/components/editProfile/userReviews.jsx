@@ -1,42 +1,45 @@
 import { useState } from "react";
 import { handlerReview } from "./handlersUser";
+import './userReviews.css';
 
+export const UserReviews = ({ usuario }) => {
+  const [reviews, setReview] = useState([]);
+  const [watchReviews, setWatchReviews] = useState(false);
 
-export const UserReviews = ({usuario}) => {
-    const [reviews, setReview] = useState([]);
-    const [watchReviews, setWatchReviews] = useState(false);
-    return (
+  return (
+    <div className="container">
+      {watchReviews ? (
         <div>
-            {watchReviews ? (
-            <div>
-              {reviews.length ? (
-                reviews.map((review) => {
-                  return (
-                    <div>
-                      <h4>{review.score}</h4>
-                      <h4>{review.content}</h4>
-                      <h4>{review.products[0].name}</h4>
-                    </div>
-                  );
-                })
-              ) : (
-                <div>
-                  <h4>no has comentado ninguna review</h4>
-                </div>
-              )}
-              <button onClick={() => setWatchReviews(false)}>
-                no ver Reviews
-              </button>
-            </div>
+          {reviews.length ? (
+            reviews.map((review, index) => (
+              <div className="review-item" key={index}>
+                <h4 className="review-score">{review.score}</h4>
+                <h4 className="review-content">{review.content}</h4>
+                <h4 className="review-product-name">
+                  {review.products[0].name}
+                </h4>
+              </div>
+            ))
           ) : (
-            <button
-              onClick={() =>
-                handlerReview(usuario.id, setReview, setWatchReviews)
-              }
-            >
-              Ver Reviews
-            </button>
+            <div>
+              <h4 className="no-reviews">No has comentado ninguna review</h4>
+            </div>
           )}
+          <button
+            className="button"
+            onClick={() => setWatchReviews(false)}
+          >
+            No ver Reviews
+          </button>
         </div>
-    )
-}
+      ) : (
+        <button
+          className="button"
+          onClick={() => handlerReview(usuario.id, setReview, setWatchReviews)}
+        >
+          Ver Reviews
+        </button>
+      )}
+    </div>
+  );
+};

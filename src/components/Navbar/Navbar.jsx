@@ -42,7 +42,7 @@ function NavBar() {
 
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             {usuario && usuario.admin ? (
-              <li>
+              <li className="nav-item">
                 <NavLink
                   exact
                   to="/dashboard"

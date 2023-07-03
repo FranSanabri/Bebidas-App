@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Create.css";
+import { NavLink } from "react-router-dom";
+import { FiHome } from "react-icons/fi";
 import axios from "axios";
 
 const Create = () => {
@@ -206,6 +208,10 @@ const Create = () => {
         />
         <button onClick={submitForm}>Crear Producto</button>
       </div>
+      <NavLink to="/dashboard" className="dashboard-button">
+      <FiHome className="dashboard-icon" />
+      Volver al dashboard
+    </NavLink>
     </>
   );
 };

@@ -20,11 +20,14 @@ export const Products = () => {
       });
   }, [pages, search]);
 
+  // Obtener los 5 productos correspondientes a la página actual
+  const displayedProducts = products.slice(0, 5);
+
   return (
     <div className="products-container">
-      {products.length ? (
+      {displayedProducts.length ? (
         <div>
-          {products.map((product) => {
+          {displayedProducts.map((product) => {
             return <Product product={product} />;
           })}
         </div>
@@ -42,7 +45,7 @@ export const Products = () => {
         <button
           className="pagination-button"
           onClick={() => handleNextPage(pages, setPages)}
-          disabled={!products.length || products.length / 10 < 1}
+          disabled={!products.length || products.length / 5 < 1}
         >
           Siguiente
         </button>

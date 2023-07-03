@@ -5,6 +5,8 @@ import { ProductEdit } from "./productParams";
 import { handlePutProduct } from "./handlerProduct";
 import "./EditProduct.css";
 import { TypeEdit } from "./selects/type";
+import { Link } from "react-router-dom";
+import { FiHome } from "react-icons/fi";
 import { EditProductImg } from "./EditProductImg";
 
 function ProductoEditar() {
@@ -69,7 +71,7 @@ function ProductoEditar() {
 
   console.log(product);
 
-  const handleDescount = (e) => {
+  const manejarDescuento = (e) => {
     if (e.target.value === "false") {
       setDescuento(false);
       const update = putProduct.changes.filter(
@@ -87,7 +89,7 @@ function ProductoEditar() {
     }
   };
 
-  const handleAvailability = (e) => {
+  const manejarDisponibilidad = (e) => {
     if (e.target.value === "false") {
       setHabilitado(false);
       const update = putProduct.changes.filter(
@@ -109,13 +111,14 @@ function ProductoEditar() {
     return <p>Cargando...</p>;
   }
   return (
-    <div className="container">
+    <div className="contenedor-editar-producto">
       <ProductEdit
         product={product}
         data="name"
         type="text"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        className="editar-entrada"
       />
       <TypeEdit
         product={product}
@@ -123,6 +126,7 @@ function ProductoEditar() {
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
         setProduct={setProduct}
+        className="editar-select"
       />
       <ProductEdit
         product={product}
@@ -130,6 +134,7 @@ function ProductoEditar() {
         type="number"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        className="editar-entrada"
       />
       <TypeEdit
         product={product}
@@ -140,6 +145,7 @@ function ProductoEditar() {
         setCreate={setCreate}
         create={create}
         dataFilt={`sabor${product.type}`}
+        className="editar-select"
       />
       <TypeEdit
         product={product}
@@ -150,6 +156,7 @@ function ProductoEditar() {
         setCreate={setCreate}
         create={create}
         dataFilt={`marca${product.type}`}
+        className="editar-select"
       />
       <ProductEdit
         product={product}
@@ -157,6 +164,7 @@ function ProductoEditar() {
         type="number"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        className="editar-entrada"
       />
       {product.type === "Wine" ? (
         <ProductEdit
@@ -165,6 +173,7 @@ function ProductoEditar() {
           type="number"
           PutProduct={putProduct}
           setPutProduct={setPutProduct}
+          className="editar-entrada"
         />
       ) : null}
 
@@ -174,6 +183,7 @@ function ProductoEditar() {
         type="number"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        className="editar-entrada"
       />
       <ProductEdit
         product={product}
@@ -181,9 +191,10 @@ function ProductoEditar() {
         type="number"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        className="editar-entrada"
       />
 
-      <select onChange={handleDescount}>
+      <select onChange={manejarDescuento} className="editar-select">
         <option value={false}>Sin descuento</option>
         <option value={true}>Con descuento</option>
       </select>
@@ -194,6 +205,7 @@ function ProductoEditar() {
           type="number"
           PutProduct={putProduct}
           setPutProduct={setPutProduct}
+          className="editar-entrada"
         />
       ) : null}
 
@@ -206,27 +218,39 @@ function ProductoEditar() {
         setCreate={setCreate}
         create={create}
         dataFilt={`contenedor`}
+        className="editar-select"
       />
 
-      <select onChange={handleAvailability}>
+      <select onChange={manejarDisponibilidad} className="editar-select">
         <option value={false}>Sin habilitado</option>
-        <option value={true}>habilitado</option>
+        <option value={true}>Habilitado</option>
       </select>
-      <h3>ventas:{product.sells}</h3>
+      <h3>ventas: {product.sells}</h3>
       <ProductEdit
         product={product}
         data="description"
         type="text"
         PutProduct={putProduct}
         setPutProduct={setPutProduct}
+        className="editar-entrada"
       />
-      <EditProductImg product={product} setImg={setImg} img={img} />
+      <EditProductImg
+        product={product}
+        setImg={setImg}
+        img={img}
+        className="editar-imagen-producto-1"
+      />
 
       <button
         onClick={() => handlePutProduct(putProduct, create, img, product)}
+        className="boton-editar-1"
       >
         Editar producto
       </button>
+      <Link to="/" className="home-button">
+            <FiHome className="home-icon" />
+            Volver al inicio
+          </Link>
     </div>
   );
 }
