@@ -53,7 +53,7 @@ export const EditProductImg = ({ product, setImg, img }) => {
               </div>
             );
           })}
-          <button className="boton-imagen-cambiar" onClick={handlecancel}>Cambiar Images</button>
+          <button className="boton-imagen-cambiar" onClick={handlecancel}>Agregar imagenes</button>
         </div>
       ) : (
         <div>
@@ -63,7 +63,7 @@ export const EditProductImg = ({ product, setImg, img }) => {
             </div>
           ) : (
             <div>
-              <button onClick={() => setEdit(false)}>No cambiar Images</button>
+              <button onClick={() => setEdit(false)}>No agregar Images</button>
             </div>
           )}
           <input name="image" type="file" onChange={handleAddImage} />
@@ -71,7 +71,7 @@ export const EditProductImg = ({ product, setImg, img }) => {
             <p>Imagenes a agregar</p>
             {newImg.map((name) => {
               return (
-                <label key={name} htmlFor="">
+                <label style={{color:"blue"}} key={name} htmlFor="">
                   {name}
                 </label>
               );

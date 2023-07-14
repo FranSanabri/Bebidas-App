@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const Product = ({ product }) => {
@@ -7,6 +7,13 @@ export const Product = ({ product }) => {
     productId: product.id,
     changes: [{ name: "availability", data: product.availability }],
   });
+
+  useEffect(() => {
+    setHabilitado({
+      productId: product.id,
+      changes: [{ name: "availability", data: product.availability }],
+    });
+  }, [product.id, product.availability]);
 
   const handleClick = () => {
     if (habilitado.changes[0].data) {

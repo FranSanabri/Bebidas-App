@@ -2,20 +2,23 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { MdClose, MdShoppingCart } from "react-icons/md";
 import "./SearchResults.css";
-import { Link } from "react-router-dom";
 import { FormCompra } from "../formularioCompra/formCompra";
-import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 
 const SearchResults = ({ searchResults }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   let [cartItems, setCartItems] = useState([]);
-  const [cartBack, setCartBack] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  let [totalPrice, setTotalPrice] = useState(0);
   const [showCartMenu, setShowCartMenu] = useState(false);
   const [animateCart, setAnimateCart] = useState(false);
+  const [review, setReview] = useState(null);
+  const [img, setImg] = useState(0);
 
   useEffect(() => {
+    const storedTotalPrice = localStorage.getItem("totalPrice");
+    if (storedTotalPrice) {
+      totalPrice = JSON.parse(storedTotalPrice);
+      setTotalPrice(JSON.parse(storedTotalPrice));
+    }
     const storedCartItems = localStorage.getItem("cartItems");
     if (storedCartItems) {
       cartItems = JSON.parse(storedCartItems);
@@ -25,8 +28,8 @@ const SearchResults = ({ searchResults }) => {
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
-
+    localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
+  }, [cartItems, totalPrice]);
 
   const handlerClick = (id) => {
     const updateCart = cartItems.filter((item) => {
@@ -34,11 +37,25 @@ const SearchResults = ({ searchResults }) => {
         const price = item.product.price * item.quantity;
         const newTotal = totalPrice - price;
         setTotalPrice(newTotal);
+        return false;
       } else {
-        return item;
+        return true;
       }
     });
     setCartItems(updateCart);
+  };
+
+  const handleImgUp = () => {
+    const newImg = img + 1;
+    if (newImg <= selectedProduct.images.length - 1) {
+      setImg(newImg);
+    }
+  };
+  const handleImgDown = () => {
+    const newImg = img - 1;
+    if (newImg >= 0) {
+      setImg(newImg);
+    }
   };
 
   const openModal = (product) => {
@@ -107,47 +124,48 @@ const SearchResults = ({ searchResults }) => {
       {searchResults.length > 0 ? (
         <div className="search-results">
           <div className="product-container-1">
-            {searchResults.map((product) => (
-              product.availability ?
-              <div
-                className="product-card clickable"
-                key={product.id}
-                onClick={() => openModal(product)}
-              >
-                <h4 className="product-name">{product.name}</h4>
-                <p className="product-info"> {product.brand}</p>
-                {product.images.length > 0 && (
-                  <img
-                    className="product-image"
-                    src={product.images[0]}
-                    alt={product.name}
-                  />
-                )}
-                <p className="product-info">${product.price}</p>
-                <div className="quantity-container">
-                  <input
-                    type="number"
-                    min={1}
-                    max={20}
-                    defaultValue={1}
-                    className="product-quantity"
-                    onClick={(event) => event.stopPropagation()} // Prevent modal from opening
-                  />
-                  <button
-                    className="add-to-cart-button"
-                    onClick={(event) =>
-                      addToCart(
-                        product,
-                        event,
-                        parseInt(event.target.previousSibling.value)
-                      )
-                    }
-                  >
-                    Agregar al carrito
-                  </button>
+            {searchResults.map((product) =>
+              product.availability ? (
+                <div
+                  className="product-card clickable"
+                  key={product.id}
+                  onClick={() => openModal(product)}
+                >
+                  <h4 className="product-name">{product.name}</h4>
+                  <p className="product-info"> {product.brand}</p>
+                  {product.images.length > 0 && (
+                    <img
+                      className="product-image"
+                      src={product.images[0]}
+                      alt={product.name}
+                    />
+                  )}
+                  <p className="product-info">${product.price}</p>
+                  <div className="quantity-container">
+                    <input
+                      type="number"
+                      min={1}
+                      max={20}
+                      defaultValue={1}
+                      className="product-quantity"
+                      onClick={(event) => event.stopPropagation()} // Prevent modal from opening
+                    />
+                    <button
+                      className="add-to-cart-button"
+                      onClick={(event) =>
+                        addToCart(
+                          product,
+                          event,
+                          parseInt(event.target.previousSibling.value)
+                        )
+                      }
+                    >
+                      Agregar al carrito
+                    </button>
+                  </div>
                 </div>
-              </div> : null
-            ))}
+              ) : null
+            )}
           </div>
         </div>
       ) : (
@@ -156,50 +174,143 @@ const SearchResults = ({ searchResults }) => {
 
       {selectedProduct && (
         <Modal
-        isOpen={true}
-        onRequestClose={closeModal}
-        contentLabel="Detalles del producto"
-        className="custom-modal-1"
-        overlayClassName="custom-overlay-1"
-      >
-        <div className="modal-content-1">
-          <button className="close-button-1" onClick={closeModal}>
-            <MdClose />
-          </button>
-          {selectedProduct && (
-            <div className="product-details">
-              <h4 className="product-name">{selectedProduct.name}</h4>
-              <p className="product-type">Tipo: {selectedProduct.type}</p>
-              <p className="product-alcohol">
-                Contenido de alcohol: {selectedProduct.alcoholContent}%
-              </p>
-              <p className="product-variety">Variedad: {selectedProduct.Variety}</p>
-              <p className="product-brand">Marca: {selectedProduct.brand}</p>
-              <p className="product-amount">Cantidad: {selectedProduct.amount} ml</p>
-              <p className="product-price">Precio: ${selectedProduct.price}</p>
-              <p className="product-stock">Stock: {selectedProduct.stock}</p>
-              <p className="product-discount">
-                Puede aplicar descuento: {selectedProduct.ableDiscount ? "Sí" : "No"}
-              </p>
-              <p className="product-discount-percentage">
-                Porcentaje de descuento: {selectedProduct.percentageDiscount}%
-              </p>
-              <p className="product-container">Contenedor: {selectedProduct.container}</p>
-              <p className="product-availability">
-                Disponibilidad: {selectedProduct.availability ? "Disponible" : "No disponible"}
-              </p>
-              <p className="product-sells">Veces vendido: {selectedProduct.sells}</p>
-              {selectedProduct.images.length > 0 && (
-                <img
-                  className="selected-product-image"
-                  src={selectedProduct.images[0]}
-                  alt={selectedProduct.name}
-                />
-              )}
-            </div>
-          )}
-        </div>
-      </Modal>
+          isOpen={true}
+          onRequestClose={closeModal}
+          contentLabel="Detalles del producto"
+          className="custom-modal-1"
+          overlayClassName="custom-overlay-1"
+        >
+          <div className="modal-content-1">
+            <button className="close-button-1" onClick={closeModal}>
+              <MdClose />
+            </button>
+            {selectedProduct && (
+              <div className="product-details">
+                <h4 className="product-name">{selectedProduct.name}</h4>
+                <p className="product-type">Tipo: {selectedProduct.type}</p>
+                <p className="product-alcohol">
+                  Contenido de alcohol: {selectedProduct.alcoholContent}%
+                </p>
+                <p className="product-variety">
+                  Variedad: {selectedProduct.Variety}
+                </p>
+                <p className="product-brand">Marca: {selectedProduct.brand}</p>
+                <p className="product-amount">
+                  Cantidad: {selectedProduct.amount} ml
+                </p>
+                <p className="product-price">
+                  Precio: ${selectedProduct.price}
+                </p>
+                <p className="product-stock">Stock: {selectedProduct.stock}</p>
+                <p className="product-discount">
+                  Puede aplicar descuento:{" "}
+                  {selectedProduct.ableDiscount ? "Sí" : "No"}
+                </p>
+                <p className="product-discount-percentage">
+                  Porcentaje de descuento: {selectedProduct.percentageDiscount}%
+                </p>
+                <p className="product-container">
+                  Contenedor: {selectedProduct.container}
+                </p>
+                <p className="product-availability">
+                  Disponibilidad:{" "}
+                  {selectedProduct.availability
+                    ? "Disponible"
+                    : "No disponible"}
+                </p>
+                <p className="product-sells">
+                  Veces vendido: {selectedProduct.sells}
+                </p>
+                {selectedProduct.images.length > 0 && (
+                  <div>
+                    <button onClick={handleImgDown}>{"<"}</button>
+                    <img
+                      className="selected-product-image"
+                      src={selectedProduct.images[img]}
+                      alt={selectedProduct.name}
+                    />
+                    <button onClick={handleImgUp}>{">"}</button>
+                  </div>
+                )}
+                <div>
+                  {review ? (
+                    <div>
+                      <div
+                        style={{
+                          borderBottom: "1px solid #ccc",
+                          marginTop: "10px",
+                        }}
+                      ></div>
+                      {selectedProduct.reviews.length ? (
+                        selectedProduct.reviews.map((review) => {
+                          return (
+                            <div
+                              key={review.id}
+                              style={{
+                                borderBottom: "1px solid #ccc",
+                                alignItems: "center",
+                                marginBottom: "10px",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img
+                                  style={{
+                                    maxWidth: "50px",
+                                    maxHeight: "60px",
+                                    borderRadius: "50%",
+                                    objectFit: "cover",
+                                  }}
+                                  src={review.users[0].image}
+                                  alt=""
+                                />
+                                <h3>{review.users[0].userName}</h3>
+                              </div>
+                              <p style={{ marginLeft: "10px" }}>
+                                Calificación:
+                                {[...Array(review.score)].map((_, index) => (
+                                  <span key={index} style={{ color: "gold" }}>
+                                    &#9733;
+                                  </span>
+                                ))}
+                                {[...Array(5 - review.score)].map(
+                                  (_, index) => (
+                                    <span
+                                      key={index}
+                                      style={{ color: "lightgray" }}
+                                    >
+                                      &#9734;
+                                    </span>
+                                  )
+                                )}
+                              </p>
+                              <p style={{ marginLeft: "10px" }}>
+                                Comentario:{review.content}
+                              </p>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div>
+                          <p>Este producto no tiene reseñas</p>
+                        </div>
+                      )}
+                      <button onClick={() => setReview(false)}>
+                        Ocultar reseñas
+                      </button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setReview(true)}>Reseñas</button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </Modal>
       )}
 
       {showCartMenu && (

@@ -19,14 +19,14 @@ import "./ToolBar.css";
 
 const Toolbar = () => {
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
   const [filteredResults, setFilteredResults] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [sabor, setSabor] = useState([]);
   const [contenedor, setContenedor] = useState([]);
   const [bodyFiltros, setBodyFiltros] = useState({
     tipos: "",
-    ofertas: "null",
+    ofertas: "",
     porcentajeDesc: { desde: 0, hasta: 0 },
     Variedad: "",
     marca: "",
@@ -36,14 +36,29 @@ const Toolbar = () => {
     cask: 0,
   });
 
+  const URL = `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}${
+    search ? `&search=${search}` : ""
+  }${bodyFiltros.tipos ? `&tipos=${bodyFiltros.tipos}` : ""}${
+    bodyFiltros.ofertas ? `&ofertas=${bodyFiltros.ofertas}` : ""
+  }${
+    bodyFiltros.porcentajeDesc.desde
+      ? `&porcentajeDescDesde=${bodyFiltros.porcentajeDesc.desde}&porcentajeDescHasta=${bodyFiltros.porcentajeDesc.hasta}`
+      : ""
+  }${bodyFiltros.Variedad ? `&Variedad=${bodyFiltros.Variedad}` : ""}${
+    bodyFiltros.marca ? `&marca=${bodyFiltros.marca}` : ""
+  }${
+    bodyFiltros.contenido.desde
+      ? `&contenidoDesde=${bodyFiltros.contenido.desde}&contenidoHasta=${bodyFiltros.contenido.hasta}`
+      : ""
+  }${bodyFiltros.envase ? `&envase=${bodyFiltros.envase}` : ""}${
+    bodyFiltros.ordenarmiento.name
+      ? `&ordenarmientoName=${bodyFiltros.ordenarmiento.name}&ordenarmientoOrder=${bodyFiltros.ordenarmiento.order}`
+      : ""
+  }${bodyFiltros.cask ? `&cask=${bodyFiltros.cask}` : ""}`;
+
   useEffect(() => {
-    axios
-      .post(
-        `https://servidor-vinos.onrender.com/product/filtrado?paginas=${page}&search=${search}`,
-        bodyFiltros
-      )
-      .then(({ data }) => setFilteredResults(data));
-  }, [bodyFiltros, page, search]);
+    axios.get(URL).then(({ data }) => setFilteredResults(data));
+  }, [bodyFiltros, page, search, URL]);
   useEffect(() => {
     if (bodyFiltros.tipos !== "") {
       Promise.all([
@@ -105,7 +120,7 @@ const Toolbar = () => {
               handleSabor(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Marca</option>
+            <option value="">Tipo</option>
             {sabor &&
               sabor.data?.map((sab) => {
                 return <option value={sab}>{sab}</option>;
@@ -119,7 +134,7 @@ const Toolbar = () => {
               handleMarca(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Tipo</option>
+            <option value="">Marca</option>
             {marcas.data?.map((marc) => {
               return <option value={marc}>{marc}</option>;
             })}
@@ -132,7 +147,7 @@ const Toolbar = () => {
               handleContenedor(event, bodyFiltros, setBodyFiltros, setPage)
             }
           >
-            <option value="">Todos</option>
+            <option value="">Contenedor</option>
             {contenedor.data?.map((cont) => {
               return <option value={cont}>{cont}</option>;
             })}
@@ -172,7 +187,7 @@ const Toolbar = () => {
           }
         >
           <optgroup label="Ofertas">
-            <option value="null">Ofertas</option>
+            <option value="">Ofertas</option>
             <option value={false}>Sin oferta</option>
             <option value={true}>Con Oferta</option>
           </optgroup>

@@ -13,6 +13,15 @@ export const User = ({ user, gridArea }) => {
     });
   };
 
+  const handlerAdmin = async () => {
+    let newAdmin = !usuario.admin ? true : false;
+    setUsuario({ ...usuario, admin: newAdmin });
+    await axios.put(`https://servidor-vinos.onrender.com/users/put`, {
+      userEmail: usuario.email,
+      changes: [{ name: "admin", data: newAdmin }],
+    });
+  }
+
   return (
     <div
       style={{
@@ -51,6 +60,22 @@ export const User = ({ user, gridArea }) => {
           }}
         >
           {usuario.ban ? "Desbanear" : "Banear"}
+        </button>
+        <button
+          onClick={handlerAdmin}
+          style={{
+            marginTop: "0.5rem",
+            padding: "0.5rem 1rem",
+            backgroundColor: usuario.admin ? "#4c92dd" : "#4caf50",
+            color: "#fff",
+            borderRadius: "4px",
+            border: "none",
+            cursor: "pointer",
+            textTransform: "uppercase",
+            fontWeight: "bold",
+          }}
+        >
+          {usuario.admin ? "Admin" : "User"}
         </button>
       </div>
     </div>
