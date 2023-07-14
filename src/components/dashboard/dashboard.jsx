@@ -9,6 +9,7 @@ import { FiHome } from "react-icons/fi"; // Importar el icono de inicio
 import "./dashboard.css";
 
 export const Dashboard = () => {
+  // const user = {email: "finalproyecto06@gmail.com"}
   const [usuario, setUsuario] = useState({});
   const [product, setProducts] = useState(true);
   const [ventas, setVentas] = useState(false);
@@ -25,7 +26,7 @@ export const Dashboard = () => {
     } else {
       alert("No has iniciado sesión");
     }
-  }, []);
+  }, [user]);
 
   if (usuario.admin) {
     return (

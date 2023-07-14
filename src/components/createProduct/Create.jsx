@@ -3,8 +3,14 @@ import "./Create.css";
 import { NavLink } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Create = () => {
+  // const user = {email:"juan@gmail.com"};
+  // const user = {email:"finalproyecto06@gmail.com"};
+  // const user = {};
+  const { user } = useAuth0();
+  const [usuario, setUsuario] = useState({});
   const [form, setForm] = useState({ images: [] });
   const [marcas, setMarcas] = useState(null);
   const [sabor, setSabor] = useState(null);
@@ -31,6 +37,29 @@ const Create = () => {
       [e.target.name]: value,
     });
   };
+
+  useEffect(() => {
+    if (user && user.email) {
+      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
+        .then(({ data }) => {
+          setUsuario(data);
+          localStorage.setItem("user", JSON.stringify(data));
+        })
+        .catch((error) => console.log("parece que hubo un error:", error));
+    } else {
+      const storedUser = localStorage.getItem("user");
+      const parsedUser = JSON.parse(storedUser);
+      if (parsedUser && parsedUser.email) {
+        axios(
+          `https://servidor-vinos.onrender.com/users?email=${parsedUser.email}`
+        ).then(({ data }) => {
+          setUsuario(data);
+        });
+      } else {
+        alert("Ha ocurrido un error");
+      }
+    }
+  }, [user]);
 
   const submitForm = async () => {
     if (img) {
@@ -98,121 +127,127 @@ const Create = () => {
   console.log(form);
 
   return (
-    <>
-      <div className="form">
-        <input onChange={handleChange} name="name" placeholder="Nombre" />
-        <select name="type" value={form?.type} onChange={handleChange}>
-          <option value="">Ninguna</option>
-          <option value="Wine">Vinos</option>
-          <option value="Beer">Cervezas</option>
-          <option value="Tequila">Tequilas</option>
-          <option value="Liqueur">Licores</option>
-          <option value="Drinks">Bebidas</option>
-        </select>
-        {sabor?.data ? (
-          <select
-            name="Variety"
-            value={form?.Variety}
-            onChange={handleChange}
-            placeholder="Sabor"
-          >
-            <option value="">Ninguna</option>
-            {sabor.data.map((sab) => {
-              return <option value={sab}>{sab}</option>;
-            })}
-          </select>
-        ) : null}
-        {marcas?.data ? (
-          <select
-            name="brand"
-            value={form?.brand}
-            onChange={handleChange}
-            placeholder="Marca"
-          >
-            <option value="">Ninguna</option>
-            {marcas.data.map((brand) => {
-              return <option value={brand}>{brand}</option>;
-            })}
-          </select>
-        ) : null}
-        <div className="label">
-          <input
-            type="number"
-            onChange={handleChange}
-            name="amount"
-            placeholder="Cantidad"
-          />
-          <label htmlFor="amount">ML</label>
-        </div>
-        <input
-          type="number"
-          onChange={handleChange}
-          name="price"
-          placeholder="Precio"
-        />
-        <input
-          type="number"
-          onChange={handleChange}
-          name="stock"
-          placeholder="Stock"
-        />
-        <select
-          name="ableDiscount"
-          value={form?.ableDiscount}
-          onChange={handleChange}
-        >
-          <option value={false}>Sin descuento</option>
-          <option value={true}>Con descuento</option>
-        </select>
-        <input
-          type="number"
-          onChange={handleChange}
-          name="percentageDiscount"
-          placeholder="Porcentaje descuento"
-        />
-        {contenedor?.data ? (
-          <select
-            name="container"
-            value={form?.container}
-            onChange={handleChange}
-            placeholder="contenedor"
-          >
-            <option value="">Ninguna</option>
-            {contenedor.data.map((cont) => {
-              return <option value={cont}>{cont}</option>;
-            })}
-          </select>
-        ) : null}
-        <select
-          name="availability"
-          value={form?.availability}
-          onChange={handleChange}
-        >
-          <option value={false}>No disponible</option>
-          <option value={true}>Disponible</option>
-        </select>
-        <input
-          type="text"
-          onChange={handleChange}
-          name="description"
-          placeholder="Descripcion"
-        />
-        <input
-          name="image"
-          type="file"
-          onChange={(event) => {
-            setImg(event.target.files[0]);
-          }}
-          placeholder="I"
-          required
-        />
-        <button onClick={submitForm}>Crear Producto</button>
-      </div>
-      <NavLink to="/dashboard" className="dashboard-button">
-      <FiHome className="dashboard-icon" />
-      Volver al dashboard
-    </NavLink>
-    </>
+    <div>
+      {usuario.admin ? (
+        <>
+          <div className="form">
+            <input onChange={handleChange} name="name" placeholder="Nombre" />
+            <select name="type" value={form?.type} onChange={handleChange}>
+              <option value="">Ninguna</option>
+              <option value="Wine">Vinos</option>
+              <option value="Beer">Cervezas</option>
+              <option value="Tequila">Tequilas</option>
+              <option value="Liqueur">Licores</option>
+              <option value="Drinks">Bebidas</option>
+            </select>
+            {sabor?.data ? (
+              <select
+                name="Variety"
+                value={form?.Variety}
+                onChange={handleChange}
+                placeholder="Sabor"
+              >
+                <option value="">Ninguna</option>
+                {sabor.data.map((sab) => {
+                  return <option value={sab}>{sab}</option>;
+                })}
+              </select>
+            ) : null}
+            {marcas?.data ? (
+              <select
+                name="brand"
+                value={form?.brand}
+                onChange={handleChange}
+                placeholder="Marca"
+              >
+                <option value="">Ninguna</option>
+                {marcas.data.map((brand) => {
+                  return <option value={brand}>{brand}</option>;
+                })}
+              </select>
+            ) : null}
+            <div className="label">
+              <input
+                type="number"
+                onChange={handleChange}
+                name="amount"
+                placeholder="Cantidad"
+              />
+              <label htmlFor="amount">ML</label>
+            </div>
+            <input
+              type="number"
+              onChange={handleChange}
+              name="price"
+              placeholder="Precio"
+            />
+            <input
+              type="number"
+              onChange={handleChange}
+              name="stock"
+              placeholder="Stock"
+            />
+            <select
+              name="ableDiscount"
+              value={form?.ableDiscount}
+              onChange={handleChange}
+            >
+              <option value={false}>Sin descuento</option>
+              <option value={true}>Con descuento</option>
+            </select>
+            <input
+              type="number"
+              onChange={handleChange}
+              name="percentageDiscount"
+              placeholder="Porcentaje descuento"
+            />
+            {contenedor?.data ? (
+              <select
+                name="container"
+                value={form?.container}
+                onChange={handleChange}
+                placeholder="contenedor"
+              >
+                <option value="">Ninguna</option>
+                {contenedor.data.map((cont) => {
+                  return <option value={cont}>{cont}</option>;
+                })}
+              </select>
+            ) : null}
+            <select
+              name="availability"
+              value={form?.availability}
+              onChange={handleChange}
+            >
+              <option value={false}>No disponible</option>
+              <option value={true}>Disponible</option>
+            </select>
+            <input
+              type="text"
+              onChange={handleChange}
+              name="description"
+              placeholder="Descripcion"
+            />
+            <input
+              name="image"
+              type="file"
+              onChange={(event) => {
+                setImg(event.target.files[0]);
+              }}
+              placeholder="I"
+              required
+            />
+            <button onClick={submitForm}>Crear Producto</button>
+          </div>
+          <NavLink to="/dashboard" className="dashboard-button">
+            <FiHome className="dashboard-icon" />
+            Volver al dashboard
+          </NavLink>
+        </>
+      ) : (
+        <h1>401</h1>
+      )}
+    </div>
   );
 };
 

@@ -8,26 +8,84 @@ export const Products = () => {
   const [products, setProducts] = useState([]);
   const [pages, setPages] = useState(1);
   const [search, setSearch] = useState("");
+  const [sig, setSig] = useState(false);
+  const [not, setNot] = useState("");
+  const [message, setMessage] = useState(false);
+  const [stock, setStock] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     axios
       .get(
-        `https://servidor-vinos.onrender.com/product/all?paginas=${pages}&search=${search}`
+        `https://servidor-vinos.onrender.com/product/all?paginas=${pages}&search=${search}&stock=${stock}&status=${status}`
       )
       .then(({ data }) => {
+        setNot(search);
         setProducts(data);
-        console.log(data);
+        setSig(false);
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          alert("Ha ocurrido un error");
+          console.log(error);
+        } else {
+          if (stock !== "" && stock === "false") {
+            setMessage("No se encontraron productos sin stock");
+          } else if (stock !== "" && stock === "true") {
+            setMessage("No se encontraron productos con stock");
+          } else {
+            if (pages > 1) {
+              setSig(true);
+              setPages(pages - 1);
+            }
+            setSearch(not);
+            setMessage("No se encontraron más productos");
+          }
+        }
       });
-  }, [pages, search]);
+  }, [pages, search, not, stock, status]);
 
-  // Obtener los 5 productos correspondientes a la página actual
-  const displayedProducts = products.slice(0, 5);
+  const handleChangeStock = (event) => {
+    setStock(event.target.value);
+  };
+
+  const handleChangeStatus = (event) => {
+    setStatus(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    setSearch(event.target.value);
+    setMessage(false);
+  };
 
   return (
     <div className="products-container">
-      {displayedProducts.length ? (
+      <div>
+        <input
+          onChange={handleChange}
+          type="text"
+          placeholder="Busca tus bebidas"
+        />
+        <select onChange={handleChangeStock} name="" id="">
+          <option value="">Todos</option>
+          <option value={false}>Sin stock</option>
+          <option value={true}>Con stock</option>
+        </select>
+        <select onChange={handleChangeStatus} name="" id="">
+          <option value="">Todos</option>
+          <option value={false}>Inhabilitado</option>
+          <option value={true}>Habilitado</option>
+        </select>
+      </div>
+
+      {message ? (
+        <label style={{ color: "black" }} htmlFor="">
+          {message}
+        </label>
+      ) : null}
+      {products.length ? (
         <div>
-          {displayedProducts.map((product) => {
+          {products.map((product) => {
             return <Product product={product} />;
           })}
         </div>
@@ -45,7 +103,7 @@ export const Products = () => {
         <button
           className="pagination-button"
           onClick={() => handleNextPage(pages, setPages)}
-          disabled={!products.length || products.length / 5 < 1}
+          disabled={sig}
         >
           Siguiente
         </button>

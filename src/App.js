@@ -10,6 +10,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { FormCompra } from "./components/formularioCompra/formCompra";
 import { Elements } from "@stripe/react-stripe-js";
 import { Dashboard } from "./components/dashboard/dashboard";
+import { ReviewsPage } from "./components/ReviewsPage/reviews";
 
 const stripePromise = loadStripe(
   "pk_test_51NJLe4DxCAER9P4mmVPMsglUYKPpkaHPAHQb6FADLILpEvvOyDLOeDnkqBpeCMr7XjshHIPAbjV5pJRDVSydQ1Zl00ko1MsssO"
@@ -27,6 +28,7 @@ function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/compra" element={<FormCompra />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/review/:id/:email" element={<ReviewsPage />} />
       </Routes>
     </Elements>
   );

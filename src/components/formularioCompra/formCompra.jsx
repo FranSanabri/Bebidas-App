@@ -12,26 +12,21 @@ export const FormCompra = ({
   totalPrice,
   setTotalPrice,
 }) => {
-  // const email = "juanpabloaste00@gmail.com";
+  // const user = { email: "finalproyecto06@gmail.com" };
   const [showModal, setShowModal] = useState(false);
-  const [confirmExit, setConfirmExit] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [usuario, setUsuario] = useState({});
-  const [alcohol, setAlcohol] = useState(false);
+  let alcohol;
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth0();
   const total = totalPrice * 100;
   const amount = ~~total;
   const navigate = useNavigate();
-  let products = "";
-  let historial = usuario.record ? usuario.record : [];
   for (const product of cartItems) {
-    products = products + product.product.name + ", ";
-    historial.push(product.product.id);
     if (product.product.alcoholContent >= 1 && !alcohol) {
-      setAlcohol(true);
+      alcohol = true;
     }
   }
 
@@ -55,7 +50,7 @@ export const FormCompra = ({
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     }
-  }, []);
+  }, [user]);
 
   const cardElementOptions = {
     style: {
@@ -69,20 +64,6 @@ export const FormCompra = ({
         },
       },
     },
-  };
-
-  const putUser = {
-    userEmail: usuario.email,
-    changes: [{ name: "record", data: historial }],
-  };
-
-  const handlerUser = async () => {
-    if (usuario.email) {
-      await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
-    } else {
-      alert("Inicia sesion para poder comprar");
-      navigate("/login");
-    }
   };
 
   const handleSubmit = async (event) => {
@@ -107,18 +88,18 @@ export const FormCompra = ({
           const { data } = await axios.post(
             "https://servidor-vinos.onrender.com/buy",
             {
-              products,
+              products: cartItems,
               id,
               email: usuario.email,
               amount,
             }
           );
+          console.log(data);
           setShowSuccessMessage(true);
           setTimeout(() => {
             setShowSuccessMessage(false);
             navigate("/Tienda");
           }, 3000);
-          handlerUser();
           handleCompra();
           setCartItems([]);
           setTotalPrice(0);
@@ -135,22 +116,18 @@ export const FormCompra = ({
       } else if (usuario && alcohol && usuario.age >= 18) {
         const { id } = paymentMethod;
         try {
-          const { data } = await axios.post(
-            "https://servidor-vinos.onrender.com/buy",
-            {
-              products,
-              id,
-              email: usuario.email,
-              amount,
-            }
-          );
+          await axios.post("https://servidor-vinos.onrender.com/buy", {
+            products: cartItems,
+            id,
+            email: usuario.email,
+            amount,
+          });
           setShowSuccessMessage(true);
           setTimeout(() => {
             setShowSuccessMessage(false);
             navigate("/Tienda");
           }, 3000);
           handleCompra();
-          handlerUser();
           setCartItems([]);
           setTotalPrice(0);
         } catch (error) {
@@ -165,26 +142,13 @@ export const FormCompra = ({
     }
   };
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
   const handleConfirmExit = () => {
-    setConfirmExit(true);
     setShowModal(false);
     window.history.back();
   };
 
   const handleCancelExit = () => {
     setShowModal(false);
-  };
-
-  const handleGoBack = () => {
-    if (confirmExit) {
-      window.history.back();
-    } else {
-      handleShowModal();
-    }
   };
 
   return (
