@@ -9,18 +9,26 @@ import { Link } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import { EditProductImg } from "./EditProductImg";
 
-function ProductoEditar() {
+function ProductoEditar({ usuarios }) {
+  // const user = {email:"juan@gmail.com"};
+  // const user = {email:"finalproyecto06@gmail.com"};
+  // const user = {};
   const { id } = useParams();
+  const [usuario, setUsuario] = useState(usuarios ? usuarios : null);
   const [product, setProduct] = useState(null);
   const [putProduct, setPutProduct] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
   const [marcas, setMarcas] = useState([]);
   const [sabor, setSabor] = useState([]);
   const [contenedor, setContenedor] = useState([]);
   const [create, setCreate] = useState([]);
   const [img, setImg] = useState([]);
   const [descuento, setDescuento] = useState(null);
-  const [habilitado, setHabilitado] = useState(null);
+
+  useEffect(() => {
+    if (usuarios) {
+      setUsuario(usuarios);
+    }
+  }, [usuarios]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,9 +42,8 @@ function ProductoEditar() {
           changes: [],
         });
         setDescuento(response.data.ableDiscount);
-        setHabilitado(response.data.availability);
       } catch (error) {
-        setErrorMessage("Error al obtener los datos del producto.");
+        alert("Ha ocurrido un error");
       }
     };
 
@@ -69,8 +76,6 @@ function ProductoEditar() {
     }
   }, [product]);
 
-  console.log(product);
-
   const manejarDescuento = (e) => {
     if (e.target.value === "false") {
       setDescuento(false);
@@ -91,14 +96,12 @@ function ProductoEditar() {
 
   const manejarDisponibilidad = (e) => {
     if (e.target.value === "false") {
-      setHabilitado(false);
       const update = putProduct.changes.filter(
         (changeObj) => changeObj.name !== "availability"
       );
       update.push({ name: "availability", data: false });
       setPutProduct({ ...putProduct, changes: update });
     } else {
-      setHabilitado(true);
       const update = putProduct.changes.filter(
         (changeObj) => changeObj.name !== "availability"
       );
@@ -111,146 +114,152 @@ function ProductoEditar() {
     return <p>Cargando...</p>;
   }
   return (
-    <div className="contenedor-editar-producto">
-      <ProductEdit
-        product={product}
-        data="name"
-        type="text"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        className="editar-entrada"
-      />
-      <TypeEdit
-        product={product}
-        data="type"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        setProduct={setProduct}
-        className="editar-select"
-      />
-      <ProductEdit
-        product={product}
-        data="alcoholContent"
-        type="number"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        className="editar-entrada"
-      />
-      <TypeEdit
-        product={product}
-        data="Variety"
-        type={sabor}
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        setCreate={setCreate}
-        create={create}
-        dataFilt={`sabor${product.type}`}
-        className="editar-select"
-      />
-      <TypeEdit
-        product={product}
-        data="brand"
-        type={marcas}
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        setCreate={setCreate}
-        create={create}
-        dataFilt={`marca${product.type}`}
-        className="editar-select"
-      />
-      <ProductEdit
-        product={product}
-        data="amount"
-        type="number"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        className="editar-entrada"
-      />
-      {product.type === "Wine" ? (
-        <ProductEdit
-          product={product}
-          data="cask"
-          type="number"
-          PutProduct={putProduct}
-          setPutProduct={setPutProduct}
-          className="editar-entrada"
-        />
-      ) : null}
+    <div>
+      {usuario && usuario.admin ? (
+        <div className="contenedor-editar-producto">
+          <ProductEdit
+            product={product}
+            data="name"
+            type="text"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            className="editar-entrada"
+          />
+          <TypeEdit
+            product={product}
+            data="type"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            setProduct={setProduct}
+            className="editar-select"
+          />
+          <ProductEdit
+            product={product}
+            data="alcoholContent"
+            type="number"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            className="editar-entrada"
+          />
+          <TypeEdit
+            product={product}
+            data="Variety"
+            type={sabor}
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            setCreate={setCreate}
+            create={create}
+            dataFilt={`sabor${product.type}`}
+            className="editar-select"
+          />
+          <TypeEdit
+            product={product}
+            data="brand"
+            type={marcas}
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            setCreate={setCreate}
+            create={create}
+            dataFilt={`marca${product.type}`}
+            className="editar-select"
+          />
+          <ProductEdit
+            product={product}
+            data="amount"
+            type="number"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            className="editar-entrada"
+          />
+          {product.type === "Wine" ? (
+            <ProductEdit
+              product={product}
+              data="cask"
+              type="number"
+              PutProduct={putProduct}
+              setPutProduct={setPutProduct}
+              className="editar-entrada"
+            />
+          ) : null}
 
-      <ProductEdit
-        product={product}
-        data="price"
-        type="number"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        className="editar-entrada"
-      />
-      <ProductEdit
-        product={product}
-        data="stock"
-        type="number"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        className="editar-entrada"
-      />
+          <ProductEdit
+            product={product}
+            data="price"
+            type="number"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            className="editar-entrada"
+          />
+          <ProductEdit
+            product={product}
+            data="stock"
+            type="number"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            className="editar-entrada"
+          />
 
-      <select onChange={manejarDescuento} className="editar-select">
-        <option value={false}>Sin descuento</option>
-        <option value={true}>Con descuento</option>
-      </select>
-      {descuento ? (
-        <ProductEdit
-          product={product}
-          data="percentageDiscount"
-          type="number"
-          PutProduct={putProduct}
-          setPutProduct={setPutProduct}
-          className="editar-entrada"
-        />
-      ) : null}
+          <select onChange={manejarDescuento} className="editar-select">
+            <option value={false}>Sin descuento</option>
+            <option value={true}>Con descuento</option>
+          </select>
+          {descuento ? (
+            <ProductEdit
+              product={product}
+              data="percentageDiscount"
+              type="number"
+              PutProduct={putProduct}
+              setPutProduct={setPutProduct}
+              className="editar-entrada"
+            />
+          ) : null}
 
-      <TypeEdit
-        product={product}
-        data="container"
-        type={contenedor}
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        setCreate={setCreate}
-        create={create}
-        dataFilt={`contenedor`}
-        className="editar-select"
-      />
+          <TypeEdit
+            product={product}
+            data="container"
+            type={contenedor}
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            setCreate={setCreate}
+            create={create}
+            dataFilt={`contenedor`}
+            className="editar-select"
+          />
 
-      <select onChange={manejarDisponibilidad} className="editar-select">
-        <option value={false}>Sin habilitado</option>
-        <option value={true}>Habilitado</option>
-      </select>
-      <h3>ventas: {product.sells}</h3>
-      <ProductEdit
-        product={product}
-        data="description"
-        type="text"
-        PutProduct={putProduct}
-        setPutProduct={setPutProduct}
-        className="editar-entrada"
-      />
-      <EditProductImg
-        product={product}
-        setImg={setImg}
-        img={img}
-        className="editar-imagen-producto-1"
-      />
+          <select onChange={manejarDisponibilidad} className="editar-select">
+            <option value={false}>Sin habilitado</option>
+            <option value={true}>Habilitado</option>
+          </select>
+          <h3>ventas: {product.sells}</h3>
+          <ProductEdit
+            product={product}
+            data="description"
+            type="text"
+            PutProduct={putProduct}
+            setPutProduct={setPutProduct}
+            className="editar-entrada"
+          />
+          <EditProductImg
+            product={product}
+            setImg={setImg}
+            img={img}
+            className="editar-imagen-producto-1"
+          />
 
-      <button
-        onClick={() => handlePutProduct(putProduct, create, img, product)}
-        className="boton-editar-1"
-      >
-        Editar producto
-      </button>
-      <Link to="/" className="home-button">
+          <button
+            onClick={() => handlePutProduct(putProduct, create, img, product)}
+            className="boton-editar-1"
+          >
+            Editar producto
+          </button>
+          <Link to="/dashboard" className="home-button">
             <FiHome className="home-icon" />
             Volver al inicio
           </Link>
+        </div>
+      ) : (
+        <h1>401</h1>
+      )}
     </div>
   );
 }

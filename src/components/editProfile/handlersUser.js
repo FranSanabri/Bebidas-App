@@ -12,7 +12,7 @@ export const hadlerUser = async (putUser, img) => {
     await axios.put("https://servidor-vinos.onrender.com/users/put", putUser);
     alert("Se ha cambiado tu perfil");
   } catch (error) {
-    alert("parece que hubo un error")
+    alert("parece que hubo un error");
     console.log("Parece que hubo un error:", error);
   }
 };
@@ -67,8 +67,13 @@ export const uploadImage = async (img) => {
   }
 };
 
-
-export const handleInputChange = (event, putUser, data, setPutUser, setSave) => {
+export const handleInputChange = (
+  event,
+  putUser,
+  data,
+  setPutUser,
+  setSave
+) => {
   const change = event.target.value;
   if (change === "") {
     const updatedChanges = putUser.changes.filter(
@@ -91,7 +96,13 @@ export const handleInputChange = (event, putUser, data, setPutUser, setSave) => 
   setSave(true);
 };
 
-export const handleEditCancel = (setEdit, setPutUser, putUser, data, setSave) => {
+export const handleEditCancel = (
+  setEdit,
+  setPutUser,
+  putUser,
+  data,
+  setSave
+) => {
   setEdit(false);
   setPutUser({
     ...putUser,

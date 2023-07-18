@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import axios from "axios";
 import {
   hadlerUser,
   handleEditCancel,
@@ -11,54 +9,58 @@ import {
 import { UserReviews } from "../../editProfile/userReviews";
 import { UserRecord } from "../../editProfile/UserRecord";
 import { UserEditImage } from "../../editProfile/userEditImage";
-import './profilePage.css';
+import "./profilePage.css";
 
-const ProfilePage = () => {
-  const { user } = useAuth0();
-  const [usuario, setUsuario] = useState({});
+const ProfilePage = ({ usuarios }) => {
+  // const user = {email:"juan@gmail.com"};
+  // const user = {email:"finalproyecto06@gmail.com"};
+  // const user = {};
+  const [usuario, setUsuario] = useState(usuarios ? usuarios : null);
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
-  const [putUser, setPutUser] = useState({});
+  const [putUser, setPutUser] = useState({
+    userEmail: usuario ? usuario.email : null,
+    changes: [],
+  });
   const [name, setName] = useState(false);
   const [edad, setEdad] = useState(false);
   const [telefono, setTelefono] = useState(false);
   const [ubicacion, setUbicacion] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
-        .then(({ data }) => {
-          setUsuario(data);
-          setPutUser({
-            userEmail: user.email,
-            changes: [{name:"admin", data: true}],
-          });
-        })
-        .catch((error) => console.log("parece que hubo un error:", error));
-    } else {
-      alert("a ocurrido un error");
+    if (usuarios) {
+      setPutUser((prevPutUser) => ({
+        ...prevPutUser,
+        userEmail: usuarios.email,
+      }));
+      setUsuario(usuarios);
     }
-  }, []);
-
-  console.log(user);
+  }, [usuarios]);
 
   return (
     <div className="profile-container">
       <h1>Perfil</h1>
-      {usuario.email ? (
+      {usuario && usuario.email ? (
         <div>
           <div className="profile-field-container">
             <h1 className="profile-title">Nombre</h1>
             {usuario.userName && !name ? (
               <div>
                 <h2 className="profile-field-value">{usuario.userName}</h2>
-                <button className="profile-button" onClick={() => setName(true)}>Cambiar nombre</button>
+                <button
+                  className="profile-button"
+                  onClick={() => setName(true)}
+                >
+                  Cambiar nombre
+                </button>
               </div>
             ) : (
               <div>
                 {!name ? (
                   <div>
-                    <h4 className="profile-field-value">No has completado este campo</h4>
+                    <h4 className="profile-field-value">
+                      No has completado este campo
+                    </h4>
                   </div>
                 ) : (
                   <div>
@@ -99,13 +101,20 @@ const ProfilePage = () => {
             {usuario.age && !edad ? (
               <div>
                 <h2 className="profile-field-value">{usuario.age}</h2>
-                <button className="profile-button" onClick={() => setEdad(true)}>Cambiar edad</button>
+                <button
+                  className="profile-button"
+                  onClick={() => setEdad(true)}
+                >
+                  Cambiar edad
+                </button>
               </div>
             ) : (
               <div>
                 {!edad ? (
                   <div>
-                    <h4 className="profile-field-value">No has completado este campo</h4>
+                    <h4 className="profile-field-value">
+                      No has completado este campo
+                    </h4>
                   </div>
                 ) : (
                   <div>
@@ -121,7 +130,7 @@ const ProfilePage = () => {
                         )
                       }
                     >
-                    No cambiar edad
+                      No cambiar edad
                     </button>
                   </div>
                 )}
@@ -146,13 +155,20 @@ const ProfilePage = () => {
             {usuario.phone && !telefono ? (
               <div>
                 <h2 className="profile-field-value">{usuario.phone}</h2>
-                <button className="profile-button" onClick={() => setTelefono(true)}>Cambiar celular</button>
+                <button
+                  className="profile-button"
+                  onClick={() => setTelefono(true)}
+                >
+                  Cambiar celular
+                </button>
               </div>
             ) : (
               <div>
                 {!telefono ? (
                   <div>
-                    <h4 className="profile-field-value">No has completado este campo</h4>
+                    <h4 className="profile-field-value">
+                      No has completado este campo
+                    </h4>
                   </div>
                 ) : (
                   <div>
@@ -193,13 +209,20 @@ const ProfilePage = () => {
             {usuario.ubicacion && !ubicacion ? (
               <div>
                 <h2 className="profile-field-value">{usuario.ubicacion}</h2>
-                <button className="profile-button" onClick={() => setUbicacion(true)}>Cambiar ubicacion</button>
+                <button
+                  className="profile-button"
+                  onClick={() => setUbicacion(true)}
+                >
+                  Cambiar ubicacion
+                </button>
               </div>
             ) : (
               <div>
                 {!ubicacion ? (
                   <div>
-                    <h4 className="profile-field-value">No has completado este campo</h4>
+                    <h4 className="profile-field-value">
+                      No has completado este campo
+                    </h4>
                   </div>
                 ) : (
                   <div>
@@ -245,7 +268,10 @@ const ProfilePage = () => {
           <UserReviews usuario={usuario} />
           <UserRecord usuario={usuario} />
           {save ? (
-            <button className="profile-button profile-save-button" onClick={() => hadlerUser(putUser, img)}>
+            <button
+              className="profile-button profile-save-button"
+              onClick={() => hadlerUser(putUser, img)}
+            >
               Cambiar perfil
             </button>
           ) : null}
@@ -254,9 +280,10 @@ const ProfilePage = () => {
         <h1>Cargando</h1>
       )}
       <div className="back-tienda">
-      <Link to="/Tienda" className="back-to-store-link">
-        <FiArrowLeft className="back-to-store-icon" /> Volver a la tienda
-      </Link></div>
+        <Link to="/Tienda" className="back-to-store-link">
+          <FiArrowLeft className="back-to-store-icon" /> Volver a la tienda
+        </Link>
+      </div>
     </div>
   );
 };

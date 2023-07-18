@@ -1,33 +1,25 @@
 import { useEffect, useState } from "react";
 import { Products } from "./products/products";
-import axios from "axios";
 import { Ventas } from "./ventas/ventas";
 import { Link } from "react-router-dom";
 import { UserBan } from "./UserBan/userBan";
-import { useAuth0 } from "@auth0/auth0-react";
 import { FiHome } from "react-icons/fi"; // Importar el icono de inicio
 import "./dashboard.css";
 
-export const Dashboard = () => {
-  const [usuario, setUsuario] = useState({});
+export const Dashboard = ({ usuarios }) => {
+  // const user = {email: "finalproyecto06@gmail.com"}
+  const [usuario, setUsuario] = useState(usuarios ? usuarios : null)
   const [product, setProducts] = useState(true);
   const [ventas, setVentas] = useState(false);
   const [users, setUsers] = useState(false);
-  const { user } = useAuth0();
 
   useEffect(() => {
-    if (user) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
-        .then(({ data }) => {
-          setUsuario(data);
-        })
-        .catch((error) => console.log("parece que hubo un error:", error));
-    } else {
-      alert("No has iniciado sesión");
+    if (usuarios) {
+      setUsuario(usuarios);
     }
-  }, []);
+  }, [usuarios]);
 
-  if (usuario.admin) {
+  if (usuario && usuario.admin) {
     return (
       <div className="dashboard-container">
         <div className="sidebar">
