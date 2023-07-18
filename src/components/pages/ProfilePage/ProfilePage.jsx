@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import axios from "axios";
 import {
   hadlerUser,
   handleEditCancel,
@@ -13,56 +11,36 @@ import { UserRecord } from "../../editProfile/UserRecord";
 import { UserEditImage } from "../../editProfile/userEditImage";
 import "./profilePage.css";
 
-const ProfilePage = () => {
+const ProfilePage = ({ usuarios }) => {
   // const user = {email:"juan@gmail.com"};
   // const user = {email:"finalproyecto06@gmail.com"};
   // const user = {};
-  const { user } = useAuth0();
-  const [usuario, setUsuario] = useState({});
+  const [usuario, setUsuario] = useState(usuarios ? usuarios : null);
   const [save, setSave] = useState(false);
   const [img, setImg] = useState();
-  const [putUser, setPutUser] = useState({});
+  const [putUser, setPutUser] = useState({
+    userEmail: usuario ? usuario.email : null,
+    changes: [],
+  });
   const [name, setName] = useState(false);
   const [edad, setEdad] = useState(false);
   const [telefono, setTelefono] = useState(false);
   const [ubicacion, setUbicacion] = useState(false);
 
   useEffect(() => {
-    if (user.email) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
-        .then(({ data }) => {
-          setUsuario(data);
-          setPutUser({
-            userEmail: user.email,
-            changes: [],
-          });
-          localStorage.setItem("user", JSON.stringify(data));
-        })
-        .catch((error) => console.log("parece que hubo un error:", error));
-    } else {
-      const storedUser = localStorage.getItem("user");
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser.email) {
-        axios(
-          `https://servidor-vinos.onrender.com/users?email=${parsedUser.email}`
-        ).then(({ data }) => {
-          setUsuario(data);
-          setPutUser({
-            userEmail: parsedUser.email,
-            changes: [],
-          });
-        });
-      } else {
-        alert("Ha ocurrido un error");
-      }
+    if (usuarios) {
+      setPutUser((prevPutUser) => ({
+        ...prevPutUser,
+        userEmail: usuarios.email,
+      }));
+      setUsuario(usuarios);
     }
-  }, [user.email]);
-
+  }, [usuarios]);
 
   return (
     <div className="profile-container">
       <h1>Perfil</h1>
-      {usuario.email ? (
+      {usuario && usuario.email ? (
         <div>
           <div className="profile-field-container">
             <h1 className="profile-title">Nombre</h1>

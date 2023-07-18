@@ -49,6 +49,16 @@ export const FormCompra = ({
           setUsuario(data);
         })
         .catch((error) => console.log("parece que hubo un error:", error));
+    } else {
+      const storedUser = localStorage.getItem("user");
+      const parsedUser = JSON.parse(storedUser);
+      if (parsedUser && parsedUser.email) {
+        axios(
+          `https://servidor-vinos.onrender.com/users?email=${parsedUser.email}`
+        ).then(({ data }) => {
+          setUsuario(data);
+        });
+      }
     }
   }, [user]);
 

@@ -3,14 +3,12 @@ import "./Create.css";
 import { NavLink } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
 
-const Create = () => {
+const Create = ({ usuarios }) => {
   // const user = {email:"juan@gmail.com"};
   // const user = {email:"finalproyecto06@gmail.com"};
   // const user = {};
-  const { user } = useAuth0();
-  const [usuario, setUsuario] = useState({});
+  const [usuario, setUsuario] = useState(usuarios ? usuarios : null);
   const [form, setForm] = useState({ images: [] });
   const [marcas, setMarcas] = useState(null);
   const [sabor, setSabor] = useState(null);
@@ -37,29 +35,6 @@ const Create = () => {
       [e.target.name]: value,
     });
   };
-
-  useEffect(() => {
-    if (user && user.email) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
-        .then(({ data }) => {
-          setUsuario(data);
-          localStorage.setItem("user", JSON.stringify(data));
-        })
-        .catch((error) => console.log("parece que hubo un error:", error));
-    } else {
-      const storedUser = localStorage.getItem("user");
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser && parsedUser.email) {
-        axios(
-          `https://servidor-vinos.onrender.com/users?email=${parsedUser.email}`
-        ).then(({ data }) => {
-          setUsuario(data);
-        });
-      } else {
-        alert("Ha ocurrido un error");
-      }
-    }
-  }, [user]);
 
   const submitForm = async () => {
     if (img) {
@@ -101,6 +76,12 @@ const Create = () => {
   };
 
   useEffect(() => {
+    if (usuarios) {
+      setUsuario(usuarios);
+    }
+  }, [usuarios]);
+
+  useEffect(() => {
     if (form?.type) {
       axios
         .get(
@@ -124,11 +105,11 @@ const Create = () => {
       .then(({ data }) => setContenedor(data));
   }, []);
 
-  console.log(form);
+
 
   return (
     <div>
-      {usuario.admin ? (
+      {usuario && usuario.admin ? (
         <>
           <div className="form">
             <input onChange={handleChange} name="name" placeholder="Nombre" />

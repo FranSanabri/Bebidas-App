@@ -8,14 +8,13 @@ import { TypeEdit } from "./selects/type";
 import { Link } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import { EditProductImg } from "./EditProductImg";
-import { useAuth0 } from "@auth0/auth0-react";
 
-function ProductoEditar() {
+function ProductoEditar({ usuarios }) {
   // const user = {email:"juan@gmail.com"};
   // const user = {email:"finalproyecto06@gmail.com"};
   // const user = {};
   const { id } = useParams();
-  const [usuario, setUsuario] = useState({});
+  const [usuario, setUsuario] = useState(usuarios ? usuarios : null);
   const [product, setProduct] = useState(null);
   const [putProduct, setPutProduct] = useState(null);
   const [marcas, setMarcas] = useState([]);
@@ -24,30 +23,12 @@ function ProductoEditar() {
   const [create, setCreate] = useState([]);
   const [img, setImg] = useState([]);
   const [descuento, setDescuento] = useState(null);
-  const { user } = useAuth0();
 
   useEffect(() => {
-    if (user && user.email) {
-      axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
-        .then(({ data }) => {
-          setUsuario(data);
-          localStorage.setItem("user", JSON.stringify(data));
-        })
-        .catch((error) => console.log("parece que hubo un error:", error));
-    } else {
-      const storedUser = localStorage.getItem("user");
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser && parsedUser.email) {
-        axios(
-          `https://servidor-vinos.onrender.com/users?email=${parsedUser.email}`
-        ).then(({ data }) => {
-          setUsuario(data);
-        });
-      } else {
-        alert("Ha ocurrido un error");
-      }
+    if (usuarios) {
+      setUsuario(usuarios);
     }
-  }, [user]);
+  }, [usuarios]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -62,7 +43,7 @@ function ProductoEditar() {
         });
         setDescuento(response.data.ableDiscount);
       } catch (error) {
-        alert("Ha ocurrido un error")
+        alert("Ha ocurrido un error");
       }
     };
 
@@ -134,7 +115,7 @@ function ProductoEditar() {
   }
   return (
     <div>
-      {usuario.admin ? (
+      {usuario && usuario.admin ? (
         <div className="contenedor-editar-producto">
           <ProductEdit
             product={product}

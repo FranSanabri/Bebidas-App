@@ -15,8 +15,6 @@ export const UserReviews = ({ usuario }) => {
                 key={index}
                 style={{ borderBottom: "1px solid #ccc" }}
               >
-                <h4 className="review-score">Calificacion: {review.score}</h4>
-                <h4 className="review-content">Comentario: {review.content}</h4>
                 <h4 className="review-product-name">
                   Producto: {review.products[0].name}
                 </h4>
@@ -30,6 +28,20 @@ export const UserReviews = ({ usuario }) => {
                     marginRight: "1rem",
                   }}
                 />
+                <h4>
+                  Calificación:
+                  {[...Array(review.score)].map((_, index) => (
+                    <span key={index} style={{ color: "gold" }}>
+                      &#9733;
+                    </span>
+                  ))}
+                  {[...Array(5 - review.score)].map((_, index) => (
+                    <span key={index} style={{ color: "lightgray" }}>
+                      &#9734;
+                    </span>
+                  ))}
+                </h4>
+                <h4 className="review-content">Comentario: {review.content}</h4>
               </div>
             ))
           ) : (
