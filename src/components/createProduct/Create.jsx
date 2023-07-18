@@ -105,8 +105,6 @@ const Create = ({ usuarios }) => {
       .then(({ data }) => setContenedor(data));
   }, []);
 
-
-
   return (
     <div>
       {usuario && usuario.admin ? (
@@ -147,15 +145,18 @@ const Create = ({ usuarios }) => {
                 })}
               </select>
             ) : null}
-            <div className="label">
-              <input
-                type="number"
-                onChange={handleChange}
-                name="amount"
-                placeholder="Cantidad"
-              />
-              <label htmlFor="amount">ML</label>
-            </div>
+            <input
+              type="number"
+              onChange={handleChange}
+              name="amount"
+              placeholder="Volumen en ML"
+            />
+            <input
+              type="number"
+              onChange={handleChange}
+              name="alcoholContent"
+              placeholder="Porcentaje de alcohol"
+            />
             <input
               type="number"
               onChange={handleChange}
