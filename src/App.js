@@ -20,10 +20,11 @@ function App() {
   const { user } = useAuth0();
   const [usuario, setUsuario] = useState(null);
   useEffect(() => {
-    if (user) {
+    if (user && user.email) {
       axios(`https://servidor-vinos.onrender.com/users?email=${user.email}`)
         .then(({ data }) => {
           setUsuario(data);
+          localStorage.setItem("user", JSON.stringify(data));
         })
         .catch((error) => console.log("parece que hubo un error:", error));
     } else {
@@ -37,7 +38,7 @@ function App() {
         });
       }
     }
-  }, []);
+  }, [user]);
 
   return (
     <Elements stripe={stripePromise}>
